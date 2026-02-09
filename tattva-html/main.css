@@ -1,0 +1,17 @@
+:root {
+  --bg: #0e1116;
+  --glass: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.15);
+  --cyan: #6dfcff;
+  --violet: #b48cff;
+  --magenta: #d67ad2;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 20% -10%, #13232f, transparent),
+    radial-gradient(900px 500px at 90% 20%, #1b1433, transparent),
+    var(--bg);
+  color: #e6f0f2;
+  overflow-x: hidden;
+}

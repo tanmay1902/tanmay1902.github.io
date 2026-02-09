@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TATTVA Workshop – Natural Hazards</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+
+<style>
+:root {
+  --bg:#0c1016;
+  --glass:rgba(255,255,255,.07);
+  --border:rgba(255,255,255,.18);
+  --cyan:#6dfcff;
+  --violet:#b48cff;
+  --magenta:#d67ad2;
+  --text:#e6f0f2;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family:Poppins,system-ui,sans-serif;
+  background:
+    radial-gradient(1000px 600px at 20% -10%, #122636, transparent),
+    radial-gradient(800px 500px at 90% 20%, #1b1433, transparent),
+    var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* ================= BACKGROUND PARALLAX ================= */
+.parallax-layer{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+}
+
+.grid-layer{
+  background:
+    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(circle at 50% 30%, black, transparent 70%);
+}
+
+.signal-layer{
+  background:
+    radial-gradient(2px 2px at 20% 40%, var(--cyan), transparent),
+    radial-gradient(2px 2px at 70% 60%, var(--violet), transparent),
+    radial-gradient(1.5px 1.5px at 40% 80%, var(--magenta), transparent);
+  opacity:.6;
+}
+
+/* ================= NAV ================= */
+.nav{
+  position:fixed;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  backdrop-filter:blur(18px);
+  background:var(--glass);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:12px 22px;
+  display:flex;
+  gap:28px;
+  z-index:100;
+}
+
+.nav a{
+  color:#dff5fa;
+  text-decoration:none;
+  font-size:.9rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+/* ================= HERO ================= */
+.hero{
+  min-height:95vh;
+  display:grid;
+  place-content:center;
+  text-align:center;
+  padding:0 8vw;
+  position:relative;
+  z-index:2;
+}
+
+.hero h1{
+  font-size:clamp(2.6rem,7vw,4.8rem);
+  font-weight:800;
+  background:linear-gradient(120deg,var(--cyan),var(--violet));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:18px;
+}
+
+.hero p{
+  max-width:680px;
+  margin:auto;
+  opacity:.85;
+  font-size:1.05rem;
+}
+
+/* ================= SECTIONS ================= */
+.section{
+  padding:12vh 8vw;
+  position:relative;
+  z-index:2;
+}
+
+.section h2{
+  text-align:center;
+  margin-bottom:60px;
+  font-size:2.2rem;
+}
+
+/* ================= GLASS CARD ================= */
+.card{
+  background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.03));
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:32px;
+  backdrop-filter:blur(14px);
+  max-width:1100px;
+  margin:auto;
+}
+
+/* ================= GRID ================= */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:24px;
+}
+
+.info{
+  border-left:3px solid var(--cyan);
+  padding-left:16px;
+}
+
+.info h3{color:var(--cyan)}
+.info p{opacity:.85}
+
+/* ================= DAY CARDS ================= */
+.day-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:32px;
+}
+
+.day-card{
+  background:var(--glass);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:28px;
+  backdrop-filter:blur(14px);
+  transition:.4s;
+}
+
+.day-card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 30px 80px rgba(0,0,0,.6);
+}
+
+.day-card h3{
+  color:var(--cyan);
+  margin-bottom:16px;
+}
+
+.day-card ul{
+  list-style:none;
+}
+
+.day-card li{
+  opacity:.85;
+  margin-bottom:10px;
+  line-height:1.5;
+}
+
+/* ================= SPEAKERS ================= */
+.speakers{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:32px;
+  justify-items:center;
+}
+
+.speaker{
+  text-align:center;
+}
+
+.speaker img{
+  width:140px;
+  height:140px;
+  object-fit:cover;
+  border-radius:50%;
+  border:2px solid var(--cyan);
+  margin-bottom:14px;
+}
+
+.speaker h4{margin-bottom:4px}
+.speaker p{opacity:.75;font-size:.9rem}
+
+/* ================= CTA ================= */
+.cta{
+  margin-top:60px;
+  display:flex;
+  justify-content:center;
+}
+
+.cta a{
+  padding:14px 34px;
+  border-radius:999px;
+  background:linear-gradient(120deg,var(--cyan),var(--violet));
+  color:#0b0f14;
+  font-weight:700;
+  text-decoration:none;
+}
+
+/* ================= FOOTER ================= */
+.footer{
+  margin-top:16vh;
+  padding:8vh 8vw;
+  border-top:1px solid var(--border);
+  text-align:center;
+  opacity:.85;
+}
+
+/* ================= FOOTER ================= */
+.tattva-footer {
+  background: #000;
+  padding: 80px 8vw 60px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* LEFT LINKS */
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.footer-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  position: relative;
+  text-shadow:
+    0 0 6px rgba(109,252,255,0.35),
+    0 0 14px rgba(180,140,255,0.25);
+}
+
+.footer-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--violet));
+  transition: width .35s ease;
+}
+
+.footer-links a:hover::after {
+  width: 100%;
+}
+
+/* RIGHT LOGO */
+.footer-logo {
+  text-align: right;
+}
+
+.logo-text {
+  display: block;
+  font-size: clamp(2.8rem, 6vw, 4rem);
+  font-weight: 800;
+  letter-spacing: 0.25em;
+  color: transparent;
+  -webkit-text-stroke: 1px #ffffff;
+  text-shadow:
+    0 0 20px rgba(109,252,255,0.35),
+    0 0 50px rgba(180,140,255,0.25);
+}
+
+.logo-sub {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  opacity: 0.75;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 700px) {
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-logo {
+    text-align: left;
+    margin-top: 40px;
+  }
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:600px){
+  .nav{gap:16px;padding:10px 16px}
+  .card{padding:24px}
+}
+
+/* ================= HERO WEBGL ================= */
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.45;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="parallax-layer grid-layer"></div>
+<div class="parallax-layer signal-layer"></div>
+
+<header class="nav">
+  <a href="#">Home</a>
+  <a href="#">Workshops</a>
+  <a href="#">Register</a>
+</header>
+
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+
+  <div class="hero-content">
+    <h1>Natural Hazard Workshop</h1>
+    <p>
+      Hands-on exposure to modern tools for hazard prediction,
+      environmental analysis, and early warning systems.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="card">
+    <div class="grid">
+
+      <div class="info">
+        <h3>Date</h3>
+        <p>27 February 2026</p>
+      </div>
+
+      <div class="info">
+        <h3>Time</h3>
+        <p>10:00 AM – 1:00 PM<br>2:00 PM – 5:00 PM</p>
+      </div>
+
+      <div class="info">
+        <h3>Venue</h3>
+        <p>EESTL & AB2 5G Lab</p>
+      </div>
+
+      <div class="info">
+        <h3>Registration Fee</h3>
+        <p>₹300 (Only 25 seats)</p>
+      </div>
+
+    </div>
+
+    <div style="margin-top:40px">
+      <p style="opacity:0.9">
+        This interdisciplinary workshop focuses on water, soil, and air-related
+        hazards, providing practical exposure to tools such as GC–MS, ICP–MS,
+        CHNS analysis, GIS-based landslide prediction, and atmospheric modeling.
+      </p>
+    </div>
+
+    <div class="cta">
+      <a href="#">Register Now</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Workshop Schedule</h2>
+  <div class="day-grid">
+
+    <div class="day-card">
+      <h3>Day 1</h3>
+      <ul>
+        <li>Exposure to GC–MS, ICP–MS, and CHNS analyzers</li>
+        <li>Hands-on water quality assessment (pH, EC, etc.)</li>
+        <li>Landslide prediction using ArcGIS</li>
+        <li>Atmospheric modeling using WRF & GrADS</li>
+      </ul>
+    </div>
+
+    <div class="day-card">
+      <h3>Day 2</h3>
+      <ul>
+        <li>Guest lecture by Dr. Reet Kamal Tiwari (IIT Ropar)</li>
+        <li><em>From Pixels to Protection: Tracking Natural Hazards from Space</em></li>
+        <li>Satellite & geospatial tools discussion</li>
+        <li>Interactive session + concluding insights</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
+  <h2>Speakers</h2>
+  <div class="speakers">
+    <div class="speaker">
+      <img src="https://via.placeholder.com/300" alt="">
+      <h4>Dr. Reet Kamal Tiwari</h4>
+      <p>IIT Ropar · Geomatics</p>
+    </div>
+  </div>
+</section>
+
+<div class="cta">
+  <a href="#">Register Now</a>
+</div>
+
+<br>
+<footer class="tattva-footer">
+  <div class="footer-inner">
+
+    <!-- LEFT: LINKS -->
+    <div class="footer-links">
+      <a href="#">Home</a>
+      <a href="#">Workshops</a>
+      <a href="#">Register</a>
+      <a href="#">Contact</a>
+      <a href="#">About TATTVA</a>
+    </div>
+
+    <!-- RIGHT: LOGO -->
+    <div class="footer-logo">
+      <span class="logo-text">TATTVA</span>
+      <span class="logo-sub">IISER Mohali</span>
+    </div>
+
+  </div>
+</footer>
+
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.to(".grid-layer",{y:120,scrollTrigger:{scrub:true}});
+gsap.to(".signal-layer",{y:240,scrollTrigger:{scrub:true}});
+</script>
+<script>
+/* ================= THREE.JS HERO TERRAIN ================= */
+const canvas = document.getElementById("hero-canvas");
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(
+  45,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+
+const renderer = new THREE.WebGLRenderer({
+  canvas,
+  alpha: true,
+  antialias: true
+});
+
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+
+camera.position.set(0, 25, 45);
+camera.lookAt(0, 0, 0);
+
+/* Geometry: terrain-like plane */
+const geometry = new THREE.PlaneGeometry(80, 80, 80, 80);
+const material = new THREE.MeshStandardMaterial({
+  color: 0x6dfcff,
+  wireframe: true,
+  transparent: true,
+  opacity: 0.35
+});
+
+const terrain = new THREE.Mesh(geometry, material);
+terrain.rotation.x = -Math.PI / 2;
+scene.add(terrain);
+
+/* Lighting */
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(20, 30, 20);
+scene.add(light);
+
+const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+scene.add(ambient);
+
+/* Animate terrain like environmental waves */
+const positions = geometry.attributes.position;
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  const time = performance.now() * 0.0005;
+
+  for (let i = 0; i < positions.count; i++) {
+    const x = positions.getX(i);
+    const y = positions.getY(i);
+    const z =
+      Math.sin(x * 0.15 + time) * 1.5 +
+      Math.cos(y * 0.15 + time) * 1.5;
+    positions.setZ(i, z);
+  }
+
+  positions.needsUpdate = true;
+  terrain.rotation.z += 0.0005;
+
+  renderer.render(scene, camera);
+}
+
+animate();
+
+/* Resize */
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+
+<script>
+gsap.to(".logo-text", {
+  textShadow: `
+    0 0 30px rgba(109,252,255,0.6),
+    0 0 70px rgba(180,140,255,0.5)
+  `,
+  duration: 2.8,
+  repeat: -1,
+  yoyo: true,
+  ease: "sine.inOut"
+});
+</script>
+
+</body>
+</html>
