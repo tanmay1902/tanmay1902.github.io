@@ -723,6 +723,341 @@ height:100px;
 }
 
 }
+
+.attend-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:2rem;
+margin-top:3rem;
+}
+
+.attend-card{
+background:var(--glass);
+border:1px solid var(--border);
+border-radius:20px;
+padding:1.8rem;
+text-align:center;
+backdrop-filter:blur(15px);
+transition:.3s;
+font-family:'Seasons', serif;
+}
+
+.attend-card:hover{
+transform:translateY(-6px);
+border-color:var(--cyan);
+box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+
+.certification-section{
+text-align:center;
+}
+
+.certificate-wrapper{
+display:flex;
+justify-content:center;
+margin-top:3rem;
+}
+
+.certificate-card{
+width:100%;
+max-width:700px;
+background:linear-gradient(135deg,#0f1c22,#132d36);
+border:1px solid rgba(109,252,255,.3);
+border-radius:28px;
+padding:3rem 2rem;
+position:relative;
+overflow:hidden;
+box-shadow:0 30px 80px rgba(0,0,0,.6);
+transition:.4s;
+}
+
+.certificate-card:hover{
+transform:scale(1.02);
+box-shadow:0 40px 100px rgba(0,0,0,.8);
+}
+
+.certificate-content h3{
+letter-spacing:.2em;
+margin-bottom:1.5rem;
+color:var(--cyan);
+}
+
+.certificate-content h4{
+font-family:'Seasons', serif;
+font-size:1.5rem;
+margin:1rem 0;
+}
+
+.cert-footer{
+margin-top:2rem;
+display:flex;
+justify-content:space-between;
+opacity:.7;
+font-size:.9rem;
+}
+
+.faq-item{
+background:var(--glass);
+border:1px solid var(--border);
+border-radius:16px;
+margin-bottom:1.5rem;
+padding:1.5rem;
+cursor:pointer;
+transition:.3s;
+}
+
+.faq-question{
+font-weight:600;
+}
+
+.faq-answer{
+max-height:0;
+overflow:hidden;
+opacity:0;
+transition:all .4s ease;
+margin-top:10px;
+}
+
+.faq-item.active .faq-answer{
+max-height:200px;
+opacity:1;
+}
+
+/* ================= CERTIFICATE PREMIUM ================= */
+
+.certificate-input{
+margin-top:2rem;
+text-align:center;
+}
+
+.certificate-input input{
+padding:14px 22px;
+border-radius:50px;
+border:1px solid rgba(109,252,255,.4);
+background:rgba(255,255,255,.05);
+color:#fff;
+font-size:1rem;
+outline:none;
+backdrop-filter:blur(10px);
+transition:.3s;
+width:280px;
+}
+
+.certificate-input input:focus{
+border-color:var(--cyan);
+box-shadow:0 0 20px rgba(109,252,255,.5);
+}
+
+/* Certificate Wrapper */
+.certificate-wrapper{
+display:flex;
+justify-content:center;
+margin-top:3rem;
+position:relative;
+}
+
+/* Certificate Card */
+.certificate-card{
+position:relative;
+width:100%;
+max-width:750px;
+padding:3rem 2rem;
+border-radius:28px;
+background:linear-gradient(135deg,#0c151b,#112830);
+overflow:hidden;
+box-shadow:0 30px 100px rgba(0,0,0,.6);
+}
+
+/* ================= HOLOGRAPHIC BORDER ================= */
+
+.holo-border{
+position:absolute;
+inset:0;
+border-radius:28px;
+padding:2px;
+background:linear-gradient(
+45deg,
+#6dfcff,
+#b48cff,
+#6dfcff,
+#b48cff
+);
+background-size:300% 300%;
+animation:holoMove 6s linear infinite;
+-webkit-mask:
+linear-gradient(#000 0 0) content-box,
+linear-gradient(#000 0 0);
+-webkit-mask-composite:xor;
+mask-composite:exclude;
+pointer-events:none;
+}
+
+@keyframes holoMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* ================= SHIMMER SWEEP ================= */
+
+.shimmer{
+position:absolute;
+top:0;
+left:-150%;
+width:60%;
+height:100%;
+background:linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,.15),
+transparent
+);
+transform:skewX(-20deg);
+animation:shimmerMove 5s infinite;
+}
+
+@keyframes shimmerMove{
+0%{left:-150%;}
+100%{left:150%;}
+}
+
+/* ================= CERTIFICATE CONTENT ================= */
+
+.certificate-content{
+position:relative;
+z-index:2;
+text-align:center;
+}
+
+.certificate-content h3{
+letter-spacing:.3em;
+margin-bottom:1.5rem;
+color:var(--cyan);
+}
+
+.certificate-content h4{
+font-family:'Seasons', serif;
+font-size:1.6rem;
+margin:1rem 0;
+background:linear-gradient(120deg,#fff,#cfeeff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.cert-footer{
+margin-top:2.5rem;
+display:flex;
+justify-content:space-between;
+opacity:.7;
+font-size:.9rem;
+}
+
+/* Hover depth effect */
+.certificate-card:hover{
+transform:scale(1.02);
+transition:.4s;
+}
+
+/* ================= CONTACT PREMIUM ================= */
+
+.contact-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:2rem;
+margin-top:3rem;
+}
+
+.contact-card{
+display:block;
+padding:2rem;
+border-radius:20px;
+background:linear-gradient(135deg,#0e1a20,#132b33);
+border:1px solid rgba(109,252,255,.2);
+text-decoration:none;
+color:#fff;
+position:relative;
+overflow:hidden;
+transition:.4s;
+backdrop-filter:blur(10px);
+}
+
+.contact-card::before{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(
+120deg,
+transparent,
+rgba(109,252,255,.2),
+transparent
+);
+transform:translateX(-100%);
+transition:.6s;
+}
+
+.contact-card:hover::before{
+transform:translateX(100%);
+}
+
+.contact-card:hover{
+transform:translateY(-8px);
+box-shadow:0 20px 60px rgba(0,0,0,.6);
+border-color:var(--cyan);
+}
+
+.contact-name{
+font-size:1.3rem;
+font-weight:600;
+margin-bottom:.5rem;
+color:var(--cyan);
+}
+
+.contact-phone{
+opacity:.8;
+}
+/* ================= EMBOSSED SEAL ================= */
+
+.certificate-seal{
+position:absolute;
+right:40px;
+bottom:40px;
+width:140px;
+height:140px;
+border-radius:50%;
+background:radial-gradient(circle at 30% 30%, 
+rgba(255,255,255,.15),
+rgba(0,0,0,.2));
+display:flex;
+align-items:center;
+justify-content:center;
+opacity:.25;
+pointer-events:none;
+filter:blur(.3px);
+}
+
+.seal-inner{
+width:110px;
+height:110px;
+border-radius:50%;
+border:2px solid rgba(255,255,255,.15);
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+font-family:'Seasons', serif;
+letter-spacing:.2em;
+font-size:.8rem;
+color:#fff;
+
+/* Emboss effect */
+text-shadow:
+-1px -1px 1px rgba(255,255,255,.2),
+1px 1px 1px rgba(0,0,0,.6);
+box-shadow:
+inset 2px 2px 6px rgba(0,0,0,.5),
+inset -2px -2px 6px rgba(255,255,255,.05);
+}
+
 </style>
 
 </head>
@@ -871,6 +1206,157 @@ and the specific flavour of how light interacts with matter.
   </div>
 </section>
 
+<!-- ================= WHO SHOULD ATTEND ================= -->
+<section class="section">
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Who Should Attend</h2>
+    </div>
+
+    <div class="attend-grid">
+
+      <div class="attend-card">Undergraduate & Postgraduate Students</div>
+      <div class="attend-card">Physics & Chemistry Enthusiasts</div>
+      <div class="attend-card">Aspiring Experimental Researchers</div>
+      <div class="attend-card">Students Preparing for Research Internships</div>
+      <div class="attend-card">Anyone Curious About Materials Science</div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= CERTIFICATION ================= -->
+<!-- ================= CERTIFICATION ================= -->
+<section class="section certification-section">
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Certification</h2>
+      <p>Participants will receive an official certificate signed by the faculty.</p>
+    </div>
+
+    <!-- Name Input -->
+    <div class="certificate-input">
+      <input type="text" id="participantName" placeholder="Enter Your Name">
+    </div>
+
+    <div class="certificate-wrapper">
+
+      <div class="certificate-card">
+
+        <!-- Holographic Border -->
+        <div class="holo-border"></div>
+
+        <!-- Embossed Seal -->
+        <div class="certificate-seal">
+          <div class="seal-inner">
+            TATTVA<br>2026
+          </div>
+        </div>
+
+        <!-- Shimmer Sweep -->
+        <div class="shimmer"></div>
+
+        <div class="certificate-content">
+          <h3>CERTIFICATE OF PARTICIPATION</h3>
+          <p>This is to certify that</p>
+
+          <h4 id="liveName">Participant Name</h4>
+
+          <p>has successfully participated in the</p>
+
+          <h4>Material Science Workshop</h4>
+          <p>organized under TATTVA 2026</p>
+
+          <div class="cert-footer">
+            <span>Faculty Signature</span>
+            <span>Date: 27 Feb 2026</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- ================= CONTACT ================= -->
+<!-- ================= CONTACT ================= -->
+<section class="section contact-section">
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Contact</h2>
+    </div>
+
+    <div class="contact-grid">
+
+      <a href="tel:8127679890" class="contact-card">
+        <div class="contact-name">Shriyansh</div>
+        <div class="contact-phone">📞 8127679890</div>
+      </a>
+
+      <a href="tel:9176466300" class="contact-card">
+        <div class="contact-name">Sashvath</div>
+        <div class="contact-phone">📞 9176466300</div>
+      </a>
+
+      <a href="tel:7975461975" class="contact-card">
+        <div class="contact-name">Subodh</div>
+        <div class="contact-phone">📞 7975461975</div>
+      </a>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ================= FAQ ================= -->
+<section class="section faq-section">
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Frequently Asked Questions</h2>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Is prior knowledge required?</div>
+      <div class="faq-answer">
+        Basic understanding of physics or chemistry is helpful, but the workshop is designed to be accessible.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Will there be live demonstrations?</div>
+      <div class="faq-answer">
+        Yes. The workshop includes practical demonstrations of characterization techniques.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Is the certificate official?</div>
+      <div class="faq-answer">
+        Yes. Participants will receive certification signed by the involved faculty.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Is it open to students from other institutes?</div>
+      <div class="faq-answer">
+        Yes. The workshop is open to all interested participants.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
 <center>
 <section class="banner">
     <img src="materialsci.png"/>
@@ -970,6 +1456,28 @@ camera.updateProjectionMatrix();
 renderer.setSize(window.innerWidth,window.innerHeight);
 });
 
+</script>
+
+
+<script>
+document.querySelectorAll(".faq-item").forEach(item=>{
+  item.addEventListener("click",()=>{
+    item.classList.toggle("active");
+  });
+});
+</script>
+
+<script>
+const input = document.getElementById("participantName");
+const liveName = document.getElementById("liveName");
+
+input.addEventListener("input", function(){
+  if(input.value.trim() === ""){
+    liveName.textContent = "Participant Name";
+  } else {
+    liveName.textContent = input.value;
+  }
+});
 </script>
 
 </body>
