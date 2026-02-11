@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Material Science Workshop | TATTVA 2026</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+
+<style>
+@font-face {
+  font-family: 'Seasons';
+  src: url('./fonts/seasons-regular.otf') format('opentype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Seasons';
+  src: url('./fonts/seasons-bold.otf') format('opentype');
+  font-weight: 700;
+}
+
+:root{
+--bg:#05080d;
+--cyan:#6dfcff;
+--violet:#b48cff;
+--magenta:#d67ad2;
+--glass:rgba(255,255,255,.06);
+--border:rgba(255,255,255,.18);
+--text:#e8f6ff;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:Poppins,system-ui;
+background:radial-gradient(1200px 800px at 30% -20%, #0e1c2b, transparent),
+radial-gradient(800px 600px at 90% 20%, #1b1433, transparent),
+var(--bg);
+color:var(--text);
+overflow-x:hidden;
+}
+
+/* ================= LOADER ================= */
+.loader{
+position:fixed;
+inset:0;
+background:#000;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.loader svg{
+width:180px;
+opacity:0;
+}
+
+.loader-text{
+position:absolute;
+bottom:15%;
+letter-spacing:.4em;
+font-size:.8rem;
+opacity:.6;
+}
+
+/* ================= NAV ================= */
+.nav{
+position:fixed;
+top:20px;
+left:50%;
+transform:translateX(-50%);
+background:var(--glass);
+backdrop-filter:blur(16px);
+border:1px solid var(--border);
+padding:12px 28px;
+border-radius:18px;
+display:flex;
+gap:30px;
+z-index:200;
+}
+
+.nav a{
+text-decoration:none;
+color:#dff5fa;
+font-size:.85rem;
+letter-spacing:.1em;
+}
+
+/* ================= HERO ================= */
+.hero{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+position:relative;
+padding:0 8vw;
+overflow:hidden;
+}
+
+/* Moon Parallax Layer */
+.parallax-moon{
+position:absolute;
+width:450px;
+height:450px;
+border-radius:50%;
+background:radial-gradient(circle,
+rgba(109,252,255,1) 0%,
+rgba(109,252,255,.4) 40%,
+rgba(109,252,255,.1) 60%,
+transparent 75%);
+filter:blur(4px);
+top:18%;
+left:50%;
+transform:translateX(-50%);
+z-index:1;
+mix-blend-mode:screen;
+}
+
+/* Subtle atomic stars */
+.parallax-stars{
+position:absolute;
+inset:0;
+background-image:
+radial-gradient(2px 2px at 20% 30%, #6dfcff, transparent),
+radial-gradient(2px 2px at 70% 60%, #b48cff, transparent),
+radial-gradient(1.5px 1.5px at 40% 80%, #d67ad2, transparent);
+opacity:.6;
+z-index:0;
+}
+
+#hero-canvas{
+position:absolute;
+inset:0;
+z-index:0;
+opacity:.35;
+}
+
+.hero-content{
+position:relative;
+z-index:3;
+}
+
+.hero h1{
+font-size:clamp(3rem,7vw,5rem);
+font-weight:800;
+background:linear-gradient(120deg,var(--cyan),var(--violet));
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+margin-bottom:20px;
+}
+
+.hero p{
+max-width:720px;
+opacity:.85;
+}
+
+/* ================= GLASS CARD ================= */
+.section{
+padding:14vh 8vw;
+position:relative;
+}
+
+.card{
+background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
+border:1px solid var(--border);
+border-radius:28px;
+padding:40px;
+backdrop-filter:blur(20px);
+box-shadow:0 40px 100px rgba(0,0,0,.6);
+max-width:1100px;
+margin:auto;
+transform:translateY(60px);
+opacity:0;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+.info h3{color:var(--cyan);margin-bottom:6px}
+.info p{opacity:.85}
+
+.cta{
+margin-top:50px;
+text-align:center;
+}
+
+.cta a{
+padding:16px 40px;
+border-radius:999px;
+background:linear-gradient(120deg,var(--cyan),var(--violet));
+color:#000;
+font-weight:700;
+text-decoration:none;
+}
+
+footer{
+padding:10vh 8vw;
+border-top:1px solid var(--border);
+text-align:center;
+}
+
+footer img{
+height:90px;
+opacity:.8;
+filter:drop-shadow(0 0 25px rgba(109,252,255,.4));
+}
+
+.hero{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+position:relative;
+overflow:hidden;
+}
+
+/* Atomic subtle stars */
+.parallax-stars{
+position:absolute;
+inset:0;
+background-image:
+radial-gradient(2px 2px at 20% 30%, #6dfcff, transparent),
+radial-gradient(2px 2px at 70% 60%, #b48cff, transparent),
+radial-gradient(1.5px 1.5px at 40% 80%, #d67ad2, transparent);
+opacity:.6;
+z-index:0;
+}
+
+/* Crystal silhouette layer */
+.crystal-layer{
+position:absolute;
+bottom:-50px;
+width:120%;
+height:40%;
+background:linear-gradient(to top,
+rgba(109,252,255,.25),
+transparent);
+clip-path:polygon(0 100%, 20% 60%, 40% 80%, 60% 55%, 80% 75%, 100% 50%, 100% 100%);
+z-index:1;
+opacity:.4;
+}
+
+/* Photon moon */
+.parallax-moon{
+position:absolute;
+width:350px;
+height:350px;
+border-radius:50%;
+background:radial-gradient(circle,
+rgba(109,252,255,1) 0%,
+rgba(109,252,255,.4) 40%,
+rgba(109,252,255,.1) 60%,
+transparent 75%);
+top:20%;
+left:50%;
+transform:translateX(-50%);
+mix-blend-mode:screen;
+z-index:2;
+}
+
+/* Diffraction Rings */
+.rings{
+position:absolute;
+top:20%;
+left:50%;
+transform:translateX(-50%);
+z-index:2;
+}
+
+.ring{
+position:absolute;
+width:350px;
+height:350px;
+border-radius:50%;
+border:2px solid rgba(109,252,255,.4);
+animation:expand 4s linear infinite;
+}
+
+.ring:nth-child(2){animation-delay:1.3s}
+.ring:nth-child(3){animation-delay:2.6s}
+
+@keyframes expand{
+0%{transform:scale(.6);opacity:.8}
+100%{transform:scale(2.5);opacity:0}
+}
+
+/* Scroll Indicator */
+.scroll-indicator{
+position:absolute;
+bottom:30px;
+font-size:2rem;
+opacity:.7;
+cursor:pointer;
+animation:bounce 1.5s infinite;
+z-index:3;
+}
+
+@keyframes bounce{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(10px)}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="loader">
+<svg id="logoLoader" viewBox="0 0 200 200">
+<image href="logo.svg" width="200" height="200"/>
+</svg>
+<div class="loader-text">TATTVA 2026</div>
+</div>
+
+<header class="nav">
+<a href="#">Home</a>
+<a href="#">Workshops</a>
+<a href="#">Register</a>
+</header>
+
+<section class="hero">
+
+    <!-- Atomic background -->
+    <div class="parallax-stars"></div>
+
+    <!-- Crystal silhouette (second layer) -->
+    <div class="crystal-layer"></div>
+
+    <!-- Diffraction rings -->
+    <div class="rings">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+    </div>
+
+    <!-- Photon moon -->
+    <div class="parallax-moon" id="moon"></div>
+
+    <!-- Three.js surface -->
+    <canvas id="hero-canvas"></canvas>
+
+    <div class="hero-content">
+        <h1>Material Science Workshop</h1>
+        <p>
+        Explore the fundamental techniques used to study materials,
+        from light–matter interactions to real-world characterization methods.
+        </p>
+    </div>
+
+    <!-- Scroll Button -->
+    <div class="scroll-indicator" id="scrollBtn">
+        ↓
+    </div>
+
+</section>
+
+<section class="section">
+<div class="card">
+<div class="grid">
+This workshop offers a window into the foundational methods used to
+study the materials around us. By blending technical talks with live
+demonstrations, we aim to explore the ubiquitous tools of the field
+and the specific f lavour of how light interacts with matter.
+</div>
+
+<p style="padding-top:50px"></p>
+<div class="grid">
+<div class="info"><h3>Date</h3><p>27 February 2026</p></div>
+<div class="info"><h3>Time</h3><p>10:00 AM – 01:00 PM<br>02:00 PM – 06:00 PM</p></div>
+<div class="info"><h3>Venue</h3><p>AB1 – 5A</p></div>
+<div class="info"><h3>Registration Fee</h3><p>₹100 per person</p></div>
+</div>
+
+<div class="cta"><a href="#">Register Now</a></div>
+</div>
+</section>
+
+
+<footer>
+<img src="logo.svg" id="footerLogo"/>
+<p style="margin-top:20px;opacity:.6">TATTVA 2026 · IISER Mohali</p>
+</footer>
+
+<script>
+/* Loader */
+gsap.to("#logoLoader", {opacity:1, duration:1});
+gsap.to(".loader", {
+opacity:0,
+delay:2.5,
+duration:1,
+onComplete:()=>document.querySelector(".loader").style.display="none"
+});
+
+/* Card Reveal */
+gsap.registerPlugin(ScrollTrigger);
+gsap.to(".card", {
+scrollTrigger:".card",
+opacity:1,
+y:0,
+duration:1.4,
+ease:"power3.out"
+});
+
+/* Moon Parallax Scroll */
+const moon = document.getElementById("moon");
+window.addEventListener("scroll",()=>{
+let value = window.scrollY;
+moon.style.transform = `translateX(-50%) translateY(${value * 0.6}px)`;
+});
+
+/* Footer Glow */
+gsap.to("#footerLogo", {
+filter:"drop-shadow(0 0 50px rgba(109,252,255,.7))",
+duration:2.5,
+repeat:-1,
+yoyo:true
+});
+</script>
+
+<script>
+/* Three.js Crystal Surface */
+const canvas = document.getElementById("hero-canvas");
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,0.1,1000);
+const renderer = new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+renderer.setSize(window.innerWidth,window.innerHeight);
+camera.position.set(0,30,55);
+
+const geometry = new THREE.PlaneGeometry(100,100,120,120);
+const material = new THREE.MeshStandardMaterial({
+color:0x6dfcff,
+wireframe:true,
+transparent:true,
+opacity:0.35
+});
+const mesh = new THREE.Mesh(geometry,material);
+mesh.rotation.x=-Math.PI/2;
+scene.add(mesh);
+
+const light = new THREE.DirectionalLight(0xffffff,1);
+light.position.set(20,40,20);
+scene.add(light);
+scene.add(new THREE.AmbientLight(0xffffff,.6));
+
+const pos = geometry.attributes.position;
+function animate(){
+requestAnimationFrame(animate);
+const t = performance.now()*0.0006;
+for(let i=0;i<pos.count;i++){
+const x=pos.getX(i);
+const y=pos.getY(i);
+pos.setZ(i,Math.sin(x*.2+t)*2+Math.cos(y*.2+t)*2);
+}
+pos.needsUpdate=true;
+renderer.render(scene,camera);
+}
+animate();
+
+const moon = document.getElementById("moon");
+const crystal = document.querySelector(".crystal-layer");
+const scrollBtn = document.getElementById("scrollBtn");
+
+/* Scroll Parallax */
+window.addEventListener("scroll",()=>{
+let value = window.scrollY;
+moon.style.transform = `translateX(-50%) translateY(${value * 0.5}px)`;
+crystal.style.transform = `translateY(${value * 0.3}px)`;
+});
+
+/* Mouse Reactive Photon */
+document.addEventListener("mousemove",(e)=>{
+let x = (e.clientX / window.innerWidth - 0.5) * 40;
+let y = (e.clientY / window.innerHeight - 0.5) * 40;
+moon.style.transform =
+`translateX(-50%) translate(${x}px, ${y}px)`;
+});
+
+/* Smooth Scroll Down */
+scrollBtn.addEventListener("click",()=>{
+window.scrollTo({
+top:window.innerHeight,
+behavior:"smooth"
+});
+});
+
+</script>
+
+</body>
+</html>
