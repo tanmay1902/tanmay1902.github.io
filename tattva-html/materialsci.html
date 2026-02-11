@@ -339,16 +339,16 @@ padding-top:120px;
 /* ===== Bigger TATTVA Logo ===== */
 .tattva-logo{
 top:18px;
-left:18px;
+left:25px;
 }
 
 .tattva-logo img{
-height:60px;   /* Bigger logo */
+height:100px;   /* Bigger logo */
 }
 
 /* ===== Larger Nav Pill ===== */
 .nav{
-top:90px;              /* Push below logo */
+top:35px;              /* Push below logo */
 padding:14px 28px;
 gap:24px;
 border-radius:60px;
@@ -395,6 +395,8 @@ flex-direction:column;
 align-items:center;
 text-align:center;
 }
+
+.hide-small{display:none;}
 
 }
 
@@ -609,6 +611,118 @@ width:90%;
 }
 
 }
+
+
+/* ================= SPEAKERS SECTION ================= */
+
+.speakers-section{
+padding-top:6rem;
+padding-bottom:6rem;
+}
+
+.section-title{
+text-align:center;
+margin-bottom:4rem;
+}
+
+.section-title h2{
+font-family:'Seasons', serif;
+font-size:clamp(2rem,4vw,3rem);
+margin-bottom:12px;
+background:linear-gradient(120deg,#ffffff,#cfeeff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.section-title p{
+opacity:.7;
+}
+
+.speakers-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:3rem;
+}
+
+.speaker-card{
+background:var(--glass);
+border:1px solid var(--border);
+border-radius:28px;
+padding:2.5rem 2rem;
+text-align:center;
+backdrop-filter:blur(18px);
+transition:all .4s ease;
+position:relative;
+overflow:hidden;
+}
+
+.speaker-card:hover{
+transform:translateY(-10px);
+box-shadow:0 30px 80px rgba(0,0,0,.6);
+border-color:rgba(109,252,255,.4);
+}
+
+/* Speaker Image Circle */
+.speaker-image{
+width:130px;
+height:130px;
+margin:0 auto 1.5rem;
+border-radius:50%;
+overflow:hidden;
+position:relative;
+}
+
+.speaker-image::before{
+content:"";
+position:absolute;
+inset:-3px;
+border-radius:50%;
+background:linear-gradient(120deg,var(--cyan),var(--violet));
+z-index:-1;
+filter:blur(10px);
+opacity:.6;
+}
+
+.speaker-image img{
+width:100%;
+height:100%;
+object-fit:cover;
+border-radius:50%;
+}
+
+/* Text Styling */
+.speaker-card h3{
+font-family:'Seasons', serif;
+font-size:1.3rem;
+margin-bottom:8px;
+}
+
+.designation{
+color:var(--cyan);
+font-size:.95rem;
+margin-bottom:4px;
+}
+
+.institute{
+opacity:.7;
+font-size:.9rem;
+}
+
+@media(max-width:768px){
+  .speakers-grid{
+gap:2rem;
+}
+
+.speaker-card{
+padding:2rem 1.5rem;
+}
+
+.speaker-image{
+width:100px;
+height:100px;
+}
+
+}
 </style>
 
 </head>
@@ -643,7 +757,7 @@ width:90%;
 
 
 
-<div class="tattva-logo">
+<div class="tattva-logo ">
   <img src="logo.svg" alt="TATTVA Logo">
 </div>
 
@@ -709,6 +823,52 @@ and the specific flavour of how light interacts with matter.
 </center>
 
 </div>
+</section>
+
+<!-- ================= SPEAKERS SECTION ================= -->
+<section class="section speakers-section">
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Speakers</h2>
+      <p>Esteemed faculty and researchers contributing to the workshop</p>
+    </div>
+
+    <div class="speakers-grid">
+
+      <!-- Speaker 1 -->
+      <div class="speaker-card">
+        <div class="speaker-image">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTETmrk3FTTq5yCwbaWlf3B66mHANPGbFLf4A&s" alt="Speaker 1">
+        </div>
+        <h3>Dr. A. B. C. D</h3>
+        <p class="designation">Professor of Materials Physics</p>
+        <p class="institute">IISER Manali</p>
+      </div>
+
+      <!-- Speaker 2 -->
+      <div class="speaker-card">
+        <div class="speaker-image">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTETmrk3FTTq5yCwbaWlf3B66mHANPGbFLf4A&s" alt="Speaker 2">
+        </div>
+        <h3>Dr. G. H. I. J.</h3>
+        <p class="designation">Associate Professor</p>
+        <p class="institute">IIT Japan</p>
+      </div>
+
+      <!-- Speaker 3 -->
+      <div class="speaker-card">
+        <div class="speaker-image">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTETmrk3FTTq5yCwbaWlf3B66mHANPGbFLf4A&s" alt="Speaker 3">
+        </div>
+        <h3>Dr. K. L. M. N.</h3>
+        <p class="designation">Experimental Condensed Matter</p>
+        <p class="institute">TIFR Dholakpur</p>
+      </div>
+
+    </div>
+
+  </div>
 </section>
 
 <center>
