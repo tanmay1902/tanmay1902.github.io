@@ -327,53 +327,53 @@ opacity:.8;
 
 /* ================= RESPONSIVE ================= */
 /* ================= PREMIUM MOBILE ================= */
+/* ================= MOBILE OPTIMIZED ================= */
 @media (max-width:768px){
 
-/* Hero layout balance */
+/* Make hero slightly taller on mobile */
 .hero{
 min-height:110vh;
-padding-top:140px;
+padding-top:120px;
 }
 
-/* Bigger Logo */
+/* ===== Bigger TATTVA Logo ===== */
 .tattva-logo{
 top:18px;
 left:18px;
 }
 
 .tattva-logo img{
-height:60px;
+height:60px;   /* Bigger logo */
 }
 
-/* ===== 50% Width Header ===== */
+/* ===== Larger Nav Pill ===== */
 .nav{
-width:50%;
-left:50%;
-transform:translateX(-50%);
-top:95px;
-padding:14px 20px;
-gap:20px;
+top:90px;              /* Push below logo */
+padding:14px 28px;
+gap:24px;
 border-radius:60px;
-justify-content:space-between;
+backdrop-filter:blur(20px);
 }
 
 .nav a{
-font-size:.9rem;
+font-size:1rem;        /* Bigger text */
 letter-spacing:.08em;
 }
 
-/* Photon slightly bigger */
+/* ===== Bigger Photon ===== */
 .photon-wrapper{
 width:260px;
 height:260px;
 top:18%;
 }
 
-/* Hero text */
+/* Rings auto-scale because 100% */
+
+/* ===== Hero Text Adjust ===== */
 .hero h1{
-font-size:2.3rem;
+font-size:2.4rem;
 line-height:1.2;
-margin-bottom:14px;
+margin-bottom:16px;
 }
 
 .hero p{
@@ -381,15 +381,23 @@ font-size:1rem;
 padding:0 10px;
 }
 
-/* Footer center */
+/* ===== Improve Spacing ===== */
+.section{
+padding:4rem 1.5rem;
+}
+
+.info-grid{
+gap:1.5rem;
+}
+
 footer{
 flex-direction:column;
 align-items:center;
 text-align:center;
-gap:1.5rem;
 }
 
 }
+
 
 
 /* ================= CINEMATIC CRACK LOADER ================= */
