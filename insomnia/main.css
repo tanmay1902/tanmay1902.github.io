@@ -1,4 +1,7 @@
-/* ================= RESET ================= */
+/* =====================================================
+   RESET
+===================================================== */
+
 *{
 margin:0;
 padding:0;
@@ -9,13 +12,16 @@ html,body{
 height:100%;
 }
 
-/* ================= BODY ================= */
+/* =====================================================
+   BODY — LOCK PAGE (NO SCROLL)
+===================================================== */
 
 body{
 font-family:'Henny Penny',sans-serif;
 background:#000;
 color:white;
 overflow:hidden;
+height:100vh;
 }
 
 
@@ -41,7 +47,6 @@ opacity:0;
 pointer-events:none;
 }
 
-/* logo pulse */
 .loader-logo{
 width:150px;
 animation:logoPulse 2s infinite ease-in-out;
@@ -53,17 +58,12 @@ filter:drop-shadow(0 0 40px gold);
 50%{transform:scale(1.08)}
 }
 
-/* golden title */
 .loader-text h1{
 font-family:'Orbitron',sans-serif;
 font-size:60px;
 color:#ffd700;
 letter-spacing:6px;
-
-text-shadow:
-0 0 20px #ffd700,
-0 0 60px #ffd700;
-
+text-shadow:0 0 20px #ffd700,0 0 60px #ffd700;
 opacity:0;
 transform:translateY(20px);
 animation:textReveal 1s ease forwards .5s;
@@ -77,10 +77,7 @@ animation:textReveal 1s ease forwards 1.2s;
 }
 
 @keyframes textReveal{
-to{
-opacity:1;
-transform:translateY(0);
-}
+to{opacity:1;transform:translateY(0);}
 }
 
 
@@ -99,7 +96,7 @@ z-index:-1;
 
 
 /* =====================================================
-   GLASS NAV (CENTER LOGO PERFECT)
+   GLASS NAV + FLOATING LOGO
 ===================================================== */
 
 .glass-nav{
@@ -107,81 +104,76 @@ position:fixed;
 top:25px;
 left:50%;
 transform:translateX(-50%);
-width:700px;
+width:min(900px,92%);
 height:70px;
 
 display:flex;
 align-items:center;
 justify-content:space-between;
-padding:0 70px;
 
-border-radius:60px;
+padding:0 90px;
+border-radius:80px;
+
 background:rgba(255,255,255,.05);
 backdrop-filter:blur(20px);
 border:1px solid rgba(255,255,255,.12);
+box-shadow:0 10px 40px rgba(0,0,0,.5);
 
-box-shadow:0 20px 50px rgba(0,0,0,.6);
 z-index:1000;
 }
 
-.nav-left,
-.nav-right{
+.nav-left,.nav-right{
 display:flex;
 gap:40px;
+align-items:center;
 }
 
-.nav-left a,
-.nav-right a{
+.nav-left a,.nav-right a{
 color:white;
 text-decoration:none;
 opacity:.85;
-transition:.3s;
+transition:.25s;
 }
 
-.nav-left a:hover,
-.nav-right a:hover{
+.nav-left a:hover,.nav-right a:hover{
 opacity:1;
-text-shadow:0 0 10px #3b82f6;
+text-shadow:0 0 12px #3b82f6;
 }
 
-/* center floating logo */
-.nav-center{
-position:absolute;
+/* floating logo */
+.logo-anim{
+position:fixed;
+top:0;
 left:50%;
 transform:translateX(-50%);
+z-index:1100;
 }
 
 .logo-circle{
-width:90px;
-height:90px;
+width:100px;
+height:100px;
 border-radius:50%;
 background:black;
 display:flex;
 align-items:center;
 justify-content:center;
-
-box-shadow:
-0 0 40px #3b82f6,
-0 0 100px rgba(59,130,246,.3);
+box-shadow:0 0 50px rgba(59,130,246,.6);
 }
 
-.logo-circle img{width:60%}
+.logo-circle img{width:60%;}
 
 
 /* =====================================================
-   HERO
+   HERO (NO FLEX — ABSOLUTE LAYOUT)
 ===================================================== */
 
 .hero{
 position:relative;
 height:100vh;
-display:flex;
-align-items:flex-end;
-justify-content:center;
 overflow:hidden;
 }
 
-/* background image */
+/* background */
 .hero-bg{
 position:absolute;
 inset:0;
@@ -192,7 +184,7 @@ z-index:1;
 width:100%;
 height:100%;
 object-fit:cover;
-opacity:.28;
+opacity:.3;
 filter:blur(4px);
 animation:slowZoom 25s ease infinite alternate;
 }
@@ -204,7 +196,7 @@ to{transform:scale(1.08)}
 
 
 /* =====================================================
-   PERFECT SINGLE-LINE MARQUEE
+   SINGLE LINE MARQUEE
 ===================================================== */
 
 .hero-marquee{
@@ -222,18 +214,16 @@ z-index:2;
 display:inline-block;
 white-space:nowrap;
 min-width:200%;
-
 font-family:'Orbitron',sans-serif;
 font-size:clamp(80px,12vw,180px);
 letter-spacing:20px;
 opacity:.06;
-
 animation:marqueeMove 25s linear infinite;
 }
 
 @keyframes marqueeMove{
-from{transform:translateX(0)}
-to{transform:translateX(-50%)}
+0%{transform:translateX(0)}
+100%{transform:translateX(-50%)}
 }
 
 
@@ -254,21 +244,26 @@ z-index:3;
 
 
 /* =====================================================
-   ARTIST
+   ARTIST — ALWAYS BOTTOM ANCHORED
 ===================================================== */
 
 .artist{
 position:absolute;
-bottom:0;
+bottom:-6vh;   /* cinematic cut */
 left:50%;
 transform:translateX(-50%);
 z-index:4;
+
+display:flex;
+align-items:flex-end;
+justify-content:center;
+pointer-events:none;
 }
 
-/* artist image */
 .artist img{
-height:85vh;
-max-height:850px;
+height:95vh;
+max-height:none;
+width:auto;
 object-fit:contain;
 
 transition:
@@ -277,26 +272,26 @@ opacity .6s ease,
 filter .6s ease;
 
 filter:
-drop-shadow(0 40px 90px rgba(0,0,0,.8))
-drop-shadow(0 0 60px rgba(59,130,246,.25));
+drop-shadow(0 60px 120px rgba(0,0,0,.9))
+drop-shadow(0 0 80px rgba(59,130,246,.25));
 }
 
 /* masked before reveal */
 .artist.masked img{
 opacity:0;
-transform:translateY(100px) scale(.92);
-filter:blur(12px);
+transform:translateY(120px) scale(.92);
+filter:blur(20px);
 }
 
 /* smooth change */
 .artist.slide-out img{
 opacity:0;
-transform:translateY(60px) scale(.96);
+transform:translateY(80px) scale(.96);
 }
 
 .artist.slide-in img{
 opacity:0;
-transform:translateY(-60px) scale(.96);
+transform:translateY(-80px) scale(.96);
 }
 
 
@@ -307,19 +302,18 @@ transform:translateY(-60px) scale(.96);
 .artist-info{
 position:absolute;
 bottom:120px;
+left:50%;
+transform:translateX(-50%);
 text-align:center;
 z-index:5;
 }
 
 .artist-info h2{
-font-family:'Orbitron',sans-serif;
+font-family:'Orbitron';
 font-size:70px;
-margin-bottom:10px;
 }
 
-.artist-info p{
-opacity:.8;
-}
+.artist-info p{opacity:.8}
 
 
 /* =====================================================
@@ -331,35 +325,17 @@ position:absolute;
 bottom:40px;
 left:50%;
 transform:translateX(-50%);
-
 padding:18px 50px;
 border-radius:60px;
 border:none;
 cursor:pointer;
-
 font-family:'Orbitron';
-font-size:18px;
 letter-spacing:2px;
-
 background:linear-gradient(45deg,#ffd700,#ffcc00);
 color:black;
-
-box-shadow:
-0 0 40px rgba(255,215,0,.6),
-0 0 80px rgba(255,215,0,.3);
-
+box-shadow:0 0 40px rgba(255,215,0,.6);
 animation:buttonGlow 2s infinite alternate;
-transition:.3s;
 z-index:10;
-}
-
-.reveal-btn:hover{
-transform:translateX(-50%) scale(1.08);
-}
-
-.reveal-btn.hide{
-opacity:0;
-pointer-events:none;
 }
 
 @keyframes buttonGlow{
@@ -379,40 +355,7 @@ right:60px;
 font-family:'Orbitron';
 font-size:22px;
 opacity:.6;
-letter-spacing:2px;
 z-index:10;
-}
-
-
-/* =====================================================
-   STAGE LIGHT EFFECT
-===================================================== */
-
-.stage-lights{
-position:absolute;
-bottom:0;
-left:0;
-width:100%;
-height:300px;
-pointer-events:none;
-z-index:2;
-display:flex;
-justify-content:space-around;
-}
-
-.stage-lights div{
-width:200px;
-height:300px;
-background:linear-gradient(to top, rgba(59,130,246,.5), transparent);
-filter:blur(80px);
-opacity:0;
-transform:translateY(100px);
-transition:1s ease;
-}
-
-.stage-lights.active div{
-opacity:.6;
-transform:translateY(0);
 }
 
 
@@ -431,8 +374,7 @@ z-index:6;
 }
 
 .scroll-arrow{
-width:12px;
-height:12px;
+width:12px;height:12px;
 border-right:2px solid white;
 border-bottom:2px solid white;
 transform:rotate(45deg);
@@ -447,34 +389,41 @@ animation:pulse 1.5s infinite;
 
 
 /* =====================================================
-   MOBILE OPTIMIZATION
+   MOBILE — CLEAN + BIG ARTIST
 ===================================================== */
 
 @media(max-width:768px){
 
 .glass-nav{
-width:92%;
 height:55px;
 padding:0 20px;
-}
-
-.nav-left,.nav-right{
-gap:20px;
-font-size:14px;
+width:94%;
 }
 
 .logo-circle{
-width:70px;
-height:70px;
+width:70px;height:70px;
+}
+
+.hero{
+height:100vh;
+}
+
+.artist{
+bottom:-12vh;
 }
 
 .artist img{
-height:65vh;
-max-width:95vw;
+height:110vh;
+}
+
+.artist-info{
+bottom:90px;
+width:100%;
+padding:0 20px;
 }
 
 .artist-info h2{
-font-size:36px;
+font-size:42px;
 }
 
 .marquee-track{
@@ -485,10 +434,14 @@ letter-spacing:10px;
 .lineup-counter{
 top:90px;
 right:20px;
-font-size:18px;
+font-size:16px;
 }
 
-/* performance */
-.spotlight{display:none}
+.spotlight{display:none;}
+
+.reveal-btn{
+width:80%;
+padding:16px;
+}
 
 }
