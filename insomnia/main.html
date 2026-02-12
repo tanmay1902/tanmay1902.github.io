@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insomnia</title>
+
+<link rel="stylesheet" href="main.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Henny+Penny&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="loader" id="loader">
+
+<img src="logo.png" class="loader-logo">
+
+<div class="loader-text">
+<h1>INSOMNIA 2026</h1>
+<p>WAIT IS OVER</p>
+</div>
+
+</div>
+
+
+<!-- ================= BACKGROUND ================= -->
+<div class="bg"></div>
+
+<!-- ================= NAV ================= -->
+<nav class="glass-nav">
+
+<div class="nav-left">
+<a>Home</a>
+<a>Events</a>
+</div>
+
+<div class="nav-center">
+<div class="logo-circle">
+<img src="logo.png">
+</div>
+</div>
+
+<div class="nav-right">
+<a>Leaderboard</a>
+<a>Contacts</a>
+</div>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+
+<div class="hero-bg">
+<img src="img3.jpg">
+</div>
+
+<div class="hero-marquee">
+<div class="marquee-track">
+INSOMNIA 2026 • INSOMNIA 2026 • INSOMNIA 2026 • INSOMNIA 2026 •
+INSOMNIA 2026 • INSOMNIA 2026 • INSOMNIA 2026 • INSOMNIA 2026 •
+</div>
+</div>
+
+
+<div class="spotlight" id="spotlight"></div>
+
+<!-- artist masked initially -->
+<div class="artist masked">
+<img id="artistImg">
+</div>
+
+<div class="artist-info">
+<h2 id="artistName"></h2>
+<p id="eventDate"></p>
+</div>
+
+<div class="lineup-counter" id="lineupCounter">
+0 / 5
+</div>
+
+<button class="reveal-btn" id="revealBtn">
+REVEAL LINEUP
+</button>
+
+<div class="stage-lights">
+<div></div>
+<div></div>
+<div></div>
+</div>
+
+
+<div class="scroll-indicator">
+<span>SCROLL</span>
+<div class="scroll-arrow"></div>
+</div>
+
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+const loader = document.getElementById("loader");
+const spotlight = document.getElementById("spotlight");
+
+const imgEl = document.getElementById("artistImg");
+const nameEl = document.getElementById("artistName");
+const dateEl = document.getElementById("eventDate");
+const artistBox = document.querySelector(".artist");
+
+const revealBtn = document.getElementById("revealBtn");
+const counterEl = document.getElementById("lineupCounter");
+const stageLights = document.querySelector(".stage-lights");
+
+/* LOADER */
+window.addEventListener("load",()=>{
+setTimeout(()=>{
+loader?.classList.add("hide");
+document.body.classList.add("loaded");
+},3000);
+});
+
+/* SPOTLIGHT */
+if(spotlight){
+document.addEventListener("mousemove", e=>{
+spotlight.style.left=e.clientX+"px";
+spotlight.style.top=e.clientY+"px";
+});
+}
+
+/* ARTIST DATA */
+const artists=[
+{name:"RAHGIR",image:"rahgir.png",date:"22 Feb • 6–7 PM • FEST GROUND"},
+{name:"BAND NEPTUNE",image:"neptune-band.png",date:"22 Feb • 7–9 PM • FEST GROUND"},
+{name:"DJ MAHRAC",image:"dj-mahrac.png",date:"22 Feb • 9–9:30 PM • FEST GROUND"},
+{name:"DJ TUHINA",image:"dj-tuhina.png",date:"22 Feb • 9:30–10 PM • FEST GROUND"},
+{name:"NAMAN JAIN",image:"naman-jain.png",date:"21 Feb • 6–7 PM • LH7"}
+];
+
+let index=-1;
+let locked=false;
+
+/* UPDATE */
+function updateArtist(){
+
+const a=artists[index];
+
+imgEl.src=a.image;
+nameEl.textContent=a.name;
+dateEl.textContent=a.date;
+
+/* lineup counter */
+counterEl.textContent=`${index+1} / ${artists.length}`;
+
+/* stage lights flash */
+stageLights.classList.add("active");
+setTimeout(()=>stageLights.classList.remove("active"),900);
+}
+
+/* BUTTON CLICK */
+function nextArtist(){
+
+if(locked) return;
+locked=true;
+
+/* first click → reveal */
+if(index===-1){
+index=0;
+updateArtist();
+artistBox.classList.remove("masked");
+revealBtn.textContent="NEXT";
+locked=false;
+return;
+}
+
+/* smooth change */
+artistBox.classList.add("slide-out");
+
+setTimeout(()=>{
+index=(index+1)%artists.length;
+updateArtist();
+
+artistBox.classList.remove("slide-out");
+artistBox.classList.add("slide-in");
+
+setTimeout(()=>{
+artistBox.classList.remove("slide-in");
+locked=false;
+},500);
+
+},500);
+}
+
+revealBtn?.addEventListener("click", nextArtist);
+
+});
+</script>
+
+</body>
+</html>
