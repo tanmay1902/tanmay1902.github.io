@@ -1,6 +1,16 @@
-*{margin:0;padding:0;box-sizing:border-box}
+/* ================= RESET ================= */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-/* ===== BODY ===== */
+html,body{
+height:100%;
+}
+
+/* ================= BODY ================= */
+
 body{
 font-family:'Henny Penny',sans-serif;
 background:#000;
@@ -8,7 +18,10 @@ color:white;
 overflow:hidden;
 }
 
-/* ===== CINEMATIC LOADER ===== */
+
+/* =====================================================
+   CINEMATIC LOADER
+===================================================== */
 
 .loader{
 position:fixed;
@@ -31,7 +44,7 @@ pointer-events:none;
 /* logo pulse */
 .loader-logo{
 width:150px;
-animation:logoPulse 2s infinite;
+animation:logoPulse 2s infinite ease-in-out;
 filter:drop-shadow(0 0 40px gold);
 }
 
@@ -40,42 +53,54 @@ filter:drop-shadow(0 0 40px gold);
 50%{transform:scale(1.08)}
 }
 
-/* golden text */
+/* golden title */
 .loader-text h1{
-font-family:'Orbitron';
+font-family:'Orbitron',sans-serif;
 font-size:60px;
 color:#ffd700;
+letter-spacing:6px;
 
 text-shadow:
 0 0 20px #ffd700,
 0 0 60px #ffd700;
 
 opacity:0;
+transform:translateY(20px);
 animation:textReveal 1s ease forwards .5s;
 }
 
 .loader-text p{
 letter-spacing:4px;
-color:#fff;
 opacity:0;
+transform:translateY(20px);
 animation:textReveal 1s ease forwards 1.2s;
 }
 
 @keyframes textReveal{
-to{opacity:1;transform:translateY(0)}
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
 
-/* ===== BACKGROUND ===== */
+/* =====================================================
+   BACKGROUND
+===================================================== */
 
 .bg{
 position:fixed;
 inset:0;
-background:linear-gradient(180deg,#000,#020617);
+background:
+radial-gradient(circle at 50% 20%, #0f172a 0%, transparent 40%),
+linear-gradient(180deg,#000,#020617 70%,#000);
 z-index:-1;
 }
 
-/* ================= NAV ================= */
+
+/* =====================================================
+   GLASS NAV (CENTER LOGO PERFECT)
+===================================================== */
 
 .glass-nav{
 position:fixed;
@@ -84,66 +109,103 @@ left:50%;
 transform:translateX(-50%);
 width:700px;
 height:70px;
+
 display:flex;
 align-items:center;
 justify-content:space-between;
-padding:0 50px;
+padding:0 70px;
+
 border-radius:60px;
 background:rgba(255,255,255,.05);
 backdrop-filter:blur(20px);
 border:1px solid rgba(255,255,255,.12);
+
+box-shadow:0 20px 50px rgba(0,0,0,.6);
 z-index:1000;
 }
 
-.nav-left,.nav-right{
+.nav-left,
+.nav-right{
 display:flex;
 gap:40px;
 }
 
+.nav-left a,
+.nav-right a{
+color:white;
+text-decoration:none;
+opacity:.85;
+transition:.3s;
+}
+
+.nav-left a:hover,
+.nav-right a:hover{
+opacity:1;
+text-shadow:0 0 10px #3b82f6;
+}
+
+/* center floating logo */
 .nav-center{
 position:absolute;
 left:50%;
 transform:translateX(-50%);
 }
 
-.nav-center .logo-circle{
-width:90px;height:90px;
+.logo-circle{
+width:90px;
+height:90px;
 border-radius:50%;
 background:black;
 display:flex;
 align-items:center;
 justify-content:center;
-box-shadow:0 0 40px #3b82f6;
+
+box-shadow:
+0 0 40px #3b82f6,
+0 0 100px rgba(59,130,246,.3);
 }
 
-.nav-center img{width:60%}
+.logo-circle img{width:60%}
 
-.nav-menu a,.nav-left a,.nav-right a{
-color:white;
-text-decoration:none;
-}
 
-/* ================= HERO ================= */
+/* =====================================================
+   HERO
+===================================================== */
 
 .hero{
 position:relative;
-height:101vh;
+height:100vh;
 display:flex;
 align-items:flex-end;
 justify-content:center;
 overflow:hidden;
 }
 
+/* background image */
 .hero-bg{
-position:absolute;inset:0;z-index:1;
-}
-.hero-bg img{
-width:100%;height:100%;object-fit:cover;
-opacity:.3;filter:blur(3px);
+position:absolute;
+inset:0;
+z-index:1;
 }
 
-/* marquee center */
-/* ===== PERFECT SINGLE LINE MARQUEE ===== */
+.hero-bg img{
+width:100%;
+height:100%;
+object-fit:cover;
+opacity:.28;
+filter:blur(4px);
+animation:slowZoom 25s ease infinite alternate;
+}
+
+@keyframes slowZoom{
+from{transform:scale(1)}
+to{transform:scale(1.08)}
+}
+
+
+/* =====================================================
+   PERFECT SINGLE-LINE MARQUEE
+===================================================== */
 
 .hero-marquee{
 position:absolute;
@@ -151,35 +213,38 @@ top:50%;
 left:0;
 width:100%;
 transform:translateY(-50%);
-z-index:2;
 overflow:hidden;
 pointer-events:none;
+z-index:2;
 }
 
-/* track */
 .marquee-track{
 display:inline-block;
-white-space:nowrap; /* prevents line break */
-min-width:200%; /* ensures long enough */
+white-space:nowrap;
+min-width:200%;
 
-font-family:'Orbitron';
-font-size:clamp(80px,14vw,180px);
+font-family:'Orbitron',sans-serif;
+font-size:clamp(80px,12vw,180px);
 letter-spacing:20px;
-opacity:.07;
+opacity:.06;
 
 animation:marqueeMove 25s linear infinite;
 }
 
-/* smooth infinite scroll */
 @keyframes marqueeMove{
-0%{transform:translateX(0)}
-100%{transform:translateX(-50%)}
+from{transform:translateX(0)}
+to{transform:translateX(-50%)}
 }
 
-/* spotlight */
+
+/* =====================================================
+   SPOTLIGHT
+===================================================== */
+
 .spotlight{
 position:absolute;
-width:500px;height:500px;
+width:500px;
+height:500px;
 border-radius:50%;
 background:radial-gradient(circle,rgba(59,130,246,.35),transparent);
 filter:blur(120px);
@@ -187,7 +252,10 @@ pointer-events:none;
 z-index:3;
 }
 
-/* ===== ARTIST ===== */
+
+/* =====================================================
+   ARTIST
+===================================================== */
 
 .artist{
 position:absolute;
@@ -195,43 +263,47 @@ bottom:0;
 left:50%;
 transform:translateX(-50%);
 z-index:4;
-transition:1s ease;
 }
 
-
+/* artist image */
 .artist img{
 height:85vh;
+max-height:850px;
 object-fit:contain;
 
 transition:
-transform .9s cubic-bezier(.22,1,.36,1),
-opacity .7s ease,
-filter .7s ease;
+transform .8s cubic-bezier(.22,1,.36,1),
+opacity .6s ease,
+filter .6s ease;
+
+filter:
+drop-shadow(0 40px 90px rgba(0,0,0,.8))
+drop-shadow(0 0 60px rgba(59,130,246,.25));
 }
 
-/* slide out */
+/* masked before reveal */
+.artist.masked img{
+opacity:0;
+transform:translateY(100px) scale(.92);
+filter:blur(12px);
+}
+
+/* smooth change */
 .artist.slide-out img{
 opacity:0;
-transform:translateY(80px) scale(.92);
-filter:blur(10px);
+transform:translateY(60px) scale(.96);
 }
 
-/* slide in */
 .artist.slide-in img{
 opacity:0;
-transform:translateY(-80px) scale(.92);
-}
-
-/* masked initially */
-.artist.masked{
-opacity:0;
-transform:translateX(-50%) translateY(120px) scale(.95);
-filter:blur(30px);
-transition:1s cubic-bezier(.22,1,.36,1);
+transform:translateY(-60px) scale(.96);
 }
 
 
-/* info */
+/* =====================================================
+   ARTIST INFO
+===================================================== */
+
 .artist-info{
 position:absolute;
 bottom:120px;
@@ -240,37 +312,19 @@ z-index:5;
 }
 
 .artist-info h2{
-font-family:'Orbitron';
+font-family:'Orbitron',sans-serif;
 font-size:70px;
+margin-bottom:10px;
 }
 
-.artist-info p{opacity:.8}
-
-/* scroll indicator */
-.scroll-indicator{
-position:absolute;
-right:30px;
-top:50%;
-transform:translateY(-50%);
-writing-mode:vertical-rl;
-opacity:.6;
+.artist-info p{
+opacity:.8;
 }
 
-.scroll-arrow{
-width:12px;height:12px;
-border-right:2px solid white;
-border-bottom:2px solid white;
-transform:rotate(45deg);
-margin:10px auto;
-animation:pulse 1.5s infinite;
-}
 
-@keyframes pulse{
-0%,100%{transform:rotate(45deg) translateY(0);opacity:.3}
-50%{transform:rotate(45deg) translateY(10px);opacity:1}
-}
-
-/* ===== REVEAL BUTTON ===== */
+/* =====================================================
+   REVEAL BUTTON
+===================================================== */
 
 .reveal-btn{
 position:absolute;
@@ -294,12 +348,13 @@ box-shadow:
 0 0 40px rgba(255,215,0,.6),
 0 0 80px rgba(255,215,0,.3);
 
+animation:buttonGlow 2s infinite alternate;
 transition:.3s;
 z-index:10;
 }
 
 .reveal-btn:hover{
-transform:translateX(-50%) scale(1.1);
+transform:translateX(-50%) scale(1.08);
 }
 
 .reveal-btn.hide{
@@ -307,7 +362,15 @@ opacity:0;
 pointer-events:none;
 }
 
-/* ===== LINEUP COUNTER ===== */
+@keyframes buttonGlow{
+from{box-shadow:0 0 20px gold}
+to{box-shadow:0 0 60px gold}
+}
+
+
+/* =====================================================
+   LINEUP COUNTER
+===================================================== */
 
 .lineup-counter{
 position:absolute;
@@ -316,12 +379,14 @@ right:60px;
 font-family:'Orbitron';
 font-size:22px;
 opacity:.6;
-z-index:10;
 letter-spacing:2px;
+z-index:10;
 }
 
 
-/* ===== STAGE LIGHTS ===== */
+/* =====================================================
+   STAGE LIGHT EFFECT
+===================================================== */
 
 .stage-lights{
 position:absolute;
@@ -345,17 +410,85 @@ transform:translateY(100px);
 transition:1s ease;
 }
 
-/* activate lights */
 .stage-lights.active div{
 opacity:.6;
 transform:translateY(0);
 }
 
-.reveal-btn{
-animation:buttonGlow 2s infinite alternate;
+
+/* =====================================================
+   SCROLL INDICATOR
+===================================================== */
+
+.scroll-indicator{
+position:absolute;
+right:30px;
+top:50%;
+transform:translateY(-50%);
+writing-mode:vertical-rl;
+opacity:.6;
+z-index:6;
 }
 
-@keyframes buttonGlow{
-from{box-shadow:0 0 20px gold}
-to{box-shadow:0 0 60px gold}
+.scroll-arrow{
+width:12px;
+height:12px;
+border-right:2px solid white;
+border-bottom:2px solid white;
+transform:rotate(45deg);
+margin:10px auto;
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%,100%{transform:rotate(45deg) translateY(0);opacity:.3}
+50%{transform:rotate(45deg) translateY(10px);opacity:1}
+}
+
+
+/* =====================================================
+   MOBILE OPTIMIZATION
+===================================================== */
+
+@media(max-width:768px){
+
+.glass-nav{
+width:92%;
+height:55px;
+padding:0 20px;
+}
+
+.nav-left,.nav-right{
+gap:20px;
+font-size:14px;
+}
+
+.logo-circle{
+width:70px;
+height:70px;
+}
+
+.artist img{
+height:65vh;
+max-width:95vw;
+}
+
+.artist-info h2{
+font-size:36px;
+}
+
+.marquee-track{
+font-size:60px;
+letter-spacing:10px;
+}
+
+.lineup-counter{
+top:90px;
+right:20px;
+font-size:18px;
+}
+
+/* performance */
+.spotlight{display:none}
+
 }
