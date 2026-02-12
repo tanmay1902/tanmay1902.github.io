@@ -1,5 +1,5 @@
 /* =====================================================
-   RESET
+RESET
 ===================================================== */
 
 *{
@@ -13,20 +13,25 @@ height:100%;
 }
 
 /* =====================================================
-   BODY — LOCK PAGE (NO SCROLL)
+BODY — LOCK PAGE
 ===================================================== */
 
 body{
 font-family:'Henny Penny',sans-serif;
 background:#000;
 color:white;
-overflow:hidden;
-height:100vh;
+overflow:hidden;   /* lock scroll initially */
 }
 
 
+/* scroll unlocked after lineup finished */
+body.lineup-complete{
+overflow-x:hidden;
+overflow-y:auto;
+}
+
 /* =====================================================
-   CINEMATIC LOADER
+CINEMATIC LOADER
 ===================================================== */
 
 .loader{
@@ -82,7 +87,7 @@ to{opacity:1;transform:translateY(0);}
 
 
 /* =====================================================
-   BACKGROUND
+BACKGROUND
 ===================================================== */
 
 .bg{
@@ -96,75 +101,126 @@ z-index:-1;
 
 
 /* =====================================================
-   GLASS NAV + FLOATING LOGO
+PREMIUM GLASS NAV — DESKTOP
 ===================================================== */
 
 .glass-nav{
 position:fixed;
-top:25px;
+top:18px;
 left:50%;
 transform:translateX(-50%);
-width:min(900px,92%);
-height:70px;
+height:64px;
+padding:0 40px;
 
-display:flex;
+display:grid;
+grid-template-columns:1fr auto 1fr;
 align-items:center;
-justify-content:space-between;
 
-padding:0 90px;
 border-radius:80px;
-
-background:rgba(255,255,255,.05);
+background:rgba(255,255,255,.06);
 backdrop-filter:blur(20px);
 border:1px solid rgba(255,255,255,.12);
-box-shadow:0 10px 40px rgba(0,0,0,.5);
 
 z-index:1000;
 }
 
+/* menus */
 .nav-left,.nav-right{
 display:flex;
-gap:40px;
-align-items:center;
+gap:32px;
 }
+
+.nav-left{justify-content:center;}
+.nav-right{justify-content:center;padding-left: 20px;}
 
 .nav-left a,.nav-right a{
 color:white;
 text-decoration:none;
+font-size:20px;
 opacity:.85;
-transition:.25s;
 }
 
-.nav-left a:hover,.nav-right a:hover{
-opacity:1;
-text-shadow:0 0 12px #3b82f6;
-}
-
-/* floating logo */
-.logo-anim{
-position:fixed;
-top:0;
-left:50%;
-transform:translateX(-50%);
-z-index:1100;
-}
-
+/* logo */
 .logo-circle{
-width:100px;
-height:100px;
+width:78px;
+height:78px;
 border-radius:50%;
 background:black;
 display:flex;
 align-items:center;
 justify-content:center;
 box-shadow:0 0 50px rgba(59,130,246,.6);
+cursor:pointer;
 }
 
 .logo-circle img{width:60%;}
 
 
 /* =====================================================
-   HERO (NO FLEX — ABSOLUTE LAYOUT)
+MOBILE GOD MODE MENU
+===================================================== */
+
+.mobile-menu{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.7);
+backdrop-filter:blur(40px);
+
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:40px;
+
+opacity:0;
+pointer-events:none;
+z-index:999;
+}
+
+.mobile-menu.open{
+opacity:1;
+pointer-events:auto;
+}
+
+.mobile-menu a{
+font-family:'Orbitron';
+font-size:28px;
+letter-spacing:4px;
+color:white;
+text-decoration:none;
+}
+
+
+/* =====================================================
+MOBILE NAV BEHAVIOR
+===================================================== */
+
+@media(max-width:768px){
+
+/* hide desktop links */
+.nav-left,
+.nav-right{
+display:none;
+}
+
+/* center only logo */
+.glass-nav{
+grid-template-columns:auto;
+justify-content:center;
+height:60px;
+}
+
+/* nav size */
+.logo-circle{
+width:70px;
+height:70px;
+}
+
+}
+
+
+/* =====================================================
+HERO LAYOUT
 ===================================================== */
 
 .hero{
@@ -196,7 +252,7 @@ to{transform:scale(1.08)}
 
 
 /* =====================================================
-   SINGLE LINE MARQUEE
+SINGLE LINE MARQUEE
 ===================================================== */
 
 .hero-marquee{
@@ -206,29 +262,28 @@ left:0;
 width:100%;
 transform:translateY(-50%);
 overflow:hidden;
-pointer-events:none;
 z-index:2;
+pointer-events:none;
 }
 
 .marquee-track{
 display:inline-block;
 white-space:nowrap;
-min-width:200%;
-font-family:'Orbitron',sans-serif;
+font-family:'Orbitron';
 font-size:clamp(80px,12vw,180px);
 letter-spacing:20px;
 opacity:.06;
-animation:marqueeMove 25s linear infinite;
+animation:marqueeMove 30s linear infinite;
 }
 
 @keyframes marqueeMove{
-0%{transform:translateX(0)}
-100%{transform:translateX(-50%)}
+from{transform:translateX(0)}
+to{transform:translateX(-50%)}
 }
 
 
 /* =====================================================
-   SPOTLIGHT
+SPOTLIGHT
 ===================================================== */
 
 .spotlight{
@@ -244,25 +299,22 @@ z-index:3;
 
 
 /* =====================================================
-   ARTIST — ALWAYS BOTTOM ANCHORED
+ARTIST — BOTTOM CINEMATIC ANCHOR
 ===================================================== */
 
 .artist{
 position:absolute;
-bottom:-6vh;   /* cinematic cut */
+bottom:-2vh;
 left:50%;
 transform:translateX(-50%);
 z-index:4;
-
 display:flex;
 align-items:flex-end;
 justify-content:center;
-pointer-events:none;
 }
 
 .artist img{
 height:95vh;
-max-height:none;
 width:auto;
 object-fit:contain;
 
@@ -276,48 +328,68 @@ drop-shadow(0 60px 120px rgba(0,0,0,.9))
 drop-shadow(0 0 80px rgba(59,130,246,.25));
 }
 
-/* masked before reveal */
+/* masked */
 .artist.masked img{
 opacity:0;
 transform:translateY(120px) scale(.92);
 filter:blur(20px);
 }
 
-/* smooth change */
+/* netflix transitions */
 .artist.slide-out img{
 opacity:0;
-transform:translateY(80px) scale(.96);
+transform:translateY(80px) scale(.95);
 }
 
 .artist.slide-in img{
 opacity:0;
-transform:translateY(-80px) scale(.96);
+transform:translateY(-80px) scale(.95);
 }
 
-
 /* =====================================================
-   ARTIST INFO
+ARTIST INFO
 ===================================================== */
 
+/* =====================================================
+ARTIST INFO — DESKTOP OFFSET / MOBILE CENTER
+===================================================== */
+
+/* desktop offset right */
 .artist-info{
 position:absolute;
 bottom:120px;
-left:50%;
+left:55%;              /* slight right shift */
 transform:translateX(-50%);
-text-align:center;
+text-align:left;
 z-index:5;
 }
+
+/* mobile center */
+@media(max-width:768px){
+
+.artist-info{
+left:50%;
+text-align:center;
+width:100%;
+padding:0 20px;
+}
+
+}
+
 
 .artist-info h2{
 font-family:'Orbitron';
 font-size:70px;
+margin-bottom:8px;
 }
 
-.artist-info p{opacity:.8}
+.artist-info p{
+opacity:.8;
+}
 
 
 /* =====================================================
-   REVEAL BUTTON
+REVEAL BUTTON
 ===================================================== */
 
 .reveal-btn{
@@ -345,22 +417,22 @@ to{box-shadow:0 0 60px gold}
 
 
 /* =====================================================
-   LINEUP COUNTER
+LINEUP COUNTER
 ===================================================== */
 
 .lineup-counter{
 position:absolute;
-top:120px;
-right:60px;
+top:110px;
+right:40px;
 font-family:'Orbitron';
-font-size:22px;
+font-size:20px;
 opacity:.6;
 z-index:10;
 }
 
 
 /* =====================================================
-   SCROLL INDICATOR
+SCROLL INDICATOR
 ===================================================== */
 
 .scroll-indicator{
@@ -374,7 +446,8 @@ z-index:6;
 }
 
 .scroll-arrow{
-width:12px;height:12px;
+width:12px;
+height:12px;
 border-right:2px solid white;
 border-bottom:2px solid white;
 transform:rotate(45deg);
@@ -389,25 +462,12 @@ animation:pulse 1.5s infinite;
 
 
 /* =====================================================
-   MOBILE — CLEAN + BIG ARTIST
+MOBILE OPTIMIZATION
 ===================================================== */
 
 @media(max-width:768px){
 
-.glass-nav{
-height:55px;
-padding:0 20px;
-width:94%;
-}
-
-.logo-circle{
-width:70px;height:70px;
-}
-
-.hero{
-height:100vh;
-}
-
+/* big cinematic artist */
 .artist{
 bottom:-12vh;
 }
@@ -416,6 +476,7 @@ bottom:-12vh;
 height:110vh;
 }
 
+/* text */
 .artist-info{
 bottom:90px;
 width:100%;
@@ -426,22 +487,210 @@ padding:0 20px;
 font-size:42px;
 }
 
+/* marquee */
 .marquee-track{
 font-size:60px;
 letter-spacing:10px;
 }
 
+/* counter */
 .lineup-counter{
-top:90px;
+top:80px;
 right:20px;
 font-size:16px;
 }
 
-.spotlight{display:none;}
-
+/* button */
 .reveal-btn{
 width:80%;
 padding:16px;
+}
+
+/* performance */
+.spotlight{display:none;}
+
+}
+
+@media(max-width:768px){
+
+.reveal-btn{
+left:50%;
+transform:translateX(-50%);
+text-align:center;
+}
+
+}
+
+
+/* ================= SECTION TITLE ================= */
+
+.section-title{
+font-family:'Orbitron';
+text-align:center;
+font-size:48px;
+margin:120px 0 60px;
+letter-spacing:4px;
+}
+
+/* ================= LINEUP LAYOUT ================= */
+
+.lineup-section{
+padding:0 8vw 100px;
+}
+
+/* desktop layout */
+.lineup-grid{
+display:grid;
+grid-template-columns:1.3fr 1fr;
+gap:40px;
+align-items:center;
+}
+
+/* main artist */
+.lineup-main{
+position:relative;
+border-radius:30px;
+overflow:hidden;
+background:#000;
+}
+
+.lineup-main img{
+width:100%;
+height:600px;
+object-fit:cover;
+}
+
+.lineup-main .lineup-info{
+position:absolute;
+bottom:30px;
+left:30px;
+}
+
+/* right side artists */
+.lineup-side{
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+/* instagram style cards */
+.artist-card{
+display:flex;
+align-items:center;
+gap:20px;
+padding:20px;
+
+border-radius:20px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(10px);
+
+transition:.3s;
+}
+
+.artist-card:hover{
+transform:scale(1.04);
+}
+
+.artist-card img{
+width:90px;
+height:90px;
+object-fit:cover;
+border-radius:16px;
+}
+
+/* location pill */
+.location-pill{
+display:inline-block;
+margin-top:8px;
+padding:6px 16px;
+
+border-radius:999px;
+border:1px solid rgba(255,255,255,.3);
+font-size:12px;
+opacity:.8;
+}
+
+/* ================= SPONSOR SECTION ================= */
+
+.sponsor-section{
+padding:0 0 120px;
+overflow:hidden;
+}
+
+/* slider container */
+.sponsor-slider{
+overflow:hidden;
+}
+
+/* moving track */
+.sponsor-track{
+display:flex;
+gap:80px;
+animation:sponsorScroll 20s linear infinite;
+align-items:center;
+}
+
+.sponsor-track img{
+height:70px;
+opacity:.8;
+filter:grayscale(100%);
+transition:.3s;
+}
+
+.sponsor-track img:hover{
+opacity:1;
+filter:none;
+transform:scale(1.1);
+}
+
+@keyframes sponsorScroll{
+0%{transform:translateX(0)}
+100%{transform:translateX(-50%)}
+}
+
+/* ================= MOBILE LINEUP ================= */
+
+@media(max-width:768px){
+
+.lineup-grid{
+grid-template-columns:1fr;
+}
+
+/* big main */
+.lineup-main img{
+height:420px;
+}
+
+/* others grid */
+.lineup-side{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+
+.artist-card{
+flex-direction:column;
+text-align:center;
+padding:16px;
+}
+
+.artist-card img{
+width:100%;
+height:160px;
+}
+
+.section-title{
+font-size:32px;
+margin:80px 0 40px;
+}
+
+.sponsor-track{
+gap:40px;
+}
+
+.sponsor-track img{
+height:40px;
 }
 
 }
