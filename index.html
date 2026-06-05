@@ -1,363 +1,647 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
-	<title>Tanmay Pandey</title>
-	
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Profolio Bootstrap 5 Template">
-	<meta name="author" content="Xiaoying Riley at 3rd Wave Media">    
-	<link rel="shortcut icon" href="favicon.ico"> 
-	
-	<!-- Google Fonts -->	
-	<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-	
-	<!-- Bootstrpa Icons -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-	
-	<!-- FontAwesome JS -->
-    <script defer src="assets/fontawesome/js/all.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanmay Pandey | Academic Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Premium, high-contrast light academic palette */
+            --bg-base: #f8fafc;          /* Alabaster white paper base background */
+            --bg-surface: #ffffff;       /* Pure white elevated cards and sheets */
+            --bg-surface-hover: #f1f5f9; /* Soft slate white for interactive hover states */
+            --text-primary: #0f172a;     /* Deep charcoal/obsidian for crisp text readability */
+            --text-secondary: #475569;   /* Balanced slate gray for subtext and descriptions */
+            --accent-glow: rgba(37, 99, 235, 0.06); /* Soft royal blue tint for structural highlights */
+            
+            /* The Electric Academic Blue dynamic scale (Adjusted for Light Mode contrast) */
+            --accent-solid: #2563eb;     /* High-visibility royal blue for hyperlinks and structural marks */
+            --accent-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            --border-muted: #e2e8f0;     /* Light clean technical framing dividers */
+            --sidebar-width: 300px;
+        }
 
-	<!-- Theme CSS -->  
-	<link id="theme-style" rel="stylesheet" href="assets/css/risen.css">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-</head> 
+        html {
+            scroll-behavior: smooth;
+        }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
 
+        /* Layout Architecture */
+        .container {
+            display: flex;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Structural Sidebar Navigation */
+        aside {
+            width: var(--sidebar-width);
+            position: fixed;
+            height: calc(100vh - 6rem);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid var(--border-muted);
+            padding-right: 2.5rem;
+        }
+
+        .profile-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-muted);
+            border-radius: 12px;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px -5px rgba(15, 23, 42, 0.05);
+        }
+
+        .profile h1 {
+            font-size: 1.65rem;
+            font-weight: 800;
+            margin-bottom: 0.4rem;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+        }
+
+        .profile .affiliation {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .nav-links {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .nav-links li {
+            margin-bottom: 0.4rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-solid);
+            background: var(--bg-surface);
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+        }
+
+        .social-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+            padding-left: 0.5rem;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            transition: color 0.2s ease, transform 0.2s ease;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-solid);
+            transform: translateY(-2px);
+        }
+
+        .cv-btn {
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid var(--accent-solid);
+            color: var(--accent-solid);
+            background: var(--bg-surface);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: block;
+        }
+
+        .cv-btn:hover {
+            color: var(--bg-surface);
+            background: var(--accent-gradient);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Core Dashboard Layout */
+        main {
+            margin-left: calc(var(--sidebar-width) + 2.5rem);
+            flex: 1;
+            padding-left: 1.5rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 3rem;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, var(--border-muted), transparent);
+        }
+
+        h2 i {
+            color: var(--accent-solid);
+            font-size: 1rem;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: var(--text-secondary);
+            font-size: 1.02rem;
+            text-align: justify;
+        }
+
+        /* Scientific Experience Timeline Layout */
+        .timeline {
+            position: relative;
+            border-left: 2px solid var(--border-muted);
+            padding-left: 1.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .cv-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+
+        .cv-item::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--bg-base);
+            border: 2px solid var(--accent-solid);
+            left: calc(-1.8rem - 6px);
+            top: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .cv-item:hover::before {
+            background: var(--accent-solid);
+            box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
+        }
+
+        .cv-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.3rem;
+        }
+
+        .cv-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .cv-date {
+            color: var(--accent-solid);
+            font-size: 0.85rem;
+            font-weight: 700;
+            background: var(--accent-glow);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .cv-institution {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .cv-project {
+            background: var(--accent-glow);
+            border-left: 3px solid var(--accent-solid);
+            padding: 0.6rem 1rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .cv-details {
+            list-style-type: none;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .cv-details li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.2rem;
+        }
+
+        .cv-details li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent-solid);
+            font-weight: bold;
+        }
+
+        /* Custom Publications Cards */
+        .pub-item {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-muted);
+            border-radius: 10px;
+            padding: 1.4rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 2px 12px rgba(15, 23, 42, 0.02);
+            transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pub-item:hover {
+            border-color: rgba(37, 99, 235, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+        }
+
+        .pub-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1.05rem;
+            margin-bottom: 0.4rem;
+            line-height: 1.4;
+        }
+
+        .pub-author-highlight {
+            color: var(--text-primary);
+            font-weight: 700;
+            border-bottom: 1px dotted var(--accent-solid);
+        }
+
+        .pub-meta {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+        }
+
+        .pub-doi {
+            font-size: 0.82rem;
+            margin-top: 0.6rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .pub-doi a {
+            color: var(--accent-solid);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .pub-doi a:hover {
+            text-decoration: underline;
+        }
+
+        .badge {
+            background: rgba(37, 99, 235, 0.08);
+            color: var(--accent-solid);
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 0.5rem;
+            border: 1px solid rgba(37, 99, 235, 0.15);
+            display: inline-block;
+        }
+
+        /* Expertise Architectural Grid */
+        .grid-expertise {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .exp-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-muted);
+            border-radius: 10px;
+            padding: 1.4rem;
+            box-shadow: 0 2px 12px rgba(15, 23, 42, 0.02);
+            transition: all 0.2s ease;
+        }
+
+        .exp-card:hover {
+            background: var(--bg-surface-hover);
+            border-color: rgba(37, 99, 235, 0.2);
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+        }
+
+        .exp-card h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.6rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .exp-card h3 i {
+            color: var(--accent-solid);
+            font-size: 0.95rem;
+        }
+
+        .exp-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        /* High-fidelity Mobile Adaptability profiles */
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+                padding: 1.5rem;
+            }
+            aside {
+                position: relative;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--border-muted);
+                padding-right: 0;
+                padding-bottom: 2rem;
+                margin-bottom: 3rem;
+            }
+            main {
+                margin-left: 0;
+                padding-left: 0;
+            }
+            .cv-header {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+            .cv-date {
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
 <body>
-	
-	<div class="container-fluid">
-			
-			<div class="main-content-wrapper">
-				<div class="container-fluid">
-					<div class="top-bar text-center position-relative">
-						<div class="top-bar-inner">
-							
-							<ul class="social-list list-inline mx-auto">
-								<li class="list-inline-item me-0 me-md-1 me-lg-2"><a href="https://x.com/tanmay1902"><i class="fa-brands fa-x-twitter fa-fw"></i></a></li>
-								<li class="list-inline-item me-0 me-md-1 me-lg-2"><a href="https://github.com/tanmay1902"><i class="fa-brands fa-github fa-fw"></i></a></li>
-								
-								<li class="list-inline-item me-0 me-md-1 me-lg-2"><a href="https://linkedin.com/in/tanmaybiophys"><i class="fa-brands fa-linkedin-in fa-fw"></i></a></li>
-								
-								<li class="list-inline-item me-0 me-md-1 me-lg-2"><a href="https://scholar.google.com/citations?user=HcrsV8sAAAAJ&hl=en"><i class="fa-brands fa-google-scholar fa-fw"></i></a></li>
-								
-							</ul><!--//social-list-->
-							
-						</div><!--//top-bar-inner-->
-						
-					</div><!--//top-bar-->
-			
-					<div class="resume-wrapper mx-auto rounded-2">
-						<div class="resume-header px-4 px-lg-5">
-							<div class="resume-profile-holder text-center">
-								<img class="resume-profile-pic rounded-circle" src="tanmay.jpg" alt="image">
-								
-								<h2 class="resume-name text-uppercase">Tanmay Pandey </h2>
-								<div class="resume-role-title text-uppercase">4<sup>th</sup> Year BSMS, IISER Mohali</div>
-								<div class="resume-contact mt-4">
-									<ul class="resume-contact-list list-unstyled list-inline mb-0 justify-content-between">
-										<li class="list-inline-item me-md-3 me-lg-5"><i class="resume-contact-icon bi bi-envelope me-2"></i> ms22113@iisermohali.ac.in</li>
-										<li class="list-inline-item me-lg-5"><i class="resume-contact-icon fa-brands fa-orcid me-2"></i>0009-0003-7807-3429</li>
-										
-										<li class="list-inline-item me-lg-5"><i class="resume-contact-icon fa fa-file-pdf me-2"></i><a href="tanmay_cv.pdf" class="btn-primary" style="padding:2px 6px 2px 6px;border-radius:4px">CV</a></li>
-									</ul>
-								</div><!--//resume-contact-->
-							</div><!--//profile-holder-->
-						</div><!--//resume-header-->
-						
-						<div class="resume-body p-4 p-lg-5">
-							<div class="row">
-								<div class="col-main col-12 col-lg-8 pe-lg-4">
-									<section class="resume-summary-section resume-section">
-										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3 py-2 py-lg-3"><i class="resume-section-heading-icon bi bi-person me-2"></i>About Me</h3>
-										<div class="resume-summary-desc">
-											I am Tanmay Pandey, a fourth year Biology majors, studying in Indian Institute of Science Education and Research, Mohali, India. I am interested in Membrane Biophysics, Synthetic Biology, Neuromorphic Computation, Polymer Biophysics, Lipid Membranes, Self-Assembly, Drug Transport, NeuroBioPhysics, Experimental and Computational Biophysics and Cell Signalling Biophysics.
-										</div>
-									</section><!--//resume-section-->
-									
-									<hr>
-									
-									<section class="resume-summary-section resume-section">
-										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3 py-2 py-lg-3">
-											<i class="resume-section-heading-icon bi bi-book me-2"></i>Publications
-										</h3>
 
-										<ol class="list">
-											<li class="mb-2">
-												<div class="resume-skill-name">
-													<b>
-														Directed evolution effectively selects for DNA based physical reservoir computing networks capable of multiple tasks
-													</b>
-													<br>
-													<i>Tanmay Pandey</i>, Petro Feketa, Jan Steinkühler
-													<br>
-													Journal: <i>arXiv (pre-print) [Submitted to journal]</i>
-													<br>
-													<a style="font-size:8px;padding-left:4px;padding-right:4px;padding-top:2px;padding-bottom:2px;" class="btn btn-secondary" href="https://arxiv.org/abs/2509.04000">DOI: 10.48550/arXiv.2509.04000</a>
-												</div>
-											</li>
-											<li class="mb-2">
-												<div class="resume-skill-name">
-													<b>
-														Experimentally Determined Shapes of Plasma Membrane Vesicles, Phosphatidylcholine (PC), and PC-Cholesterol Vesicles: Vesicles Deflation Analysis Using Confocal Microscopy.
-													</b>
-													<br>
-													Harshmeet Kaur, Rajni Kudawla, <i>Tanmay Pandey</i>, Tripta Bhatia
-													<br>
-													Journal: <i>Journal of Physical Chemistry B</i>
-													<br>
-													<a style="font-size:8px;padding-left:4px;padding-right:4px;padding-top:2px;padding-bottom:2px;" class="btn btn-secondary" href="https://pubs.acs.org/doi/10.1021/acs.jpcb.4c07431">DOI: 10.1021/acs.jpcb.4c07431</a>
-												</div>
-											</li>
-											<li class="mb-2">
-												<div class="resume-skill-name">
-													<b>
-														Shape analysis of Biomimetic and Plasma Membrane Vesicles.
-													</b>
-													<br>
-													Rajni Kudawla, Harshmeet Kaur, <i>Tanmay Pandey</i>, Tripta Bhatia
-													<br>
-													Journal: <i>ChemSystemsChem</i>
-													<br>
-													<a style="font-size:8px;padding-left:4px;padding-right:4px;padding-top:2px;padding-bottom:2px;" class="btn btn-secondary" href="https://doi.org/10.1002/syst.202400052">DOI: 10.1002/syst.202400052</a>
-												</div>
-											</li>
-							        	</ol>
+<div class="container">
+    <!-- Left Navigation Sidebar Panel -->
+    <aside>
+        <div class="profile">
+            <div class="profile-card">
+                <h1>Tanmay Pandey</h1>
+                <div class="affiliation">
+                    Final (5<sup>th</sup>) Year <br>
+                    Integrated BS–MS Student<br>
+                    Department of Biological Sciences,<br>
+                    <span style="color: var(--text-primary); font-weight: 600;">IISER Mohali</span>
+                </div>
+            </div>
+            
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#about"><i class="far fa-user fa-fw me-2"></i> Profile</a></li>
+                    <li><a href="#education"><i class="fas fa-graduation-cap fa-fw me-2"></i> Education</a></li>
+                    <li><a href="#experience"><i class="fas fa-microscope fa-fw me-2"></i> Research</a></li>
+                    <li><a href="#publications"><i class="far fa-file-alt fa-fw me-2"></i> Publications</a></li>
+                    <li><a href="#expertise"><i class="fas fa-tools fa-fw me-2"></i> What I know.</a></li>
+                    <li><a href="#roles"><i class="far fa-handshake fa-fw me-2"></i> Other roles</a></li>
+                </ul>
+            </nav>
+        </div>
 
+        <div class="social-container">
+            <div class="social-links">
+                <a href="https://github.com/tanmay1902" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://orcid.org/0009-0003-7807-3429" target="_blank" title="ORCID"><i class="fab fa-orcid"></i></a>
+                <a href="https://scholar.google.com/citations?user=HcrsV8sAAAAJ" target="_blank" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                <a href="mailto:ms22113@iisermohali.ac.in" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+            <a href="tanmay_cv.pdf" class="cv-btn" target="_blank"><i class="fas fa-download me-2"></i>Download CV</a>
+        </div>
+    </aside>
 
-									</section>
-									
-									<hr>
+    <!-- Main Dynamic Content Engine -->
+    <main>
+        <!-- Profile Summary Section -->
+        <section id="about">
+            <h2><i class="far fa-user"></i>Research Profile</h2>
+            <p>I am a final year biology major and physics minor student at IISER Mohali working on membrane mechanics, plasma membrane vesicles, and quantitative image analysis. My research focuses on studying membrane morphology and mechanical properties using microscopy and computational analysis tools. My current work involves quantitative analysis of giant plasma membrane vesicles (GPMVs) using computational tools on microscopy data to uncover the physics behind biological systems.</p>
+        </section>
 
-									<section class="resume-experience-section resume-section">
-										<h3 class="resume-section-heading text-uppercase py-2 py-lg-2 py-3"><i class="resume-section-heading-icon bi bi-briefcase me-2"></i>Experience</h3>
-										<div class="resume-timeline position-relative">
-										    <article class="resume-timeline-item position-relative pb-5">
-											    
-											    <div class="resume-timeline-item-header mb-2">
-												    
-												    <div class="resume-position-meta d-flex justify-content-between mb-1">
-													    <div class="resume-position-time">2024 - Present</div>
-													    <div class="resume-company-name">Remote</div>
-												    </div>
-											        <h3 class="resume-position-title mb-1">
-														Student Assistant,<br> University of Kiel
-														<br> <small><i>Supervisor</i>: Dr. Jan Steinkuelher</small>
-													</h3>
+        <!-- Education Summary Section -->
+        <section id="education">
+            <h2><i class="fas fa-graduation-cap"></i>Education</h2>
+            <div class="timeline" style="border-left-color: transparent; padding-left: 0; margin-left: 0;">
+                <div class="cv-item" style="padding-left: 1.5rem; margin-left: 0.5rem; border-left: 2px solid var(--border-muted);">
+                    <div class="cv-header">
+                        <div class="cv-title">BS–MS Dual Degree <br> <small>Biology Majors and Physics Minor</small></div>
+                        <div class="cv-date">2022 — 2027</div>
+                    </div>
+                    <div class="cv-institution"><i class="far fa-building me-1"></i> Indian Institute of Science Education and Research (IISER) Mohali</div>
+                </div>
+            </div>
+        </section>
 
-											    </div><!--//resume-timeline-item-header-->
-											    <div class="resume-timeline-item-desc">
-												 
-												   <b><i class="bi bi-code-slash me-2"></i>Project:</b>
-												    <div class="resume-timeline-list">
-													    Neuromorphic Computation.
-													</div>
-												    
-											    </div><!--//resume-timeline-item-desc-->
-		
-										    </article><!--//resume-timeline-item-->
-								    
-										    <article class="resume-timeline-item position-relative pb-5">
+        <!-- Research Experience Architecture -->
+        <section id="experience">
+            <h2><i class="fas fa-microscope"></i>Research Experience</h2>
+            <div class="timeline">
 
-											    <div class="resume-timeline-item-header mb-2">
-												    
-												    <div class="resume-position-meta d-flex justify-content-between mb-1">
-													    <div class="resume-position-time">2023 - Present</div>
-													    <div class="resume-company-name">IISER Mohali</div>
-												    </div>
-											        <h3 class="resume-position-title mb-1">Intern,<br> Soft Matter Biophysics Lab
-													<br> <small><i>Supervisor</i>: Dr. Tripta Bhatia</small>
-												</h3>
+                <!-- Joint Appointment Entry -->
+                <div class="cv-item">
+                    <div class="cv-header">
+                        <div class="cv-title">Master's Thesis Project Intern</div>
+                        <div class="cv-date">May 2026 — Present</div>
+                    </div>
+                    <div class="cv-institution"><i class="far fa-building me-1"></i> IISER Mohali & Max Planck Institute of Biophysics, Frankfurt</div>
+                    <div class="cv-project">
+                        <strong>Project:</strong> Micromechanics of Membrane Blebs in Regulated Necrotic Cell Death
+                    </div>
+                    <ul class="cv-details">
+                        <li>Investigating time-dependent biophysical profiles (tension, rigidity, permeability) in giant plasma membrane vesicles (GPMVs) across regulated cell death channels.</li>
+                    </ul>
+                </div>
+                
+                <!-- Institutional Entry -->
+                <div class="cv-item">
+                    <div class="cv-header">
+                        <div class="cv-title">Project Intern — Soft Matter Biophysics Lab</div>
+                        <div class="cv-date">May 2023 — April 2026</div>
+                    </div>
+                    <div class="cv-institution"><i class="far fa-building me-1"></i> IISER Mohali | Supervisor: Dr. Tripta Bhatia</div>
+                    <ul class="cv-details">
+                        <li>Shape Analysis of biomimetic and plasma membrane vesicles.</li>
+                        <li>Algorithm configuration for image analysis from microscopy data to extract relevant physical parameters.</li>
+                    </ul>
+                </div>
 
-											    </div><!--//resume-timeline-item-header-->
-											    <div class="resume-timeline-item-desc">
-												    <b><i class="bi bi-code-slash me-2"></i>Projects:</b>
-												    <div class="resume-timeline-list">
-													    <ul>
-															<li>Shape Analysis of biomimetic and plasma membrane vesicles</li>
-															<li>Algorithm for Confocal Microscopy analysis</li>
-														</ul>
-													</div>
-											    </div><!--//resume-timeline-item-desc-->
-		
-										    </article><!--//resume-timeline-item-->
-										    <!--<article class="resume-timeline-item position-relative">
+                <!-- Remote Entry -->
+                <div class="cv-item">
+                    <div class="cv-header">
+                        <div class="cv-title">Student Assistant — Bio-inspired Computation Lab</div>
+                        <div class="cv-date">March 2024 — December 2025</div>
+                    </div>
+                    <div class="cv-institution"><i class="far fa-building me-1"></i> University of Kiel, Germany (Remote) | Supervisor: Prof. Jan Steinkühler</div>
+                    <ul class="cv-details">
+                        <li>Numerical simulations of DNA-based spring–mass systems as computational reservoirs modeled on Worm-Like Chain networks.</li>
+                        <li>Evaluated structural learning network capacity and optimization constraints across multi-task nonlinear dynamical behavior.</li>
+                    </ul>
+                </div>
 
-											    <div class="resume-timeline-item-header mb-2">
-												    
-												    <div class="resume-position-meta d-flex justify-content-between mb-1">
-													    <div class="resume-position-time">2017 - 2019</div>
-													    <div class="resume-company-name">Coinbase</div>
-												    </div>
-											        <h3 class="resume-position-title mb-1">App Developer</h3>
+            </div>
+        </section>
 
-											    </div>--><!--//resume-timeline-item-header-->
-											    <!--<div class="resume-timeline-item-desc">
-												    <ul class="resume-timeline-list">
-													    
-													    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-													    <li>Nulla velit dui, ultrices sit amet arcu eget, sodales lacinia lorem.</li>
-													    <li>Quisque semper nisi mauris, non ullamcorper nunc consectetur eget. </li>
-													   
-												    </ul>
-												    
-											    </div>--><!--//resume-timeline-item-desc-->
-		
-										    <!--</article>--><!--//resume-timeline-item-->
-							            </div><!--//resume-timeline-->
-									</section><!--//resume-experience-section-->
-								</div><!--//col-8-->
-								<div class="col-12 col-lg-4 ps-lg-4">
-									
-									<!--section class="resume-skills-section resume-section">
-										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3 py-3"><i class="resume-section-heading-icon bi bi-gear me-2"></i>Tech Stack</h3>
-										
-										<ul class="list-unstyled">
-								        <li class="mb-2">
-								            <div class="resume-skill-name">JavaScript</div>
-											<div class="progress resume-progress" role="progressbar" aria-label="Basic example" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100">
-											  <div class="progress-bar resume-progress-bar" style="width: 98%"></div>
-											</div>
-								        </li>
-								        <li class="mb-2">
-								            <div class="resume-skill-name">ReactJS</div>
-								            <div class="progress resume-progress" role="progressbar" aria-label="Basic example" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
-											  <div class="progress-bar resume-progress-bar" style="width: 95%"></div>
-											</div>
-									        
-								        </li>
-								        <li class="mb-2">
-								            <div class="resume-skill-name">Python</div>
-									        <div class="progress resume-progress" role="progressbar" aria-label="Basic example" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">
-											  <div class="progress-bar resume-progress-bar" style="width: 92%"></div>
-											</div>
-								        </li>
-								        <li class="mb-2">
-								            <div class="resume-skill-name">MongoDB</div>
-									        <div class="progress resume-progress" role="progressbar" aria-label="Basic example" aria-valuenow="86" aria-valuemin="0" aria-valuemax="100">
-											  <div class="progress-bar resume-progress-bar" style="width: 86%"></div>
-											</div>
-								        </li>
+        <!-- Publications & Artifacts Catalog -->
+        <section id="publications">
+            <h2><i class="far fa-file-alt"></i>Publications & Research Outputs</h2>
+            
+            <!-- Output 1 -->
+            <div class="pub-item">
+                <div class="pub-title">Directed evolution effectively selects for DNA-based physical reservoir computing networks</div>
+                <div class="pub-meta">
+                    <span class="pub-author-highlight">T. Pandey</span>, P. Feketa, J. Steinkühler. (2026).<br>
+                    <em>Neuromorphic Computing and Engineering</em> (IOP).
+                </div>
+                <div class="pub-doi">
+                    <i class="fas fa-link"></i> DOI: <a href="https://doi.org/10.1088/2634-4386/ae2cc3" target="_blank">10.1088/2634-4386/ae2cc3</a>
+                </div>
+            </div>
 
-							        </ul>
-										
-									</section--><!--//resume-section-->
-									
-									<!--hr-->
-									
-									<section class="resume-skills-section resume-section">
-										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3 py-3"><i class="resume-section-heading-icon bi bi-person-gear me-2"></i>Interests</h3>
-										<ul class="list-inline">
-								            <li class="list-inline-item"><span class="badge resume-skill-badge">Membranes</span></li>
-								            <li class="list-inline-item"><span class="badge resume-skill-badge">Neurobiophyiscs</span></li>
-								            
-								            <li class="list-inline-item"><span class="badge resume-skill-badge">Neuromorphic computation</span></li>
-								            <li class="list-inline-item"><span class="badge resume-skill-badge">Cell Signalling</span></li>
-								            
-								            				           
-							            </ul>
-									</section><!--//resume-section-->
-									
-									<hr>
-									
-									<section class="resume-projects-section resume-section">
-										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3 py-3"><i class="resume-section-heading-icon bi bi-git me-2"></i>Programming Languages</h3>
-										<div class="item">
-											<h4 class="item-heading"><i class="item-icon bi bi-square-fill me-2"></i><a href="#">Python</a></h4>
-											<h4 class="item-heading"><i class="item-icon bi bi-square-fill me-2"></i><a href="#">Matlab</a></h4>
-											<h4 class="item-heading"><i class="item-icon bi bi-square-fill me-2"></i><a href="#">Javascript</a></h4>
-										</div><!--//item-->
-										
-									
-											
-									</section>
-									
-									<hr>
-									
-									<section class="resume-educate-section resume-section">
-										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3 py-3"><i class="resume-section-heading-icon bi bi-book me-2"></i>Education</h3>
-										<ul class="list-unstyled">
-										    <li class="mb-2">
-										        <div class="resume-degree font-weight-bold">BS-MS, <br> Biology majors and Physics minor</div>
-										        <div class="resume-degree-org">Indian Institute of Science Education and Research, Mohali, India</div>
-										        <div class="resume-degree-time">2022 - 2027</div>
-										    </li>
-									    </ul>
-									</section><!--//resume-section-->
-									
-									<hr>
-									
-									<section class="resume-lang-section resume-section">
-										<h3 class="resume-section-heading text-uppercase py-2 py-lg-3 py-3"><i class="resume-section-heading-icon bi bi-translate me-2"></i>Languages</h3>
-										 <ul class="list-unstyled resume-lang-list">
-										    <li class="mb-2">
-										        <div class="resume-lang-name">English</div>
-										        <div class="resume-level-indicator row gx-0 flex-nowrap">
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-half"></span></div>
-											        <div class="col"><span class="item"></span></div>
-										        </div><!--//resume-level-indicator-->
-										    </li>
-										    <li class="mb-2">
-										        <div class="resume-lang-name">Hindi</div>
-										        <div class="resume-level-indicator row gx-0 flex-nowrap">
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-										        </div><!--//resume-level-indicator-->
-										    </li>
-											<li class="mb-2">
-										        <div class="resume-lang-name">Marathi</div>
-										        <div class="resume-level-indicator row gx-0 flex-nowrap">
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-full"></span></div>
-											        <div class="col"><span class="item item-half"></span></div>
-											        <div class="col"><span class="item "></span></div>
-											        <div class="col"><span class="item "></span></div>
-											        <div class="col"><span class="item "></span></div>
-										        </div><!--//resume-level-indicator-->
-										    </li>
-										</ul>
-									</section>
-									
-									
-									
-								</div><!--//col-side-->
-							</div><!--//row-->
-					    </div><!--//resume-body-->
-				    </div><!--//resume-wrapper-->
-				</div><!--//container-fluid-->
-			</div><!--//main-content-wrapper-->
-		
-		
-		</div><!--//row-->
-	
-	</div><!--//container-->
-	
-	<footer class="footer text-center py-4">
-		<!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
-		<small class="copyright">Designed with <span class="sr-only">love</span><i class="bi bi-heart-fill" style="color:#fe655c"></i> by <a class="theme-link" href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a> for developers</small>
-	</footer>
+            <!-- Output 2 (Software Toolkit) -->
+            <div class="pub-item">
+                <div class="pub-title">Vesicle Shape Analysis Toolkit <span class="badge">Open-Source Framework</span></div>
+                <div class="pub-meta">
+                    <span class="pub-author-highlight">T. Pandey</span>, and T. Bhatia. (2025).<br>
+                    Open-source automation pipeline for crisp micro-contour extraction, local curvature calculations, and robust quantitative mechanical parsing of target vesicle architectures (Zenodo + GitHub).
+                </div>
+                <div class="pub-doi">
+                    <i class="fas fa-link"></i> DOI: <a href="https://doi.org/10.5281/zenodo.17104430" target="_blank">10.5281/zenodo.17104430</a>
+                </div>
+            </div>
+
+            <!-- Output 3 -->
+            <div class="pub-item">
+                <div class="pub-title">Experimentally determined shapes of plasma membrane vesicles and PC/PC–cholesterol vesicles</div>
+                <div class="pub-meta">
+                    H. Kaur, R. Kudawla, <span class="pub-author-highlight">T. Pandey</span>, T. Bhatia. (2025).<br>
+                    <em>Journal of Physical Chemistry B</em> (ACS).
+                </div>
+                <div class="pub-doi">
+                    <i class="fas fa-link"></i> DOI: <a href="https://doi.org/10.1021/acs.jpcb.4c07431" target="_blank">10.1021/acs.jpcb.4c07431</a>
+                </div>
+            </div>
+
+            <!-- Output 4 -->
+            <div class="pub-item">
+                <div class="pub-title">Shape analysis of biomimetic and plasma membrane vesicles</div>
+                <div class="pub-meta">
+                    R. Kudawla, H. Kaur, <span class="pub-author-highlight">T. Pandey</span>, T. Bhatia. (2024).<br>
+                    <em>ChemSystemsChem</em> (Wiley).
+                </div>
+                <div class="pub-doi">
+                    <i class="fas fa-link"></i> DOI: <a href="https://doi.org/10.1002/syst.202400052" target="_blank">10.1002/syst.202400052</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Expertise Metrics Grid -->
+        <section id="expertise">
+            <h2><i class="fas fa-tools"></i>What I Know</h2>
+            <div class="grid-expertise">
+                <div class="exp-card">
+                    <h3><i class="fas fa-eye"></i>Microscopy & Wet Lab</h3>
+                    <p>Microscopy; GPMV isolation from cells; HEK293T Cell Culture.</p>
+                </div>
+                <div class="exp-card">
+                    <h3><i class="fas fa-calculator"></i>Image Analysis</h3>
+                    <p>Deep-learning CNN image segmentation setups; geometric cell contour tracking models.</p>
+                </div>
+                <div class="exp-card">
+                    <h3><i class="fas fa-code"></i>Computation</h3>
+                    <p>Python, MATLAB, JavaScript. Designing automated machine learning-assisted pipelines optimized for fast biological image batch processing.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leadership and Governance Roles -->
+        <section id="roles">
+            <h2><i class="far fa-handshake"></i>Administrative Roles</h2>
+            <div class="timeline" style="border-left-color: transparent; padding-left: 0; margin-left: 0;">
+                <div class="cv-item" style="padding-left: 1.5rem; margin-left: 0.5rem; border-left: 2px solid var(--border-muted);">
+                    <div class="cv-header">
+                        <div class="cv-title">General Secretary and Hostel Representative</div>
+                        <div class="cv-date">2025 — 2026</div>
+                    </div>
+                    <div class="cv-institution"><i class="far fa-building me-1"></i> Student Representative Council (SRC), IISER Mohali</div>
+                    <ul class="cv-details">
+                        <li>Represented student community interests directly within the IISER Mohali administration, serving as the General Secretary of the SRC for the 2025–26 tenure.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
 
 </body>
+</html>
