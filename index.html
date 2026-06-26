@@ -3,23 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tanmay Pandey | Academic Portfolio</title>
+    <title>~/ tanmay pandey</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Integration for JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            /* Premium, high-contrast light academic palette */
-            --bg-base: #f8fafc;          /* Alabaster white paper base background */
-            --bg-surface: #ffffff;       /* Pure white elevated cards and sheets */
-            --bg-surface-hover: #f1f5f9; /* Soft slate white for interactive hover states */
-            --text-primary: #0f172a;     /* Deep charcoal/obsidian for crisp text readability */
-            --text-secondary: #475569;   /* Balanced slate gray for subtext and descriptions */
-            --accent-glow: rgba(37, 99, 235, 0.06); /* Soft royal blue tint for structural highlights */
+            /* NotebookLM Premium Amethyst Studio Palette */
+            --bg-base: #090a10;           /* Ultra-dark deep purple space background */
+            --bg-surface: #121424;        /* Notebook source card elevated slate purple */
+            --bg-surface-hover: #191c32;  /* Interactive card focus glow variant */
+            --text-primary: #f1f5f9;      /* Crisp slate ice white readability text */
+            --text-secondary: #94a3b8;    /* Code documentation structural balancing gray */
             
-            /* The Electric Academic Blue dynamic scale (Adjusted for Light Mode contrast) */
-            --accent-solid: #2563eb;     /* High-visibility royal blue for hyperlinks and structural marks */
-            --accent-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            --border-muted: #e2e8f0;     /* Light clean technical framing dividers */
-            --sidebar-width: 300px;
+            /* High-Contrast Interactive Neon Scales */
+            --accent-solid: #b55fe6;      /* Vivid sharp neon purple for prompt & coding markers */
+            --accent-glow: rgba(181, 95, 230, 0.08); /* Ambient source highlighting shade */
+            --accent-gradient: linear-gradient(135deg, #b55fe6 0%, #6366f1 100%);
+            --border-muted: #1e223b;      /* Sharp, thin workspace outline framing elements */
+            --sidebar-width: 320px;
         }
 
         * {
@@ -33,59 +38,87 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
             background-color: var(--bg-base);
             color: var(--text-primary);
-            line-height: 1.7;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Layout Architecture */
-        .container {
-            display: flex;
-            max-width: 1240px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
+        /* JetBrains Code Engine Elements */
+        .code-font, aside h1, .tagline, nav a, h2, .cv-date, .badge, .pub-doi, .exp-card h3 {
+            font-family: 'JetBrains Mono', monospace !important;
         }
 
-        /* Structural Sidebar Navigation */
+        /* Layout Architecture (Multi-Pane Workspace) */
+        .container {
+            display: flex;
+            max-width: 1340px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem;
+            gap: 2.5rem;
+        }
+
+        /* Notebook Sidebar Control Panel */
         aside {
             width: var(--sidebar-width);
             position: fixed;
-            height: calc(100vh - 6rem);
+            height: calc(100vh - 5rem);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            border-right: 1px solid var(--border-muted);
-            padding-right: 2.5rem;
-        }
-
-        .profile-card {
-            background: var(--bg-surface);
             border: 1px solid var(--border-muted);
-            border-radius: 12px;
-            padding: 1.8rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px -5px rgba(15, 23, 42, 0.05);
+            background: #0d0f1a;
+            border-radius: 16px;
+            padding: 2rem;
         }
 
-        .profile h1 {
-            font-size: 1.65rem;
-            font-weight: 800;
-            margin-bottom: 0.4rem;
+        /* Modern Biophysicist & Coding Prompt Header */
+        .profile-card {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        aside h1 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
             letter-spacing: -0.5px;
-            color: var(--text-primary);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+
+        aside h1 span {
+            color: var(--accent-solid);
+        }
+
+        .profile .tagline {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--accent-solid);
+            background: var(--accent-glow);
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(181, 95, 230, 0.2);
+            letter-spacing: -0.2px;
         }
 
         .profile .affiliation {
             color: var(--text-secondary);
-            font-size: 0.88rem;
-            line-height: 1.5;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            border-left: 2px solid var(--border-muted);
+            padding-left: 0.8rem;
         }
 
         .nav-links {
             list-style: none;
-            margin-top: 1rem;
+            margin-top: 2rem;
         }
 
         .nav-links li {
@@ -95,94 +128,101 @@
         .nav-links a {
             text-decoration: none;
             color: var(--text-secondary);
-            font-size: 0.82rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 0.78rem;
+            font-weight: 500;
             display: flex;
             align-items: center;
-            padding: 0.5rem 0.75rem;
-            border-radius: 6px;
-            transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            padding: 0.6rem 0.75rem;
+            border-radius: 8px;
+            transition: all 0.15s ease-in-out;
+        }
+
+        .nav-links a i {
+            margin-right: 0.75rem;
+            font-size: 0.9rem;
+            color: rgba(148, 163, 184, 0.7);
         }
 
         .nav-links a:hover {
-            color: var(--accent-solid);
+            color: #ffffff;
             background: var(--bg-surface);
-            transform: translateX(4px);
-            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+        }
+
+        .nav-links a:hover i {
+            color: var(--accent-solid);
         }
 
         .social-container {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.2rem;
+            margin-top: auto;
         }
 
         .social-links {
             display: flex;
             gap: 1.2rem;
             align-items: center;
-            padding-left: 0.5rem;
+            padding-left: 0.25rem;
         }
 
         .social-links a {
             color: var(--text-secondary);
-            font-size: 1.3rem;
-            transition: color 0.2s ease, transform 0.2s ease;
+            font-size: 1.15rem;
+            transition: color 0.15s ease;
             text-decoration: none;
         }
 
         .social-links a:hover {
             color: var(--accent-solid);
-            transform: translateY(-2px);
         }
 
         .cv-btn {
-            font-size: 0.8rem;
-            font-weight: 700;
-            border: 1px solid var(--accent-solid);
-            color: var(--accent-solid);
-            background: var(--bg-surface);
-            padding: 0.6rem 1.2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid var(--border-muted);
+            color: #ffffff;
+            background: var(--bg-base);
+            padding: 0.7rem 1rem;
             border-radius: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
             text-align: center;
             text-decoration: none;
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
             display: block;
         }
 
         .cv-btn:hover {
-            color: var(--bg-surface);
-            background: var(--accent-gradient);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-            transform: translateY(-1px);
+            background: var(--bg-surface);
+            border-color: var(--accent-solid);
+            box-shadow: 0 0 12px rgba(181, 95, 230, 0.15);
         }
 
-        /* Core Dashboard Layout */
+        /* Main Source Canvas Engine */
         main {
             margin-left: calc(var(--sidebar-width) + 2.5rem);
             flex: 1;
-            padding-left: 1.5rem;
         }
 
         section {
             margin-bottom: 4rem;
-            scroll-margin-top: 3rem;
+            scroll-margin-top: 2.5rem;
         }
 
         h2 {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            margin-bottom: 2rem;
-            padding-bottom: 0.5rem;
-            color: var(--text-primary);
+            margin-bottom: 1.8rem;
+            color: #ffffff;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.6rem;
+        }
+
+        h2 i {
+            color: var(--accent-solid);
+            font-size: 0.9rem;
         }
 
         h2::after {
@@ -192,208 +232,214 @@
             background: linear-gradient(to right, var(--border-muted), transparent);
         }
 
-        h2 i {
-            color: var(--accent-solid);
-            font-size: 1rem;
-        }
-
         p {
             margin-bottom: 1.2rem;
             color: var(--text-secondary);
-            font-size: 1.02rem;
+            font-size: 0.98rem;
             text-align: justify;
         }
 
-        /* Scientific Experience Timeline Layout */
+        /* Notebook Source Card Layout (Timeline Overhaul) */
         .timeline {
-            position: relative;
-            border-left: 2px solid var(--border-muted);
-            padding-left: 1.8rem;
-            margin-left: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
         }
 
         .cv-item {
-            position: relative;
-            margin-bottom: 2.5rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-muted);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
         }
 
-        .cv-item::before {
-            content: '';
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--bg-base);
-            border: 2px solid var(--accent-solid);
-            left: calc(-1.8rem - 6px);
-            top: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .cv-item:hover::before {
-            background: var(--accent-solid);
-            box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
+        .cv-item:hover {
+            border-color: rgba(181, 95, 230, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         }
 
         .cv-header {
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 0.3rem;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            gap: 1rem;
         }
 
         .cv-title {
             font-weight: 700;
             font-size: 1.1rem;
-            color: var(--text-primary);
+            color: #ffffff;
+        }
+
+        .cv-title small {
+            color: var(--text-secondary);
+            font-weight: 400;
+            display: block;
+            margin-top: 0.15rem;
+            font-size: 0.88rem;
         }
 
         .cv-date {
             color: var(--accent-solid);
-            font-size: 0.85rem;
-            font-weight: 700;
+            font-size: 0.72rem;
+            font-weight: 600;
             background: var(--accent-glow);
+            border: 1px solid rgba(181, 95, 230, 0.15);
             padding: 0.15rem 0.5rem;
             border-radius: 4px;
-            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
         }
 
         .cv-institution {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
+            color: #ffffff;
+            font-size: 0.9rem;
             font-weight: 500;
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.8rem;
             display: flex;
             align-items: center;
             gap: 0.4rem;
         }
 
+        .cv-institution i {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
         .cv-project {
-            background: var(--accent-glow);
-            border-left: 3px solid var(--accent-solid);
-            padding: 0.6rem 1rem;
-            border-radius: 0 8px 8px 0;
+            background: #090a10;
+            border: 1px solid var(--border-muted);
+            padding: 0.7rem 1rem;
+            border-radius: 6px;
             margin-bottom: 0.8rem;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-primary);
         }
 
         .cv-details {
             list-style-type: none;
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            font-size: 0.92rem;
         }
 
         .cv-details li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             position: relative;
             padding-left: 1.2rem;
         }
 
         .cv-details li::before {
-            content: "→";
+            content: "::";
             position: absolute;
             left: 0;
             color: var(--accent-solid);
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 0.85rem;
         }
 
-        /* Custom Publications Cards */
+        /* Document Node Outputs (Publications) */
         .pub-item {
             background: var(--bg-surface);
             border: 1px solid var(--border-muted);
-            border-radius: 10px;
-            padding: 1.4rem;
+            border-radius: 12px;
+            padding: 1.5rem;
             margin-bottom: 1.2rem;
-            box-shadow: 0 2px 12px rgba(15, 23, 42, 0.02);
-            transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            transition: border-color 0.15s ease;
         }
 
         .pub-item:hover {
-            border-color: rgba(37, 99, 235, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+            border-color: rgba(181, 95, 230, 0.3);
         }
 
         .pub-title {
             font-weight: 700;
-            color: var(--text-primary);
+            color: #ffffff;
             font-size: 1.05rem;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.5rem;
             line-height: 1.4;
         }
 
         .pub-author-highlight {
-            color: var(--text-primary);
-            font-weight: 700;
-            border-bottom: 1px dotted var(--accent-solid);
+            color: #ffffff;
+            font-weight: 600;
+            border-bottom: 1px dashed var(--accent-solid);
         }
 
         .pub-meta {
             color: var(--text-secondary);
-            font-size: 0.92rem;
+            font-size: 0.9rem;
+        }
+
+        .pub-meta em {
+            color: var(--accent-solid);
+            font-style: normal;
         }
 
         .pub-doi {
-            font-size: 0.82rem;
-            margin-top: 0.6rem;
+            font-size: 0.72rem;
+            margin-top: 0.8rem;
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
+            background: #090a10;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-muted);
         }
 
         .pub-doi a {
-            color: var(--accent-solid);
+            color: var(--text-secondary);
             text-decoration: none;
-            font-weight: 600;
+            transition: color 0.15s ease;
         }
 
         .pub-doi a:hover {
-            text-decoration: underline;
+            color: #ffffff;
         }
 
         .badge {
-            background: rgba(37, 99, 235, 0.08);
+            background: transparent;
             color: var(--accent-solid);
-            padding: 0.2rem 0.5rem;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            font-weight: 700;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-left: 0.5rem;
-            border: 1px solid rgba(37, 99, 235, 0.15);
+            border: 1px solid var(--accent-solid);
             display: inline-block;
+            vertical-align: middle;
         }
 
-        /* Expertise Architectural Grid */
+        /* Multi-Grid Grid Capabilities */
         .grid-expertise {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 1.2rem;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
         }
 
         .exp-card {
-            background: var(--bg-surface);
+            background: #0d0f1a;
             border: 1px solid var(--border-muted);
             border-radius: 10px;
-            padding: 1.4rem;
-            box-shadow: 0 2px 12px rgba(15, 23, 42, 0.02);
-            transition: all 0.2s ease;
+            padding: 1.25rem;
+            transition: all 0.15s ease;
         }
 
         .exp-card:hover {
-            background: var(--bg-surface-hover);
-            border-color: rgba(37, 99, 235, 0.2);
-            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+            border-color: var(--accent-solid);
+            background: var(--bg-surface);
         }
 
         .exp-card h3 {
-            font-size: 0.9rem;
+            font-size: 0.78rem;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 0.6rem;
-            color: var(--text-primary);
+            color: #ffffff;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -401,40 +447,35 @@
 
         .exp-card h3 i {
             color: var(--accent-solid);
-            font-size: 0.95rem;
+            font-size: 0.85rem;
         }
 
         .exp-card p {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: var(--text-secondary);
             margin-bottom: 0;
             text-align: left;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
-        /* High-fidelity Mobile Adaptability profiles */
+        /* Notebook Interface Mobile Alignment */
         @media (max-width: 968px) {
             .container {
                 flex-direction: column;
-                padding: 1.5rem;
+                padding: 1rem;
             }
             aside {
                 position: relative;
                 width: 100%;
                 height: auto;
-                border-right: none;
-                border-bottom: 1px solid var(--border-muted);
-                padding-right: 0;
-                padding-bottom: 2rem;
-                margin-bottom: 3rem;
+                padding: 1.5rem;
             }
             main {
                 margin-left: 0;
-                padding-left: 0;
             }
             .cv-header {
                 flex-direction: column;
-                gap: 0.3rem;
+                gap: 0.4rem;
             }
             .cv-date {
                 align-self: flex-start;
@@ -445,27 +486,28 @@
 <body>
 
 <div class="container">
-    <!-- Left Navigation Sidebar Panel -->
+    <!-- Notebook Control Sidebar -->
     <aside>
         <div class="profile">
             <div class="profile-card">
-                <h1>Tanmay Pandey</h1>
+                <h1>~/ tanmay pandey</h1>
+                <div class="tagline"><i class="fas fa-terminal" style="font-size: 0.7rem; margin-right: 0.4rem;"></i>IISER Mohali</div>
                 <div class="affiliation">
-                    Final (5<sup>th</sup>) Year <br>
-                    Integrated BS–MS Student<br>
+                    Final (5<sup>th</sup>) Year<br>
+                    Integrated BS–MS Scholar<br>
                     Department of Biological Sciences,<br>
-                    <span style="color: var(--text-primary); font-weight: 600;">IISER Mohali</span>
+                    <!--span style="color: #ffffff; font-weight: 600;">IISER Mohali</span-->
                 </div>
             </div>
             
             <nav>
                 <ul class="nav-links">
-                    <li><a href="#about"><i class="far fa-user fa-fw me-2"></i> Profile</a></li>
-                    <li><a href="#education"><i class="fas fa-graduation-cap fa-fw me-2"></i> Education</a></li>
-                    <li><a href="#experience"><i class="fas fa-microscope fa-fw me-2"></i> Research</a></li>
-                    <li><a href="#publications"><i class="far fa-file-alt fa-fw me-2"></i> Publications</a></li>
-                    <li><a href="#expertise"><i class="fas fa-tools fa-fw me-2"></i> What I know.</a></li>
-                    <li><a href="#roles"><i class="far fa-handshake fa-fw me-2"></i> Other roles</a></li>
+                    <li><a href="#about"><i class="far fa-file-alt fa-fw"></i> Profile</a></li>
+                    <li><a href="#education"><i class="fas fa-graduation-cap fa-fw"></i> Education</a></li>
+                    <li><a href="#experience"><i class="fas fa-code-branch fa-fw"></i> Research</a></li>
+                    <li><a href="#publications"><i class="fas fa-book fa-fw"></i> Publications</a></li>
+                    <li><a href="#expertise"><i class="fas fa-cube fa-fw"></i> Tech Stack</a></li>
+                    <li><a href="#roles"><i class="fas fa-shield-alt fa-fw"></i> Community</a></li>
                 </ul>
             </nav>
         </div>
@@ -477,35 +519,38 @@
                 <a href="https://scholar.google.com/citations?user=HcrsV8sAAAAJ" target="_blank" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
                 <a href="mailto:ms22113@iisermohali.ac.in" title="Email"><i class="fas fa-envelope"></i></a>
             </div>
-            <a href="tanmay_cv.pdf" class="cv-btn" target="_blank"><i class="fas fa-download me-2"></i>Download CV</a>
+            <a href="tanmay_cv.pdf" class="cv-btn" target="_blank">CV (PDF)</a>
         </div>
     </aside>
 
-    <!-- Main Dynamic Content Engine -->
+    <!-- Source Node Content Canvas -->
     <main>
         <!-- Profile Summary Section -->
         <section id="about">
-            <h2><i class="far fa-user"></i>Research Profile</h2>
-            <p>I am a final year biology major and physics minor student at IISER Mohali working on membrane mechanics, plasma membrane vesicles, and quantitative image analysis. My research focuses on studying membrane morphology and mechanical properties using microscopy and computational analysis tools. My current work involves quantitative analysis of giant plasma membrane vesicles (GPMVs) using computational tools on microscopy data to uncover the physics behind biological systems.</p>
+            <h2><i class="fas fa-terminal"></i>01 // Profile Summary</h2>
+            <p>I am a biophysics student at IISER Mohali working on membrane mechanics, plasma membrane
+vesicles, and quantitative image analysis. My research focuses on studying membrane morphology and mechanical properties using fluorescence microscopy and computational analysis tools.
+My current work involves quantitative analysis of giant plasma membrane vesicles (GPMVs)
+and biomimetic membrane systems</p>
         </section>
 
         <!-- Education Summary Section -->
         <section id="education">
-            <h2><i class="fas fa-graduation-cap"></i>Education</h2>
-            <div class="timeline" style="border-left-color: transparent; padding-left: 0; margin-left: 0;">
-                <div class="cv-item" style="padding-left: 1.5rem; margin-left: 0.5rem; border-left: 2px solid var(--border-muted);">
+            <h2><i class="fas fa-terminal"></i>02 // Education </h2>
+            <div class="timeline">
+                <div class="cv-item">
                     <div class="cv-header">
-                        <div class="cv-title">BS–MS Dual Degree <br> <small>Biology Majors and Physics Minor</small></div>
+                        <div class="cv-title">BS–MS Dual Degree<small>Biology Major & Physics Minor</small></div>
                         <div class="cv-date">2022 — 2027</div>
                     </div>
-                    <div class="cv-institution"><i class="far fa-building me-1"></i> Indian Institute of Science Education and Research (IISER) Mohali</div>
+                    <div class="cv-institution"><i class="far fa-building"></i> Indian Institute of Science Education and Research (IISER) Mohali</div>
                 </div>
             </div>
         </section>
 
         <!-- Research Experience Architecture -->
         <section id="experience">
-            <h2><i class="fas fa-microscope"></i>Research Experience</h2>
+            <h2><i class="fas fa-terminal"></i>03 // Research</h2>
             <div class="timeline">
 
                 <!-- Joint Appointment Entry -->
@@ -514,7 +559,7 @@
                         <div class="cv-title">Master's Thesis Project Intern</div>
                         <div class="cv-date">May 2026 — Present</div>
                     </div>
-                    <div class="cv-institution"><i class="far fa-building me-1"></i> IISER Mohali & Max Planck Institute of Biophysics, Frankfurt</div>
+                    <div class="cv-institution"><i class="far fa-building"></i> IISER Mohali & Max Planck Institute of Biophysics, Frankfurt</div>
                     <div class="cv-project">
                         <strong>Project:</strong> Micromechanics of Membrane Blebs in Regulated Necrotic Cell Death
                     </div>
@@ -529,10 +574,10 @@
                         <div class="cv-title">Project Intern — Soft Matter Biophysics Lab</div>
                         <div class="cv-date">May 2023 — April 2026</div>
                     </div>
-                    <div class="cv-institution"><i class="far fa-building me-1"></i> IISER Mohali | Supervisor: Dr. Tripta Bhatia</div>
+                    <div class="cv-institution"><i class="far fa-building"></i> IISER Mohali | Supervisor: Dr. Tripta Bhatia</div>
                     <ul class="cv-details">
-                        <li>Shape Analysis of biomimetic and plasma membrane vesicles.</li>
-                        <li>Algorithm configuration for image analysis from microscopy data to extract relevant physical parameters.</li>
+                        <li>Engineered micro-contour tracking protocols for biomimetic and plasma membrane vesicles.</li>
+                        <li>Configured automated algorithm suites for geometric parameter parsing from brightfield and fluorescence microscopy datasets to isolate baseline membrane deviations.</li>
                     </ul>
                 </div>
 
@@ -542,19 +587,19 @@
                         <div class="cv-title">Student Assistant — Bio-inspired Computation Lab</div>
                         <div class="cv-date">March 2024 — December 2025</div>
                     </div>
-                    <div class="cv-institution"><i class="far fa-building me-1"></i> University of Kiel, Germany (Remote) | Supervisor: Prof. Jan Steinkühler</div>
+                    <div class="cv-institution"><i class="far fa-building"></i> University of Kiel, Germany (Remote) | Supervisor: Prof. Jan Steinkühler</div>
                     <ul class="cv-details">
-                        <li>Numerical simulations of DNA-based spring–mass systems as computational reservoirs modeled on Worm-Like Chain networks.</li>
-                        <li>Evaluated structural learning network capacity and optimization constraints across multi-task nonlinear dynamical behavior.</li>
+                        <li>Executed numerical simulations of DNA-based spring–mass systems modeled on structural multi-layered Worm-Like Chain networks.</li>
+                        <li>Evaluated processing constraints of physical learning arrays across nonlinear dynamical multi-task behaviors.</li>
                     </ul>
                 </div>
 
             </div>
         </section>
 
-        <!-- Publications & Artifacts Catalog -->
+        <!-- Publications Catalog -->
         <section id="publications">
-            <h2><i class="far fa-file-alt"></i>Publications & Research Outputs</h2>
+            <h2><i class="fas fa-terminal"></i>04 // Publications</h2>
             
             <!-- Output 1 -->
             <div class="pub-item">
@@ -564,19 +609,19 @@
                     <em>Neuromorphic Computing and Engineering</em> (IOP).
                 </div>
                 <div class="pub-doi">
-                    <i class="fas fa-link"></i> DOI: <a href="https://doi.org/10.1088/2634-4386/ae2cc3" target="_blank">10.1088/2634-4386/ae2cc3</a>
+                    <i class="fas fa-link"></i> doi // <a href="https://doi.org/10.1088/2634-4386/ae2cc3" target="_blank">10.1088/2634-4386/ae2cc3</a>
                 </div>
             </div>
 
             <!-- Output 2 (Software Toolkit) -->
             <div class="pub-item">
-                <div class="pub-title">Vesicle Shape Analysis Toolkit <span class="badge">Open-Source Framework</span></div>
+                <div class="pub-title">Vesicle Shape Analysis Toolkit <span class="badge">Open-Source</span></div>
                 <div class="pub-meta">
                     <span class="pub-author-highlight">T. Pandey</span>, and T. Bhatia. (2025).<br>
                     Open-source automation pipeline for crisp micro-contour extraction, local curvature calculations, and robust quantitative mechanical parsing of target vesicle architectures (Zenodo + GitHub).
                 </div>
                 <div class="pub-doi">
-                    <i class="fas fa-link"></i> DOI: <a href="https://doi.org/10.5281/zenodo.17104430" target="_blank">10.5281/zenodo.17104430</a>
+                    <i class="fas fa-link"></i> doi // <a href="https://doi.org/10.5281/zenodo.17104430" target="_blank">10.5281/zenodo.17104430</a>
                 </div>
             </div>
 
@@ -588,7 +633,7 @@
                     <em>Journal of Physical Chemistry B</em> (ACS).
                 </div>
                 <div class="pub-doi">
-                    <i class="fas fa-link"></i> DOI: <a href="https://doi.org/10.1021/acs.jpcb.4c07431" target="_blank">10.1021/acs.jpcb.4c07431</a>
+                    <i class="fas fa-link"></i> doi // <a href="https://doi.org/10.1021/acs.jpcb.4c07431" target="_blank">10.1021/acs.jpcb.4c07431</a>
                 </div>
             </div>
 
@@ -600,42 +645,42 @@
                     <em>ChemSystemsChem</em> (Wiley).
                 </div>
                 <div class="pub-doi">
-                    <i class="fas fa-link"></i> DOI: <a href="https://doi.org/10.1002/syst.202400052" target="_blank">10.1002/syst.202400052</a>
+                    <i class="fas fa-link"></i> doi // <a href="https://doi.org/10.1002/syst.202400052" target="_blank">10.1002/syst.202400052</a>
                 </div>
             </div>
         </section>
 
         <!-- Technical Expertise Metrics Grid -->
         <section id="expertise">
-            <h2><i class="fas fa-tools"></i>What I Know</h2>
+            <h2><i class="fas fa-terminal"></i>05 // What I know</h2>
             <div class="grid-expertise">
                 <div class="exp-card">
-                    <h3><i class="fas fa-eye"></i>Microscopy & Wet Lab</h3>
-                    <p>Microscopy; GPMV isolation from cells; HEK293T Cell Culture.</p>
+                    <h3><i class="fas fa-eye"></i>Microscopy & Optics</h3>
+                    <p>Advanced optical microscopy alignment; manual GPMV isolation from cell frameworks; mammalian line management (HEK293T).</p>
                 </div>
                 <div class="exp-card">
-                    <h3><i class="fas fa-calculator"></i>Image Analysis</h3>
-                    <p>Deep-learning CNN image segmentation setups; geometric cell contour tracking models.</p>
+                    <h3><i class="fas fa-calculator"></i>Image Segmentation</h3>
+                    <p>Deep-learning CNN image processing setups; automated geometric boundary parsing; custom manual validation UI tools.</p>
                 </div>
                 <div class="exp-card">
-                    <h3><i class="fas fa-code"></i>Computation</h3>
-                    <p>Python, MATLAB, JavaScript. Designing automated machine learning-assisted pipelines optimized for fast biological image batch processing.</p>
+                    <h3><i class="fas fa-code"></i>Scientific Compute</h3>
+                    <p>Python (Numerical/Data stack), MATLAB, JavaScript. Programmatic structural pipeline engineering optimized for rapid image batch validation.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Leadership and Governance Roles -->
+        <!-- Leadership Roles -->
         <section id="roles">
-            <h2><i class="far fa-handshake"></i>Administrative Roles</h2>
-            <div class="timeline" style="border-left-color: transparent; padding-left: 0; margin-left: 0;">
-                <div class="cv-item" style="padding-left: 1.5rem; margin-left: 0.5rem; border-left: 2px solid var(--border-muted);">
+            <h2><i class="fas fa-terminal"></i>06 // Community</h2>
+            <div class="timeline">
+                <div class="cv-item">
                     <div class="cv-header">
                         <div class="cv-title">General Secretary and Hostel Representative</div>
                         <div class="cv-date">2025 — 2026</div>
                     </div>
-                    <div class="cv-institution"><i class="far fa-building me-1"></i> Student Representative Council (SRC), IISER Mohali</div>
+                    <div class="cv-institution"><i class="far fa-building"></i> Student Representative Council (SRC), IISER Mohali</div>
                     <ul class="cv-details">
-                        <li>Represented student community interests directly within the IISER Mohali administration, serving as the General Secretary of the SRC for the 2025–26 tenure.</li>
+                        <li>Directly coordinated student community organizational objectives within the institutional administrative structure during the 2025–26 execution window.</li>
                     </ul>
                 </div>
             </div>
