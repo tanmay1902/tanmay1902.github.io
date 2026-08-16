@@ -1,511 +1,462 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>~/ tanmay pandey</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Integration for JetBrains Mono -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            /* NotebookLM Premium Amethyst Studio Palette */
-            --bg-base: #090a10;           /* Ultra-dark deep purple space background */
-            --bg-surface: #121424;        /* Notebook source card elevated slate purple */
-            --bg-surface-hover: #191c32;  /* Interactive card focus glow variant */
-            --text-primary: #f1f5f9;      /* Crisp slate ice white readability text */
-            --text-secondary: #94a3b8;    /* Code documentation structural balancing gray */
-            
-            /* High-Contrast Interactive Neon Scales */
-            --accent-solid: #b55fe6;      /* Vivid sharp neon purple for prompt & coding markers */
-            --accent-glow: rgba(181, 95, 230, 0.08); /* Ambient source highlighting shade */
-            --accent-gradient: linear-gradient(135deg, #b55fe6 0%, #6366f1 100%);
-            --border-muted: #1e223b;      /* Sharp, thin workspace outline framing elements */
-            --sidebar-width: 320px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>~/ tanmay pandey — biophysics</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,600;0,800;1,500&display=swap" rel="stylesheet">
+<style>
+    :root{
+        /* ===== Vesicle-Lab Neubrutalism token system ===== */
+        --lime:#D8FF3E;         /* field bg — matches culture-dish acid green */
+        --lime-dark:#c3ea23;
+        --cream:#FFFBEF;        /* card surface, warm coverslip white */
+        --ink:#131209;          /* near-black ink for borders/text */
+        --pink:#FF6FA0;         /* membrane accent */
+        --blue:#5A78FF;         /* microscopy-blue accent */
+        --violet:#9B7BFF;       /* vesicle-violet accent */
+        --yellow:#FFDA3D;       /* highlight marker */
+        --border:3px solid var(--ink);
+        --borderThick:4px solid var(--ink);
+        --shadow:7px 7px 0 var(--ink);
+        --shadowSm:4px 4px 0 var(--ink);
+        --shadowHover:10px 10px 0 var(--ink);
+        --radius:20px;
+        --radiusSm:12px;
+        --sidebar-width:340px;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
 
-        html {
-            scroll-behavior: smooth;
-        }
+    @media (prefers-reduced-motion: reduce){
+        *{animation:none !important; transition:none !important;}
+    }
 
-        body {
-            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-            background-color: var(--bg-base);
-            color: var(--text-primary);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
+    body{
+        font-family:'Space Grotesk', -apple-system, sans-serif;
+        background:var(--lime);
+        color:var(--ink);
+        line-height:1.6;
+        -webkit-font-smoothing:antialiased;
+        background-image:
+            radial-gradient(rgba(19,18,9,.07) 1.4px, transparent 1.4px);
+        background-size:22px 22px;
+        overflow-x:hidden;
+    }
 
-        /* JetBrains Code Engine Elements */
-        .code-font, aside h1, .tagline, nav a, h2, .cv-date, .badge, .pub-doi, .exp-card h3 {
-            font-family: 'JetBrains Mono', monospace !important;
-        }
+    a{color:inherit;}
+    :focus-visible{outline:3px dashed var(--ink); outline-offset:3px;}
 
-        /* Layout Architecture (Multi-Pane Workspace) */
-        .container {
-            display: flex;
-            max-width: 1340px;
-            margin: 0 auto;
-            padding: 2.5rem 2rem;
-            gap: 2.5rem;
-        }
+    .display{font-family:'Unbounded', sans-serif;}
+    .mono, aside .tagline, .cv-date, .badge, .pub-doi, .stat-num, nav a{
+        font-family:'JetBrains Mono', monospace;
+    }
 
-        /* Notebook Sidebar Control Panel */
-        aside {
-            width: var(--sidebar-width);
-            position: fixed;
-            height: calc(100vh - 5rem);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border: 1px solid var(--border-muted);
-            background: #0d0f1a;
-            border-radius: 16px;
-            padding: 2rem;
-        }
+    .highlight{
+        background:var(--yellow);
+        padding:0 .3em;
+        border:2px solid var(--ink);
+        border-radius:4px;
+        white-space:nowrap;
+        display:inline-block;
+        transform:rotate(-1.2deg);
+    }
 
-        /* Modern Biophysicist & Coding Prompt Header */
-        .profile-card {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
+    /* ---------- decorative doodles (vesicle/lab themed, not generic) ---------- */
+    .doodle{position:absolute; pointer-events:none; z-index:0; opacity:.9;}
+    .d-blob1{top:2%; left:2%; width:70px;}
+    .d-blob2{top:34%; right:1%; width:60px;}
+    .d-plus{top:60%; left:0.5%; width:34px;}
+    .d-spark{top:14%; right:4%; width:38px;}
+    .d-blob3{bottom:4%; left:3%; width:56px;}
+    @media (max-width:968px){ .doodle{display:none;} }
 
-        aside h1 {
-            font-size: 1.35rem;
-            font-weight: 700;
-            margin-bottom: 0.6rem;
-            letter-spacing: -0.5px;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 0.2rem;
-        }
+    .container{
+        display:flex;
+        max-width:1360px;
+        margin:0 auto;
+        padding:2.5rem 2rem 5rem;
+        gap:2.2rem;
+        position:relative;
+        z-index:1;
+    }
 
-        aside h1 span {
-            color: var(--accent-solid);
-        }
+    /* ================= SIDEBAR ================= */
+    aside{
+        width:var(--sidebar-width);
+        flex-shrink:0;
+        position:sticky;
+        top:2rem;
+        height:fit-content;
+        max-height:calc(100vh - 4rem);
+        overflow-y:auto;
+        display:flex;
+        flex-direction:column;
+        gap:1.4rem;
+        background:var(--cream);
+        border:var(--borderThick);
+        border-radius:var(--radius);
+        box-shadow:var(--shadow);
+        padding:1.8rem;
+    }
+    aside::-webkit-scrollbar{width:8px;}
+    aside::-webkit-scrollbar-thumb{background:var(--ink); border-radius:8px;}
 
-        .profile .tagline {
-            display: inline-flex;
-            align-items: center;
-            font-size: 0.72rem;
-            font-weight: 600;
-            color: var(--accent-solid);
-            background: var(--accent-glow);
-            padding: 0.25rem 0.6rem;
-            border-radius: 6px;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(181, 95, 230, 0.2);
-            letter-spacing: -0.2px;
-        }
+    .avatar-blob{
+        width:84px;height:84px;
+        background:linear-gradient(135deg, var(--pink), var(--violet));
+        border:var(--borderThick);
+        border-radius:63% 37% 54% 46% / 55% 45% 55% 45%;
+        display:flex; align-items:center; justify-content:center;
+        font-family:'Unbounded', sans-serif;
+        font-weight:800; font-size:1.5rem; color:var(--ink);
+        box-shadow:var(--shadowSm);
+        margin-bottom:.9rem;
+        flex-shrink:0;
+    }
 
-        .profile .affiliation {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            line-height: 1.6;
-            border-left: 2px solid var(--border-muted);
-            padding-left: 0.8rem;
-        }
+    aside h1{
+        font-size:1.5rem;
+        font-weight:800;
+        letter-spacing:-.5px;
+        margin-bottom:.6rem;
+        line-height:1.15;
+    }
+    aside h1 span{color:var(--blue);}
 
-        .nav-links {
-            list-style: none;
-            margin-top: 2rem;
-        }
+    .profile .tagline{
+        display:inline-flex;
+        align-items:center;
+        gap:.4rem;
+        font-size:.72rem;
+        font-weight:600;
+        color:var(--ink);
+        background:var(--lime);
+        padding:.35rem .7rem;
+        border:2px solid var(--ink);
+        border-radius:20px;
+        margin-bottom:1rem;
+        transform:rotate(-1deg);
+    }
 
-        .nav-links li {
-            margin-bottom: 0.4rem;
-        }
+    .profile .affiliation{
+        color:var(--ink);
+        opacity:.75;
+        font-size:.86rem;
+        line-height:1.55;
+        border-left:3px solid var(--ink);
+        padding-left:.8rem;
+        margin-bottom:.2rem;
+    }
 
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-size: 0.78rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            padding: 0.6rem 0.75rem;
-            border-radius: 8px;
-            transition: all 0.15s ease-in-out;
-        }
+    /* stat pills — echoes the follower / value / owned row from the reference */
+    .stat-row{
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:.6rem;
+    }
+    .stat-pill{
+        background:#fff;
+        border:var(--border);
+        border-radius:var(--radiusSm);
+        box-shadow:var(--shadowSm);
+        padding:.6rem .3rem;
+        text-align:center;
+    }
+    .stat-num{font-size:1.05rem; font-weight:800; display:block;}
+    .stat-label{font-size:.62rem; text-transform:uppercase; letter-spacing:.5px; opacity:.7;}
 
-        .nav-links a i {
-            margin-right: 0.75rem;
-            font-size: 0.9rem;
-            color: rgba(148, 163, 184, 0.7);
-        }
+    .nav-links{list-style:none; display:flex; flex-direction:column; gap:.5rem;}
+    .nav-links a{
+        text-decoration:none;
+        color:var(--ink);
+        font-size:.76rem;
+        font-weight:600;
+        display:flex;
+        align-items:center;
+        gap:.7rem;
+        padding:.6rem .8rem;
+        border:2.5px solid var(--ink);
+        border-radius:10px;
+        background:#fff;
+        box-shadow:3px 3px 0 var(--ink);
+        transition:transform .1s ease, box-shadow .1s ease, background .1s ease;
+    }
+    .nav-links a i{font-size:.85rem; width:1rem; text-align:center;}
+    .nav-links a:hover, .nav-links a:focus-visible{
+        background:var(--pink);
+        transform:translate(-2px,-2px);
+        box-shadow:5px 5px 0 var(--ink);
+    }
+    .nav-links li:nth-child(2) a:hover{background:var(--blue); color:#fff;}
+    .nav-links li:nth-child(3) a:hover{background:var(--violet); color:#fff;}
+    .nav-links li:nth-child(4) a:hover{background:var(--yellow);}
+    .nav-links li:nth-child(5) a:hover{background:var(--pink);}
+    .nav-links li:nth-child(6) a:hover{background:var(--blue); color:#fff;}
+    .nav-links li:nth-child(7) a:hover{background:var(--violet); color:#fff;}
 
-        .nav-links a:hover {
-            color: #ffffff;
-            background: var(--bg-surface);
-        }
+    /* ---------- code & data repos ---------- */
+    .repo-item{padding:1.4rem 1.5rem; display:flex; flex-direction:column; gap:.7rem;}
+    .repo-head{display:flex; align-items:center; gap:.6rem;}
+    .repo-head i{
+        width:32px; height:32px; flex-shrink:0;
+        display:flex; align-items:center; justify-content:center;
+        border:2px solid var(--ink); border-radius:8px;
+        background:var(--lime); font-size:.95rem;
+    }
+    .repo-name{font-family:'Unbounded', sans-serif; font-weight:700; font-size:.92rem;}
+    .repo-item p{font-size:.87rem; opacity:.85; margin-bottom:0;}
+    .repo-foot{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.6rem; margin-top:.2rem;}
+    .repo-tags{display:flex; gap:.4rem; flex-wrap:wrap;}
+    .repo-tag{
+        font-family:'JetBrains Mono', monospace; font-size:.62rem; font-weight:700;
+        border:2px solid var(--ink); border-radius:20px; padding:.15rem .5rem;
+        background:#fff;
+    }
+    .repo-link{
+        font-family:'JetBrains Mono', monospace; font-size:.72rem; font-weight:700;
+        text-decoration:none; border-bottom:2px solid var(--ink);
+        display:inline-flex; align-items:center; gap:.3rem;
+    }
+    .repo-link:hover{color:var(--pink);}
 
-        .nav-links a:hover i {
-            color: var(--accent-solid);
-        }
+    .social-container{display:flex; flex-direction:column; gap:1rem;}
+    .social-links{display:flex; gap:.6rem; flex-wrap:wrap;}
+    .social-links a{
+        width:38px; height:38px;
+        display:flex; align-items:center; justify-content:center;
+        border:2.5px solid var(--ink);
+        border-radius:9px;
+        background:#fff;
+        box-shadow:3px 3px 0 var(--ink);
+        font-size:1rem;
+        text-decoration:none;
+        transition:transform .1s ease, box-shadow .1s ease;
+    }
+    .social-links a:hover{transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--ink); background:var(--lime);}
 
-        .social-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-            margin-top: auto;
-        }
+    .cv-btn{
+        font-family:'Unbounded', sans-serif;
+        font-size:.8rem;
+        font-weight:700;
+        border:var(--borderThick);
+        color:var(--ink);
+        background:var(--lime);
+        padding:.9rem 1rem;
+        border-radius:12px;
+        text-align:center;
+        text-decoration:none;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:.6rem;
+        box-shadow:var(--shadowSm);
+        transition:transform .1s ease, box-shadow .1s ease;
+    }
+    .cv-btn:hover{transform:translate(-3px,-3px); box-shadow:7px 7px 0 var(--ink); background:var(--yellow);}
 
-        .social-links {
-            display: flex;
-            gap: 1.2rem;
-            align-items: center;
-            padding-left: 0.25rem;
-        }
+    /* ================= MAIN ================= */
+    main{flex:1; min-width:0;}
+    section{margin-bottom:3.4rem; scroll-margin-top:2rem; position:relative;}
 
-        .social-links a {
-            color: var(--text-secondary);
-            font-size: 1.15rem;
-            transition: color 0.15s ease;
-            text-decoration: none;
-        }
+    h2{
+        font-family:'Unbounded', sans-serif;
+        font-size:1rem;
+        font-weight:700;
+        display:inline-flex;
+        align-items:center;
+        gap:.6rem;
+        background:#fff;
+        border:var(--borderThick);
+        border-radius:12px;
+        padding:.6rem 1.1rem;
+        box-shadow:var(--shadowSm);
+        margin-bottom:1.6rem;
+        transform:rotate(-.6deg);
+    }
+    section:nth-of-type(even) h2{transform:rotate(.6deg);}
+    h2 .idx{
+        background:var(--ink); color:var(--lime);
+        font-family:'JetBrains Mono', monospace;
+        font-size:.72rem; font-weight:700;
+        padding:.15rem .4rem; border-radius:5px;
+    }
+    h2 i{color:var(--pink); font-size:.9rem;}
 
-        .social-links a:hover {
-            color: var(--accent-solid);
-        }
+    p{margin-bottom:1.1rem; font-size:.98rem; max-width:70ch;}
 
-        .cv-btn {
-            font-size: 0.75rem;
-            font-weight: 600;
-            border: 1px solid var(--border-muted);
-            color: #ffffff;
-            background: var(--bg-base);
-            padding: 0.7rem 1rem;
-            border-radius: 8px;
-            text-align: center;
-            text-decoration: none;
-            transition: all 0.15s ease;
-            display: block;
-        }
+    .card-base{
+        background:var(--cream);
+        border:var(--border);
+        border-radius:var(--radiusSm);
+        box-shadow:var(--shadowSm);
+        transition:transform .12s ease, box-shadow .12s ease;
+    }
+    .card-base:hover{transform:translate(-3px,-3px); box-shadow:8px 8px 0 var(--ink);}
 
-        .cv-btn:hover {
-            background: var(--bg-surface);
-            border-color: var(--accent-solid);
-            box-shadow: 0 0 12px rgba(181, 95, 230, 0.15);
-        }
+    .lede-card{padding:1.6rem 1.8rem;}
+    .lede-card p{margin-bottom:0;}
 
-        /* Main Source Canvas Engine */
-        main {
-            margin-left: calc(var(--sidebar-width) + 2.5rem);
-            flex: 1;
-        }
+    .timeline{display:flex; flex-direction:column; gap:1.3rem;}
 
-        section {
-            margin-bottom: 4rem;
-            scroll-margin-top: 2.5rem;
-        }
+    .cv-item{padding:1.5rem 1.6rem; position:relative;}
+    .cv-item::before{
+        content:'';
+        position:absolute; left:-3px; top:12%; bottom:12%;
+        width:7px; border-radius:4px;
+        background:var(--accentbar, var(--pink));
+    }
+    .cv-item:nth-of-type(1){--accentbar:var(--pink);}
+    .cv-item:nth-of-type(2){--accentbar:var(--blue);}
+    .cv-item:nth-of-type(3){--accentbar:var(--violet);}
 
-        h2 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 1.8rem;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
+    .cv-header{display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:.5rem; flex-wrap:wrap;}
+    .cv-title{font-family:'Unbounded', sans-serif; font-weight:700; font-size:1rem; line-height:1.4;}
+    .cv-title small{
+        font-family:'Space Grotesk', sans-serif;
+        color:var(--ink); opacity:.65; font-weight:500;
+        display:block; margin-top:.25rem; font-size:.82rem;
+    }
+    .cv-date{
+        color:var(--ink);
+        font-size:.68rem; font-weight:700;
+        background:var(--yellow);
+        border:2px solid var(--ink);
+        padding:.2rem .55rem;
+        border-radius:20px;
+        white-space:nowrap;
+    }
+    .cv-institution{
+        font-size:.88rem; font-weight:600; margin-bottom:.8rem;
+        display:flex; align-items:center; gap:.45rem; opacity:.85;
+    }
+    .cv-institution i{opacity:.6;}
+    .cv-project{
+        background:#fff;
+        border:2px solid var(--ink);
+        padding:.7rem 1rem;
+        border-radius:8px;
+        margin-bottom:.8rem;
+        font-size:.88rem;
+    }
+    .cv-details{list-style:none; font-size:.9rem; opacity:.85;}
+    .cv-details li{margin-bottom:.4rem; position:relative; padding-left:1.3rem;}
+    .cv-details li::before{content:"◆"; position:absolute; left:0; color:var(--pink); font-size:.6rem; top:.35em;}
 
-        h2 i {
-            color: var(--accent-solid);
-            font-size: 0.9rem;
-        }
+    /* ---------- publications ---------- */
+    .pub-item{padding:1.5rem 1.6rem; margin-bottom:1.2rem;}
+    .pub-title{font-family:'Unbounded', sans-serif; font-weight:700; font-size:.98rem; margin-bottom:.55rem; line-height:1.5;}
+    .pub-author-highlight{background:var(--lime); border:2px solid var(--ink); padding:0 .3rem; border-radius:4px; font-weight:600;}
+    .pub-meta{font-size:.88rem; opacity:.8;}
+    .pub-meta em{color:var(--violet); font-style:normal; font-weight:600;}
+    .pub-doi{
+        font-family:'JetBrains Mono', monospace;
+        font-size:.7rem;
+        margin-top:.8rem;
+        display:inline-flex; align-items:center; gap:.4rem;
+        background:#fff; padding:.25rem .55rem;
+        border-radius:6px; border:2px solid var(--ink);
+    }
+    .pub-doi a{text-decoration:none; opacity:.8;}
+    .pub-doi a:hover{opacity:1; text-decoration:underline;}
+    .badge{
+        background:var(--pink); color:var(--ink);
+        padding:.15rem .5rem; border-radius:20px;
+        font-family:'JetBrains Mono', monospace;
+        font-size:.6rem; font-weight:700;
+        text-transform:uppercase; letter-spacing:.5px;
+        margin-left:.5rem; border:2px solid var(--ink);
+        display:inline-block; vertical-align:middle;
+    }
 
-        h2::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(to right, var(--border-muted), transparent);
-        }
+    /* ---------- expertise grid ---------- */
+    .grid-expertise{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.1rem;}
+    .exp-card{padding:1.4rem;}
+    .exp-card h3{
+        font-family:'Unbounded', sans-serif;
+        font-size:.78rem; font-weight:700;
+        text-transform:uppercase; letter-spacing:.5px;
+        margin-bottom:.7rem;
+        display:flex; align-items:center; gap:.6rem;
+    }
+    .exp-card h3 i{
+        width:30px; height:30px; flex-shrink:0;
+        display:flex; align-items:center; justify-content:center;
+        border:2px solid var(--ink); border-radius:8px;
+        background:var(--exp-color, var(--lime));
+        font-size:.85rem;
+    }
+    .exp-card:nth-of-type(1) h3 i{background:var(--pink);}
+    .exp-card:nth-of-type(2) h3 i{background:var(--blue); color:#fff;}
+    .exp-card:nth-of-type(3) h3 i{background:var(--violet); color:#fff;}
+    .exp-card p{font-size:.87rem; margin-bottom:0; opacity:.85;}
 
-        p {
-            margin-bottom: 1.2rem;
-            color: var(--text-secondary);
-            font-size: 0.98rem;
-            text-align: justify;
+    /* ================= MOBILE ================= */
+    @media (max-width:968px){
+        .container{flex-direction:column; padding:1.1rem 1rem 4rem; gap:1.4rem;}
+        aside{
+            position:relative; top:0; width:100%; max-height:none;
+            overflow-y:visible;
         }
-
-        /* Notebook Source Card Layout (Timeline Overhaul) */
-        .timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
+        .nav-links{
+            flex-direction:row; overflow-x:auto; gap:.5rem;
+            padding-bottom:.3rem;
         }
-
-        .cv-item {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-muted);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: border-color 0.15s ease, box-shadow 0.15s ease;
-        }
-
-        .cv-item:hover {
-            border-color: rgba(181, 95, 230, 0.3);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .cv-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.5rem;
-            gap: 1rem;
-        }
-
-        .cv-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #ffffff;
-        }
-
-        .cv-title small {
-            color: var(--text-secondary);
-            font-weight: 400;
-            display: block;
-            margin-top: 0.15rem;
-            font-size: 0.88rem;
-        }
-
-        .cv-date {
-            color: var(--accent-solid);
-            font-size: 0.72rem;
-            font-weight: 600;
-            background: var(--accent-glow);
-            border: 1px solid rgba(181, 95, 230, 0.15);
-            padding: 0.15rem 0.5rem;
-            border-radius: 4px;
-            white-space: nowrap;
-        }
-
-        .cv-institution {
-            color: #ffffff;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .cv-institution i {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-
-        .cv-project {
-            background: #090a10;
-            border: 1px solid var(--border-muted);
-            padding: 0.7rem 1rem;
-            border-radius: 6px;
-            margin-bottom: 0.8rem;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-        }
-
-        .cv-details {
-            list-style-type: none;
-            color: var(--text-secondary);
-            font-size: 0.92rem;
-        }
-
-        .cv-details li {
-            margin-bottom: 0.4rem;
-            position: relative;
-            padding-left: 1.2rem;
-        }
-
-        .cv-details li::before {
-            content: "::";
-            position: absolute;
-            left: 0;
-            color: var(--accent-solid);
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-
-        /* Document Node Outputs (Publications) */
-        .pub-item {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-muted);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.2rem;
-            transition: border-color 0.15s ease;
-        }
-
-        .pub-item:hover {
-            border-color: rgba(181, 95, 230, 0.3);
-        }
-
-        .pub-title {
-            font-weight: 700;
-            color: #ffffff;
-            font-size: 1.05rem;
-            margin-bottom: 0.5rem;
-            line-height: 1.4;
-        }
-
-        .pub-author-highlight {
-            color: #ffffff;
-            font-weight: 600;
-            border-bottom: 1px dashed var(--accent-solid);
-        }
-
-        .pub-meta {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .pub-meta em {
-            color: var(--accent-solid);
-            font-style: normal;
-        }
-
-        .pub-doi {
-            font-size: 0.72rem;
-            margin-top: 0.8rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: #090a10;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            border: 1px solid var(--border-muted);
-        }
-
-        .pub-doi a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.15s ease;
-        }
-
-        .pub-doi a:hover {
-            color: #ffffff;
-        }
-
-        .badge {
-            background: transparent;
-            color: var(--accent-solid);
-            padding: 0.15rem 0.4rem;
-            border-radius: 4px;
-            font-size: 0.65rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-left: 0.5rem;
-            border: 1px solid var(--accent-solid);
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        /* Multi-Grid Grid Capabilities */
-        .grid-expertise {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1rem;
-        }
-
-        .exp-card {
-            background: #0d0f1a;
-            border: 1px solid var(--border-muted);
-            border-radius: 10px;
-            padding: 1.25rem;
-            transition: all 0.15s ease;
-        }
-
-        .exp-card:hover {
-            border-color: var(--accent-solid);
-            background: var(--bg-surface);
-        }
-
-        .exp-card h3 {
-            font-size: 0.78rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.6rem;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .exp-card h3 i {
-            color: var(--accent-solid);
-            font-size: 0.85rem;
-        }
-
-        .exp-card p {
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            margin-bottom: 0;
-            text-align: left;
-            line-height: 1.5;
-        }
-
-        /* Notebook Interface Mobile Alignment */
-        @media (max-width: 968px) {
-            .container {
-                flex-direction: column;
-                padding: 1rem;
-            }
-            aside {
-                position: relative;
-                width: 100%;
-                height: auto;
-                padding: 1.5rem;
-            }
-            main {
-                margin-left: 0;
-            }
-            .cv-header {
-                flex-direction: column;
-                gap: 0.4rem;
-            }
-            .cv-date {
-                align-self: flex-start;
-            }
-        }
-    </style>
+        .nav-links a{white-space:nowrap;}
+        main{margin-left:0;}
+        .cv-header{flex-direction:column; gap:.5rem;}
+        h2{font-size:.88rem; padding:.5rem .9rem;}
+    }
+    @media (max-width:480px){
+        .stat-row{gap:.4rem;}
+        .stat-num{font-size:.9rem;}
+        .stat-label{font-size:.56rem;}
+        aside{padding:1.3rem;}
+        h1{font-size:1.3rem;}
+    }
+</style>
 </head>
 <body>
 
+<!-- lab-themed doodles instead of generic stickers: vesicle blobs + a spark, echoing the GPMV subject matter -->
+<svg class="doodle d-blob1" viewBox="0 0 100 100" fill="none"><path d="M50 8c22 0 40 16 40 38s-16 44-40 44S10 68 10 46 28 8 50 8Z" stroke="#131209" stroke-width="3"/><circle cx="50" cy="46" r="6" fill="#FF6FA0" stroke="#131209" stroke-width="2"/></svg>
+<svg class="doodle d-blob2" viewBox="0 0 100 100" fill="none"><path d="M48 10c20 2 36 20 34 40s-20 36-40 34S6 64 8 44 28 8 48 10Z" stroke="#131209" stroke-width="3"/><circle cx="46" cy="44" r="5" fill="#5A78FF" stroke="#131209" stroke-width="2"/></svg>
+<svg class="doodle d-plus" viewBox="0 0 40 40"><path d="M20 4v32M4 20h32" stroke="#131209" stroke-width="4" stroke-linecap="round"/></svg>
+<svg class="doodle d-spark" viewBox="0 0 40 40"><path d="M20 2 24 16 38 20 24 24 20 38 16 24 2 20 16 16Z" fill="#FFDA3D" stroke="#131209" stroke-width="2.5" stroke-linejoin="round"/></svg>
+<svg class="doodle d-blob3" viewBox="0 0 100 100" fill="none"><path d="M50 8c22 0 40 16 40 38s-16 44-40 44S10 68 10 46 28 8 50 8Z" stroke="#131209" stroke-width="3"/><circle cx="50" cy="46" r="6" fill="#9B7BFF" stroke="#131209" stroke-width="2"/></svg>
+
 <div class="container">
-    <!-- Notebook Control Sidebar -->
+    <!-- SIDEBAR -->
     <aside>
         <div class="profile">
             <div class="profile-card">
-                <h1>~/ tanmay pandey</h1>
-                <div class="tagline"><i class="fas fa-terminal" style="font-size: 0.7rem; margin-right: 0.4rem;"></i>IISER Mohali</div>
+                <div class="avatar-blob">TP</div>
+                <h1>~/ tanmay <span>pandey</span></h1>
+                <div class="tagline"><i class="fas fa-terminal" style="font-size:.65rem;"></i> IISER Mohali</div>
                 <div class="affiliation">
                     Final (5<sup>th</sup>) Year<br>
                     Integrated BS–MS Scholar<br>
-                    Department of Biological Sciences,<br>
-                    <!--span style="color: #ffffff; font-weight: 600;">IISER Mohali</span-->
+                    Department of Biological Sciences
                 </div>
             </div>
-            
-            <nav>
+
+            <div class="stat-row" style="margin-top:1.2rem;">
+                <div class="stat-pill"><span class="stat-num">4</span><span class="stat-label">Papers</span></div>
+                <div class="stat-pill"><span class="stat-num">2</span><span class="stat-label">Repos</span></div>
+                <div class="stat-pill"><span class="stat-num">5<sup>th</sup></span><span class="stat-label">Year BSMS</span></div>
+            </div>
+
+            <nav style="margin-top:1.3rem;">
                 <ul class="nav-links">
                     <li><a href="#about"><i class="far fa-file-alt fa-fw"></i> Profile</a></li>
                     <li><a href="#education"><i class="fas fa-graduation-cap fa-fw"></i> Education</a></li>
                     <li><a href="#experience"><i class="fas fa-code-branch fa-fw"></i> Research</a></li>
                     <li><a href="#publications"><i class="fas fa-book fa-fw"></i> Publications</a></li>
+                    <li><a href="#repos"><i class="fas fa-code-branch fa-fw"></i> Code & Data</a></li>
                     <li><a href="#expertise"><i class="fas fa-cube fa-fw"></i> Tech Stack</a></li>
                     <li><a href="#roles"><i class="fas fa-shield-alt fa-fw"></i> Community</a></li>
                 </ul>
@@ -519,26 +470,23 @@
                 <a href="https://scholar.google.com/citations?user=HcrsV8sAAAAJ" target="_blank" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
                 <a href="mailto:ms22113@iisermohali.ac.in" title="Email"><i class="fas fa-envelope"></i></a>
             </div>
-            <a href="tanmay_cv.pdf" class="cv-btn" target="_blank">CV (PDF)</a>
+            <a href="tanmay_cv.pdf" class="cv-btn" target="_blank">Get CV <i class="fas fa-arrow-down"></i></a>
         </div>
     </aside>
 
-    <!-- Source Node Content Canvas -->
+    <!-- MAIN -->
     <main>
-        <!-- Profile Summary Section -->
         <section id="about">
-            <h2><i class="fas fa-terminal"></i>01 // Profile Summary</h2>
-            <p>I am a biophysics student at IISER Mohali working on membrane mechanics, plasma membrane
-vesicles, and quantitative image analysis. My research focuses on studying membrane morphology and mechanical properties using fluorescence microscopy and computational analysis tools.
-My current work involves quantitative analysis of giant plasma membrane vesicles (GPMVs)
-and biomimetic membrane systems</p>
+            <h2><span class="idx">01</span><i class="fas fa-terminal"></i>Profile Summary</h2>
+            <div class="card-base lede-card">
+                <p>I am a biophysics student at IISER Mohali working on <span class="highlight">membrane mechanics</span>, plasma membrane vesicles, and quantitative image analysis. My research focuses on studying membrane morphology and mechanical properties using fluorescence microscopy and computational analysis tools. My current work involves quantitative analysis of giant plasma membrane vesicles (GPMVs) and biomimetic membrane systems.</p>
+            </div>
         </section>
 
-        <!-- Education Summary Section -->
         <section id="education">
-            <h2><i class="fas fa-terminal"></i>02 // Education </h2>
+            <h2><span class="idx">02</span><i class="fas fa-terminal"></i>Education</h2>
             <div class="timeline">
-                <div class="cv-item">
+                <div class="card-base cv-item" style="--accentbar:var(--pink)">
                     <div class="cv-header">
                         <div class="cv-title">BS–MS Dual Degree<small>Biology Major & Physics Minor</small></div>
                         <div class="cv-date">2022 — 2027</div>
@@ -548,28 +496,22 @@ and biomimetic membrane systems</p>
             </div>
         </section>
 
-        <!-- Research Experience Architecture -->
         <section id="experience">
-            <h2><i class="fas fa-terminal"></i>03 // Research</h2>
+            <h2><span class="idx">03</span><i class="fas fa-terminal"></i>Research</h2>
             <div class="timeline">
-
-                <!-- Joint Appointment Entry -->
-                <div class="cv-item">
+                <div class="card-base cv-item">
                     <div class="cv-header">
                         <div class="cv-title">Master's Thesis Project Intern</div>
                         <div class="cv-date">May 2026 — Present</div>
                     </div>
                     <div class="cv-institution"><i class="far fa-building"></i> IISER Mohali & Max Planck Institute of Biophysics, Frankfurt</div>
-                    <div class="cv-project">
-                        <strong>Project:</strong> Micromechanics of Membrane Blebs in Regulated Necrotic Cell Death
-                    </div>
+                    <div class="cv-project"><strong>Project:</strong> Micromechanics of Membrane Blebs in Regulated Necrotic Cell Death</div>
                     <ul class="cv-details">
                         <li>Investigating time-dependent biophysical profiles (tension, rigidity, permeability) in giant plasma membrane vesicles (GPMVs) across regulated cell death channels.</li>
                     </ul>
                 </div>
-                
-                <!-- Institutional Entry -->
-                <div class="cv-item">
+
+                <div class="card-base cv-item">
                     <div class="cv-header">
                         <div class="cv-title">Project Intern — Soft Matter Biophysics Lab</div>
                         <div class="cv-date">May 2023 — April 2026</div>
@@ -581,8 +523,7 @@ and biomimetic membrane systems</p>
                     </ul>
                 </div>
 
-                <!-- Remote Entry -->
-                <div class="cv-item">
+                <div class="card-base cv-item">
                     <div class="cv-header">
                         <div class="cv-title">Student Assistant — Bio-inspired Computation Lab</div>
                         <div class="cv-date">March 2024 — December 2025</div>
@@ -593,87 +534,94 @@ and biomimetic membrane systems</p>
                         <li>Evaluated processing constraints of physical learning arrays across nonlinear dynamical multi-task behaviors.</li>
                     </ul>
                 </div>
-
             </div>
         </section>
 
-        <!-- Publications Catalog -->
         <section id="publications">
-            <h2><i class="fas fa-terminal"></i>04 // Publications</h2>
+            <h2><span class="idx">04</span><i class="fas fa-terminal"></i>Publications</h2>
             
-            <!-- Output 1 -->
-            <div class="pub-item">
+            <div class="card-base pub-item">
+                <div class="pub-title">Quantitative Analysis of Shape Changes in Lipid Vesicles Using Deep Learning-based Image Segmentation and Tracking Methods</div>
+                <div class="pub-meta"><span class="pub-author-highlight">T. Pandey</span>, R. Kudawla,J.V.B.S, C. Devarakonda, A. Chatterjee, T. Bhatia<br><em>Under Revision</em></div>
+                <div class="pub-doi"><i class="fas fa-link"></i> doi // </div>
+            </div>
+
+            <div class="card-base pub-item">
                 <div class="pub-title">Directed evolution effectively selects for DNA-based physical reservoir computing networks</div>
-                <div class="pub-meta">
-                    <span class="pub-author-highlight">T. Pandey</span>, P. Feketa, J. Steinkühler. (2026).<br>
-                    <em>Neuromorphic Computing and Engineering</em> (IOP).
-                </div>
-                <div class="pub-doi">
-                    <i class="fas fa-link"></i> doi // <a href="https://doi.org/10.1088/2634-4386/ae2cc3" target="_blank">10.1088/2634-4386/ae2cc3</a>
-                </div>
+                <div class="pub-meta"><span class="pub-author-highlight">T. Pandey</span>, P. Feketa, J. Steinkühler. (2026).<br><em>Neuromorphic Computing and Engineering</em> (IOP).</div>
+                <div class="pub-doi"><i class="fas fa-link"></i> doi // <a href="https://doi.org/10.1088/2634-4386/ae2cc3" target="_blank">10.1088/2634-4386/ae2cc3</a></div>
             </div>
 
-            <!-- Output 2 (Software Toolkit) -->
-            <div class="pub-item">
+            <div class="card-base pub-item">
                 <div class="pub-title">Vesicle Shape Analysis Toolkit <span class="badge">Open-Source</span></div>
-                <div class="pub-meta">
-                    <span class="pub-author-highlight">T. Pandey</span>, and T. Bhatia. (2025).<br>
-                    Open-source automation pipeline for crisp micro-contour extraction, local curvature calculations, and robust quantitative mechanical parsing of target vesicle architectures (Zenodo + GitHub).
-                </div>
-                <div class="pub-doi">
-                    <i class="fas fa-link"></i> doi // <a href="https://doi.org/10.5281/zenodo.17104430" target="_blank">10.5281/zenodo.17104430</a>
-                </div>
+                <div class="pub-meta"><span class="pub-author-highlight">T. Pandey</span>, and T. Bhatia. (2025).<br>Open-source automation pipeline for crisp micro-contour extraction, local curvature calculations, and robust quantitative mechanical parsing of target vesicle architectures (Zenodo + GitHub).</div>
+                <div class="pub-doi"><i class="fas fa-link"></i> doi // <a href="https://doi.org/10.5281/zenodo.17104430" target="_blank">10.5281/zenodo.17104430</a></div>
             </div>
 
-            <!-- Output 3 -->
-            <div class="pub-item">
+            <div class="card-base pub-item">
                 <div class="pub-title">Experimentally determined shapes of plasma membrane vesicles and PC/PC–cholesterol vesicles</div>
-                <div class="pub-meta">
-                    H. Kaur, R. Kudawla, <span class="pub-author-highlight">T. Pandey</span>, T. Bhatia. (2025).<br>
-                    <em>Journal of Physical Chemistry B</em> (ACS).
-                </div>
-                <div class="pub-doi">
-                    <i class="fas fa-link"></i> doi // <a href="https://doi.org/10.1021/acs.jpcb.4c07431" target="_blank">10.1021/acs.jpcb.4c07431</a>
-                </div>
+                <div class="pub-meta">H. Kaur, R. Kudawla, <span class="pub-author-highlight">T. Pandey</span>, T. Bhatia. (2025).<br><em>Journal of Physical Chemistry B</em> (ACS).</div>
+                <div class="pub-doi"><i class="fas fa-link"></i> doi // <a href="https://doi.org/10.1021/acs.jpcb.4c07431" target="_blank">10.1021/acs.jpcb.4c07431</a></div>
             </div>
 
-            <!-- Output 4 -->
-            <div class="pub-item">
+            <div class="card-base pub-item">
                 <div class="pub-title">Shape analysis of biomimetic and plasma membrane vesicles</div>
-                <div class="pub-meta">
-                    R. Kudawla, H. Kaur, <span class="pub-author-highlight">T. Pandey</span>, T. Bhatia. (2024).<br>
-                    <em>ChemSystemsChem</em> (Wiley).
+                <div class="pub-meta">R. Kudawla, H. Kaur, <span class="pub-author-highlight">T. Pandey</span>, T. Bhatia. (2024).<br><em>ChemSystemsChem</em> (Wiley).</div>
+                <div class="pub-doi"><i class="fas fa-link"></i> doi // <a href="https://doi.org/10.1002/syst.202400052" target="_blank">10.1002/syst.202400052</a></div>
+            </div>
+        </section>
+
+        <section id="repos">
+            <h2><span class="idx">05</span><i class="fas fa-terminal"></i>Code &amp; Data</h2>
+            <div class="grid-expertise" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr));">
+                <div class="card-base repo-item">
+                    <div class="repo-head"><i class="fab fa-github"></i><span class="repo-name">shape-analysis</span></div>
+                    <p>Automation pipeline for micro-contour extraction, local curvature calculation, and quantitative mechanical parsing of vesicle architectures — the code behind the Vesicle Shape Analysis Toolkit.</p>
+                    <div class="repo-tags">
+                        <span class="repo-tag">Python</span>
+                        <span class="repo-tag">Image Analysis</span>
+                    </div>
+                    <div class="repo-foot">
+                        <a class="repo-link" href="https://github.com/tanmay1902" target="_blank">github.com/tanmay1902 <i class="fas fa-arrow-up-right-from-square" style="font-size:.6rem;"></i></a>
+                    </div>
                 </div>
-                <div class="pub-doi">
-                    <i class="fas fa-link"></i> doi // <a href="https://doi.org/10.1002/syst.202400052" target="_blank">10.1002/syst.202400052</a>
+
+                <div class="card-base repo-item">
+                    <div class="repo-head"><i class="fas fa-database"></i><span class="repo-name">Vesicle Shape Analysis Toolkit</span></div>
+                    <p>Archived, citable release of the toolkit above — open-source pipeline for crisp micro-contour extraction and robust quantitative mechanical parsing of vesicle shapes.</p>
+                    <div class="repo-tags">
+                        <span class="repo-tag">Zenodo</span>
+                        <span class="repo-tag badge" style="margin-left:0;">Open-Source</span>
+                    </div>
+                    <div class="repo-foot">
+                        <a class="repo-link" href="https://doi.org/10.5281/zenodo.17104430" target="_blank">10.5281/zenodo.17104430 <i class="fas fa-arrow-up-right-from-square" style="font-size:.6rem;"></i></a>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Technical Expertise Metrics Grid -->
         <section id="expertise">
-            <h2><i class="fas fa-terminal"></i>05 // What I know</h2>
+            <h2><span class="idx">06</span><i class="fas fa-terminal"></i>What I Know</h2>
             <div class="grid-expertise">
-                <div class="exp-card">
+                <div class="card-base exp-card">
                     <h3><i class="fas fa-eye"></i>Microscopy & Optics</h3>
                     <p>Advanced optical microscopy alignment; manual GPMV isolation from cell frameworks; mammalian line management (HEK293T).</p>
                 </div>
-                <div class="exp-card">
+                <div class="card-base exp-card">
                     <h3><i class="fas fa-calculator"></i>Image Segmentation</h3>
                     <p>Deep-learning CNN image processing setups; automated geometric boundary parsing; custom manual validation UI tools.</p>
                 </div>
-                <div class="exp-card">
+                <div class="card-base exp-card">
                     <h3><i class="fas fa-code"></i>Scientific Compute</h3>
                     <p>Python (Numerical/Data stack), MATLAB, JavaScript. Programmatic structural pipeline engineering optimized for rapid image batch validation.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Leadership Roles -->
         <section id="roles">
-            <h2><i class="fas fa-terminal"></i>06 // Community</h2>
+            <h2><span class="idx">07</span><i class="fas fa-terminal"></i>Community</h2>
             <div class="timeline">
-                <div class="cv-item">
+                <div class="card-base cv-item" style="--accentbar:var(--violet)">
                     <div class="cv-header">
                         <div class="cv-title">General Secretary and Hostel Representative</div>
                         <div class="cv-date">2025 — 2026</div>
