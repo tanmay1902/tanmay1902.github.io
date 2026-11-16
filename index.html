@@ -3,477 +3,954 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>~/ tanmay pandey — biophysics</title>
+<title>Tanmay Pandey — Membrane Biophysics</title>
+<meta name="description" content="Tanmay Pandey — biophysics student working on membrane mechanics, giant plasma membrane vesicles and quantitative image analysis.">
+<meta name="theme-color" content="#050506">
+<link rel="icon" href="favicon.ico">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="icon" type="image/svg+xml" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"%3E%3Crect width="64" height="64" rx="10" fill="%23172126"/%3E%3Ccircle cx="20" cy="20" r="9" fill="none" stroke="%23168c88" stroke-width="4"/%3E%3Ccircle cx="44" cy="20" r="9" fill="none" stroke="%237658d9" stroke-width="4"/%3E%3Cpath d="M11 44h42M11 50h30" stroke="%23f2b84b" stroke-width="4" stroke-linecap="round"/%3E%3C/svg%3E'>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,600;0,800;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root{
-    --bg:#f7f8f6; --paper:#fff; --ink:#172126; --muted:#66737a;
-    --line:#d9e0df; --accent:#168c88; --accent-soft:#e7f4f2;
-    --accent-2:#7658d9; --sidebar:310px;
+  --bg:#050506; --bg-2:#0b0b0d; --surface:#0f0f12; --surface-2:#15151a;
+  --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
+  --text:#ededf0; --muted:#8b8d98; --dim:#5a5c66;
+  --gfp:#46f5a0; --rho:#ff5ca8; --dapi:#6b8bff;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --sans:'Space Grotesk',system-ui,-apple-system,sans-serif;
+  --serif:'Instrument Serif',Georgia,serif;
+  --max:1180px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-    font-family:'Space Grotesk',system-ui,-apple-system,sans-serif;
-    background:var(--bg);color:var(--ink);line-height:1.65;
-    -webkit-font-smoothing:antialiased;
-}
-body:before{
-    content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
-    background:linear-gradient(rgba(23,33,38,.025) 1px,transparent 1px),
-               linear-gradient(90deg,rgba(23,33,38,.025) 1px,transparent 1px);
-    background-size:32px 32px;
-}
-a{color:inherit}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.mono,.cv-date,.badge,.pub-doi,.stat-num,nav a,.section-kicker,.tool-label{
-    font-family:'JetBrains Mono',monospace;
-}
-.container{
-    max-width:1280px;margin:0 auto;padding:48px 32px 80px;
-    display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);
-    gap:64px;align-items:start;
-}
-/* sidebar */
-aside{
-    position:sticky;top:32px;width:100%;background:transparent;
-    border:0;box-shadow:none;padding:0;max-height:calc(100vh - 64px);
-    overflow-y:auto;
-}
-aside::-webkit-scrollbar{width:5px}
-aside::-webkit-scrollbar-thumb{background:var(--line)}
-.profile{padding-bottom:28px;border-bottom:1px solid var(--line)}
-.avatar-blob{
-    width:92px;height:92px;background:var(--paper);
-    border:1px solid var(--line);border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:0 10px 30px rgba(23,33,38,.06);
-    margin-bottom:22px;overflow:hidden;
-}
-.image-bg{
-    width:100%;height:100%;background-image:url("tanmay.jpeg");
-    background-size:cover;background-position:center;background-repeat:no-repeat;
-    border-radius:50%;
-}
-aside h1{
-    font-size:1.65rem;line-height:1.15;letter-spacing:-.04em;
-    font-weight:700;margin-bottom:14px;
-}
-aside h1 span{color:var(--accent-2)}
-.current-mark{
-    display:flex;align-items:center;gap:8px;color:var(--accent);
-    font:700 .65rem/1.2 'JetBrains Mono',monospace;
-    letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;
-}
-.current-mark:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
-.profile .tagline{
-    display:inline-flex;align-items:center;gap:7px;color:var(--accent);
-    background:var(--accent-soft);border:1px solid #bfe0dc;border-radius:999px;
-    padding:6px 11px;font:600 .72rem/1 'JetBrains Mono',monospace;margin-bottom:16px;
-}
-.profile .affiliation{
-    color:var(--muted);font-size:.84rem;line-height:1.65;
-    padding-left:13px;border-left:2px solid var(--accent);
-}
-.profile .affiliation strong{color:var(--ink)}
-.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:24px!important}
-.stat-pill{
-    background:transparent;border:0;border-top:1px solid var(--line);
-    border-radius:0;box-shadow:none;padding:10px 3px 4px;text-align:left;
-}
-.stat-num{display:block;color:var(--ink);font-size:1rem;font-weight:700}
-.stat-label{display:block;color:var(--muted);font-size:.62rem;text-transform:uppercase;letter-spacing:.08em}
-nav{margin-top:25px!important}
-.nav-links{list-style:none;display:flex;flex-direction:column;gap:2px}
-.nav-links a{
-    text-decoration:none;color:var(--muted);display:flex;align-items:center;gap:10px;
-    padding:9px 0;border:0;border-radius:0;background:transparent;box-shadow:none;
-    font-size:.72rem;transition:color .15s ease,transform .15s ease;
-}
-.nav-links a i{width:15px;color:#94a0a4}
-.nav-links a:hover,.nav-links a:focus-visible{color:var(--accent);background:transparent;transform:translateX(4px);box-shadow:none}
-.social-container{display:flex;flex-direction:column;gap:18px;padding-top:22px}
-.social-links{display:flex;gap:8px;flex-wrap:wrap}
-.social-links a{
-    width:34px;height:34px;display:flex;align-items:center;justify-content:center;
-    border:1px solid var(--line);border-radius:50%;background:var(--paper);
-    box-shadow:none;font-size:.85rem;text-decoration:none;color:var(--muted);transition:.15s ease;
-}
-.social-links a:hover{color:var(--accent);border-color:var(--accent);transform:translateY(-2px)}
-.cv-btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:8px;width:max-content;
-    color:var(--ink);background:var(--paper);border:1px solid var(--line);
-    padding:8px 13px;border-radius:6px;text-decoration:none;
-    font:600 .7rem 'JetBrains Mono',monospace;box-shadow:none;transition:.15s ease;
-}
-.cv-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft);transform:none;box-shadow:none}
-/* main */
-main{min-width:0}
-section{margin-bottom:76px;scroll-margin-top:35px;position:relative}
-h2{
-    font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:650;
-    letter-spacing:-.02em;display:flex;align-items:center;gap:12px;color:var(--ink);
-    background:transparent;border:0;border-radius:0;padding:0 0 14px;
-    box-shadow:none;margin:0 0 22px;transform:none!important;border-bottom:1px solid var(--line);
-}
-h2 .idx{color:var(--accent);background:transparent;font:700 .68rem 'JetBrains Mono',monospace;padding:0}
-h2 i{color:var(--accent);font-size:.85rem}
-p{margin-bottom:1rem;font-size:.94rem;max-width:75ch}
-.card-base{
-    background:var(--paper);border:1px solid var(--line);border-radius:8px;
-    box-shadow:none;transition:border-color .15s ease,box-shadow .15s ease;
-}
-.card-base:hover{transform:none;box-shadow:0 8px 24px rgba(23,33,38,.05);border-color:#bcc8c7}
-.lede-card{padding:28px 30px}
-.lede-card p{margin:0;color:#344247;font-size:1rem;line-height:1.8}
-.highlight{background:var(--accent-soft);color:#096d69;padding:1px 5px;border:0;border-radius:3px;white-space:normal;display:inline;transform:none}
-/* timeline */
-.timeline{display:flex;flex-direction:column;gap:14px}
-.cv-item{padding:23px 25px 23px 27px;position:relative}
-.cv-item:before{
-    content:"";position:absolute;left:-1px;top:20px;bottom:20px;width:3px;
-    border-radius:2px;background:var(--accentbar,var(--line));
-}
-.cv-header{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:5px;flex-wrap:wrap}
-.cv-title{font-size:.98rem;font-weight:700;line-height:1.35;letter-spacing:-.015em}
-.cv-title small{display:block;margin-top:4px;color:var(--muted);font-size:.78rem;font-weight:500}
-.cv-date{
-    color:var(--muted);font-size:.63rem;font-weight:600;background:#f5f7f6;
-    border:1px solid var(--line);padding:4px 7px;border-radius:4px;white-space:nowrap;
-}
-.cv-institution{
-    color:#3e4b50;font-size:.79rem;font-weight:600;margin:13px 0 10px;
-    display:flex;align-items:center;gap:9px;flex-wrap:wrap;
-}
-.inst{display:inline-flex;align-items:center;gap:9px}
-.inst-logo{
-    width:31px;height:31px;object-fit:contain;background:#fff;border:1px solid var(--line);
-    padding:4px;border-radius:5px;filter:none;
-}
-.cv-project{
-    background:#f7faf9;border:1px solid #dfe8e6;padding:10px 12px;border-radius:5px;
-    margin-bottom:10px;font-size:.82rem;color:#405055;
-}
-.cv-details{list-style:none;font-size:.82rem;color:var(--muted)}
-.cv-details li{margin-bottom:5px;position:relative;padding-left:15px}
-.cv-details li:before{content:"·";position:absolute;left:1px;color:var(--accent);font-size:1.1rem;top:-2px}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--gfp);color:#000}
+:focus-visible{outline:2px solid var(--gfp);outline-offset:3px;border-radius:4px}
+.mono{font-family:var(--mono)}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+
+/* ---------- intro / boot ---------- */
+#boot{position:fixed;inset:0;z-index:100;background:#000;transition:opacity .8s ease,visibility .8s ease,transform .8s ease}
+#boot.done{opacity:0;visibility:hidden;transform:scale(1.04)}
+#cellcv{position:absolute;inset:0;width:100%;height:100%;display:block}
+.boot-title{position:absolute;top:28px;left:28px;right:28px;display:flex;justify-content:space-between;font:400 .66rem/1.7 var(--mono);color:var(--dim);letter-spacing:.08em;text-transform:uppercase}
+.boot-title b{color:var(--text);font-weight:500}
+.boot-title .rec{color:var(--rho)}
+.boot-log{position:absolute;left:28px;bottom:96px;width:min(440px,calc(100vw - 56px));font:400 .76rem/1.85 var(--mono);color:var(--muted)}
+.boot-line{opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.boot-line.on{opacity:1;transform:none}
+.boot-line .t{color:var(--dim);margin-right:8px}
+.boot-line .ok{color:var(--gfp)} .boot-line .pi{color:var(--rho)} .boot-line .hl{color:var(--text)}
+.boot-bar{margin-top:14px;height:2px;background:var(--line);overflow:hidden}
+.boot-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gfp),var(--rho))}
+.boot-foot{position:absolute;left:28px;right:28px;bottom:28px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.boot-btn{font:500 .7rem var(--mono);color:var(--muted);background:rgba(15,15,18,.8);border:1px solid var(--line-2);padding:10px 16px;border-radius:999px;cursor:pointer;letter-spacing:.04em;transition:.2s;display:inline-flex;gap:9px;align-items:center}
+.boot-btn:hover{color:var(--text);border-color:var(--text)}
+.boot-btn.meta{color:var(--gfp);border-color:rgba(70,245,160,.4)}
+.boot-btn.meta:hover{background:rgba(70,245,160,.08);border-color:var(--gfp)}
+.boot-legend{position:absolute;right:28px;bottom:96px;font:400 .64rem/1.9 var(--mono);color:var(--dim);text-align:right}
+.boot-legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:8px;vertical-align:middle}
+
+/* ---------- visitor metadata modal ---------- */
+#meta{position:fixed;inset:0;z-index:200;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+#meta.open{opacity:1;visibility:visible}
+.meta-panel{width:min(720px,100%);max-height:86vh;overflow:auto;background:var(--bg-2);border:1px solid var(--line-2);border-bottom:0;border-radius:18px 18px 0 0;padding:26px 28px 30px;transform:translateY(40px);transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+#meta.open .meta-panel{transform:none}
+.meta-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:6px}
+.meta-head h3{font-size:1.35rem;font-weight:600;letter-spacing:-.03em}
+.meta-head h3 em{font-family:var(--serif);font-weight:400;color:var(--muted)}
+.meta-close{background:none;border:1px solid var(--line-2);color:var(--muted);width:34px;height:34px;border-radius:50%;cursor:pointer;flex-shrink:0}
+.meta-close:hover{color:var(--text);border-color:var(--text)}
+.meta-sub{font:400 .68rem var(--mono);color:var(--dim);margin-bottom:20px}
+.meta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
+.meta-group{grid-column:1/-1;font:500 .62rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gfp);margin:16px 0 4px;display:flex;align-items:center;gap:10px}
+.meta-group:after{content:"";flex:1;height:1px;background:var(--line)}
+.meta-row{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px dashed var(--line);font:400 .74rem var(--mono);min-width:0}
+.meta-row span{color:var(--muted);flex-shrink:0}
+.meta-row b{color:var(--text);font-weight:500;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.meta-row b.big{color:var(--gfp)}
+.meta-note{font:400 .62rem/1.6 var(--mono);color:var(--dim);margin-top:18px}
+.meta-retest{margin-top:16px}
+.foot-meta{background:none;border:0;color:var(--dim);font:inherit;cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px}
+.foot-meta:hover{color:var(--gfp)}
+
+/* ---------- nav ---------- */
+header.nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .3s,border-color .3s,backdrop-filter .3s;border-bottom:1px solid transparent}
+header.nav.scrolled{background:rgba(5,5,6,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font:600 .82rem var(--mono);letter-spacing:.02em}
+.brand-dot{width:9px;height:9px;border-radius:50%;background:var(--gfp);box-shadow:0 0 12px var(--gfp)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font:500 .74rem var(--mono);color:var(--muted);letter-spacing:.04em;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cv{font:500 .72rem var(--mono);border:1px solid var(--line-2);padding:8px 14px;border-radius:999px;transition:.2s}
+.nav-cv:hover{border-color:var(--gfp);color:var(--gfp)}
+.menu-btn{display:none;background:none;border:0;color:var(--text);font-size:1.1rem;cursor:pointer;padding:6px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;padding-bottom:9vh}
+#field{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero:after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 70% 40%,transparent 0%,rgba(5,5,6,.35) 55%,var(--bg) 100%),
+             linear-gradient(to bottom,transparent 60%,var(--bg) 100%)}
+.hud{position:absolute;z-index:2;font:400 .64rem/1.7 var(--mono);color:var(--dim);letter-spacing:.06em;pointer-events:none}
+.hud-tl{top:88px;left:28px}
+.hud-tr{top:88px;right:28px;text-align:right}
+.hud b{color:var(--muted);font-weight:500}
+.hud .c1{color:var(--gfp)} .hud .c2{color:var(--rho)}
+.scalebar{position:absolute;z-index:2;right:28px;bottom:calc(9vh + 6px);font:400 .62rem var(--mono);color:var(--muted);text-align:center}
+.scalebar i{display:block;width:84px;height:3px;background:var(--text);margin-bottom:6px}
+.hero-content{position:relative;z-index:3;width:100%}
+.status{display:inline-flex;align-items:center;gap:10px;font:500 .7rem var(--mono);color:var(--muted);border:1px solid var(--line-2);background:rgba(10,10,12,.6);backdrop-filter:blur(6px);padding:7px 14px 7px 11px;border-radius:999px;margin-bottom:28px}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--gfp);box-shadow:0 0 0 0 rgba(70,245,160,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(70,245,160,0)}100%{box-shadow:0 0 0 0 rgba(70,245,160,0)}}
+.hero h1{font-weight:600;font-size:clamp(3rem,10.5vw,8.6rem);line-height:.9;letter-spacing:-.055em;margin-bottom:28px}
+.hero h1 em{font-family:var(--serif);font-weight:400;font-style:italic;letter-spacing:-.02em;color:var(--muted)}
+.hero-sub{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:end;border-top:1px solid var(--line);padding-top:24px}
+.hero-sub p{font-size:clamp(1rem,1.5vw,1.2rem);color:#c4c5cc;max-width:46ch;line-height:1.55}
+.hero-sub p .g{color:var(--gfp)} .hero-sub p .r{color:var(--rho)}
+.hero-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:9px;font:500 .76rem var(--mono);padding:12px 18px;border-radius:999px;border:1px solid var(--line-2);transition:.2s;background:rgba(10,10,12,.6)}
+.btn:hover{border-color:var(--text)}
+.btn.primary{background:var(--text);color:#000;border-color:var(--text)}
+.btn.primary:hover{background:var(--gfp);border-color:var(--gfp)}
+
+/* ---------- sections ---------- */
+section.block{padding:130px 0 0;scroll-margin-top:40px}
+.sec-head{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;margin-bottom:48px;align-items:baseline}
+.sec-idx{font:500 .7rem var(--mono);color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+.sec-idx span{color:var(--gfp)}
+.sec-head h2{font-size:clamp(2rem,4.4vw,3.4rem);font-weight:600;letter-spacing:-.045em;line-height:1}
+.sec-head h2 em{font-family:var(--serif);font-weight:400;font-style:italic;color:var(--muted);letter-spacing:-.01em}
+.sec-body{margin-left:240px}
+
+/* lab intro */
+.lab{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:56px;align-items:start}
+.lab-text p{font-size:clamp(1.15rem,1.9vw,1.5rem);line-height:1.5;letter-spacing:-.015em;color:#d6d7dc;margin-bottom:1.1em}
+.lab-text p .m{color:var(--muted)}
+.lab-text mark{background:none;color:var(--gfp)}
+.lab-text mark.r{color:var(--rho)}
+.portrait{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;aspect-ratio:4/5;background:var(--surface)}
+.portrait img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05) brightness(.9);transition:filter .6s ease}
+.portrait:hover img{filter:grayscale(0) contrast(1) brightness(1)}
+.portrait figcaption{position:absolute;left:0;right:0;bottom:0;padding:14px 16px;font:400 .64rem var(--mono);color:var(--muted);display:flex;justify-content:space-between;background:linear-gradient(transparent,rgba(0,0,0,.85))}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:72px}
+.stat{padding:26px 0 24px;border-right:1px solid var(--line);padding-left:22px}
+.stat:first-child{padding-left:0}
+.stat:last-child{border-right:0}
+.stat b{display:block;font-size:2.4rem;font-weight:600;letter-spacing:-.05em;line-height:1}
+.stat span{font:400 .66rem var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.focus{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:72px}
+.focus-card{background:var(--bg-2);padding:30px 28px 32px;position:relative;transition:background .3s}
+.focus-card:hover{background:var(--surface-2)}
+.focus-card .ch{font:500 .64rem var(--mono);letter-spacing:.08em;margin-bottom:46px;display:flex;align-items:center;gap:8px}
+.focus-card .ch:before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor;box-shadow:0 0 10px currentColor}
+.focus-card h3{font-size:1.2rem;font-weight:600;letter-spacing:-.025em;margin-bottom:10px}
+.focus-card p{font-size:.88rem;color:var(--muted);line-height:1.6}
+
+/* research rows */
+.rows{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;padding:38px 0;border-bottom:1px solid var(--line);position:relative}
+.row-date{font:400 .72rem var(--mono);color:var(--muted);padding-top:4px}
+.row-date .now{display:inline-flex;align-items:center;gap:7px;color:var(--gfp);margin-bottom:8px}
+.row h3{font-size:clamp(1.25rem,2.2vw,1.65rem);font-weight:600;letter-spacing:-.03em;line-height:1.2;margin-bottom:12px}
+.inst{display:flex;align-items:center;gap:12px;font-size:.88rem;color:#c4c5cc;margin-bottom:16px;flex-wrap:wrap}
+.inst img{width:30px;height:30px;object-fit:contain;background:#fff;border-radius:6px;padding:3px}
+.inst .sup{color:var(--muted);font:400 .74rem var(--mono)}
+.project{border-left:2px solid var(--gfp);padding:4px 0 4px 16px;margin-bottom:16px;color:var(--text);font-size:.95rem}
+.project small{display:block;font:400 .62rem var(--mono);color:var(--gfp);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+.row ul{list-style:none;color:var(--muted);font-size:.92rem;max-width:72ch}
+.row li{position:relative;padding-left:20px;margin-bottom:8px}
+.row li:before{content:"→";position:absolute;left:0;color:var(--dim);font-family:var(--mono);font-size:.8rem;top:1px}
+
 /* publications */
-.section-kicker{
-    display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.62rem;font-weight:600;
-    text-transform:uppercase;letter-spacing:.08em;margin:-8px 0 17px;
+.pub{display:grid;grid-template-columns:200px minmax(0,1fr) auto;gap:40px;padding:30px 0;border-bottom:1px solid var(--line);align-items:start;transition:padding .3s}
+.pubs{border-top:1px solid var(--line)}
+.pub:hover{padding-left:12px}
+.pub:hover .pub-title{color:var(--gfp)}
+.pub-year{font:400 .72rem var(--mono);color:var(--muted);padding-top:4px}
+.pub-title{font-size:clamp(1.05rem,1.7vw,1.3rem);font-weight:500;letter-spacing:-.02em;line-height:1.35;margin-bottom:10px;transition:color .25s}
+.pub-authors{font-size:.86rem;color:var(--muted);margin-bottom:4px}
+.pub-authors b{color:var(--text);font-weight:600}
+.pub-venue{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#c4c5cc}
+.pub-link{width:42px;height:42px;border:1px solid var(--line-2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:.25s;flex-shrink:0}
+.pub:hover .pub-link{border-color:var(--gfp);color:var(--gfp);transform:rotate(-45deg)}
+.pub-link.none{border-style:dashed;opacity:.5}
+.tag{display:inline-block;font:500 .6rem var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--rho);border:1px solid rgba(255,92,168,.35);padding:3px 8px;border-radius:999px;margin-left:6px;vertical-align:middle}
+
+/* tools */
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.tool{border:1px solid var(--line);border-radius:14px;padding:30px;background:var(--bg-2);position:relative;overflow:hidden;transition:border-color .3s,transform .3s;display:flex;flex-direction:column}
+.tool:hover{border-color:var(--line-2);transform:translateY(-3px)}
+.tool:before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-90px;top:-110px;background:radial-gradient(circle,var(--glow) 0%,transparent 68%);opacity:.22;transition:opacity .4s}
+.tool:hover:before{opacity:.4}
+.tool .kind{font:500 .64rem var(--mono);color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:56px}
+.tool h3{font-size:1.6rem;font-weight:600;letter-spacing:-.04em;margin-bottom:10px}
+.tool p{color:var(--muted);font-size:.9rem;margin-bottom:22px;flex:1}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px}
+.chip{font:400 .64rem var(--mono);color:#b5b6bd;border:1px solid var(--line-2);border-radius:999px;padding:4px 10px}
+.tool a.doi{font:500 .72rem var(--mono);color:var(--text);display:inline-flex;gap:8px;align-items:center;border-top:1px solid var(--line);padding-top:16px}
+.tool a.doi:hover{color:var(--gfp)}
+
+/* stack */
+.stack{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.stack-col h3{font:500 .7rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:16px;display:flex;justify-content:space-between}
+.stack-col h3 i{color:var(--dim)}
+.stack-col ul{list-style:none}
+.stack-col li{font-size:.95rem;padding:9px 0;border-bottom:1px dashed var(--line);color:#d0d1d6}
+
+/* misc rows (education, community) */
+.mini{display:grid;grid-template-columns:200px minmax(0,1fr) auto;gap:40px;align-items:center;padding:26px 0;border-bottom:1px solid var(--line)}
+.mini:first-child{border-top:1px solid var(--line)}
+.mini h3{font-size:1.15rem;font-weight:600;letter-spacing:-.02em}
+.mini p{color:var(--muted);font-size:.86rem}
+.mini img{width:40px;height:40px;object-fit:contain;background:#fff;border-radius:8px;padding:4px}
+
+/* contact / footer */
+.contact{padding:160px 0 50px}
+.contact-big{font-size:clamp(2.6rem,8vw,6.5rem);font-weight:600;letter-spacing:-.055em;line-height:.95;margin-bottom:40px}
+.contact-big em{font-family:var(--serif);font-weight:400;color:var(--muted)}
+.contact-big a{background:linear-gradient(90deg,var(--gfp),var(--rho));-webkit-background-clip:text;background-clip:text;color:transparent;border-bottom:2px solid rgba(255,255,255,.12);transition:border-color .3s}
+.contact-big a:hover{border-color:var(--gfp)}
+.socials{display:flex;gap:10px;flex-wrap:wrap}
+.socials a{display:inline-flex;align-items:center;gap:9px;font:500 .74rem var(--mono);border:1px solid var(--line-2);border-radius:999px;padding:10px 16px;color:#c4c5cc;transition:.2s}
+.socials a:hover{border-color:var(--text);color:var(--text)}
+footer{border-top:1px solid var(--line);margin-top:110px;padding-top:24px;display:flex;justify-content:space-between;font:400 .66rem var(--mono);color:var(--dim);gap:16px;flex-wrap:wrap}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+/* ---------- responsive ---------- */
+@media(max-width:960px){
+  .sec-head,.row,.pub,.mini{grid-template-columns:1fr;gap:10px}
+  .sec-body{margin-left:0}
+  .pub{grid-template-columns:minmax(0,1fr) auto}
+  .pub-year{grid-column:1/-1}
+  .mini{grid-template-columns:minmax(0,1fr) auto}
+  .mini .row-date{grid-column:1/-1}
+  .lab{grid-template-columns:1fr}
+  .portrait{max-width:360px}
+  .focus,.stack{grid-template-columns:1fr}
+  .stack{gap:30px}
+  .tools{grid-template-columns:1fr}
+  .hero-sub{grid-template-columns:1fr;gap:24px}
+  .hero-actions{justify-content:flex-start}
+  .nav-links{display:none}
+  .nav-links.open{display:flex;position:absolute;top:64px;left:0;right:0;flex-direction:column;gap:0;background:rgba(5,5,6,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:8px 28px 18px}
+  .nav-links.open a{display:block;padding:12px 0;font-size:.85rem}
+  .menu-btn{display:block}
+  .nav-cv{display:none}
 }
-.section-kicker:before{content:"";width:20px;height:1px;background:var(--line)}
-.pub-item{padding:22px 24px;margin-bottom:12px;border-left:3px solid var(--accent-2)}
-.pub-title{font-size:.94rem;font-weight:700;line-height:1.5;margin-bottom:7px}
-.pub-author-highlight{background:var(--accent-soft);color:#096d69;border:0;padding:1px 4px;border-radius:3px;font-weight:650}
-.pub-meta{font-size:.79rem;color:var(--muted)}
-.pub-meta em{color:var(--accent-2);font-style:normal;font-weight:650}
-.pub-doi{
-    font-size:.62rem;margin-top:11px;display:inline-flex;align-items:center;gap:6px;
-    color:var(--muted);background:transparent;padding:0;border:0;
+@media(max-width:640px){
+  .wrap{padding:0 16px}
+  .hud-tl{left:16px} .hud-tr{right:16px} .scalebar{right:16px}
+  .hud-tr{display:none}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat{padding-left:16px}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(3){padding-left:0}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  section.block{padding-top:100px}
+  .tool{padding:24px}
+  .nav-links.open{padding:8px 16px 18px}
+  .boot-legend,.scalebar{display:none}
+  .boot-title{left:16px;right:16px}
+  .boot-log{left:16px;bottom:80px;width:calc(100vw - 32px);font-size:.68rem}
+  .boot-foot{left:16px;right:16px;bottom:20px}
+  .boot-btn{padding:9px 12px;font-size:.64rem}
+  .meta-grid{grid-template-columns:1fr}
+  .meta-panel{padding:22px 18px 26px}
 }
-.pub-doi a{color:var(--accent-2);text-decoration:none}
-.pub-doi a:hover{text-decoration:underline}
-.badge{
-    color:var(--accent);background:var(--accent-soft);padding:2px 6px;border-radius:4px;
-    font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
-    margin-left:7px;border:1px solid #bfe0dc;display:inline-block;vertical-align:middle;
-}
-/* code */
-.code-item{border-left:3px solid var(--accent);padding:23px 24px}
-.tool-label{
-    display:inline-block;color:var(--accent);font-size:.6rem;font-weight:700;
-    text-transform:uppercase;letter-spacing:.07em;border:1px solid #bfe0dc;
-    background:var(--accent-soft);padding:3px 6px;border-radius:4px;margin-bottom:10px;
-}
-.repo-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.repo-head i{
-    width:28px;height:28px;display:flex;align-items:center;justify-content:center;
-    border:1px solid var(--line);border-radius:5px;background:#f7f9f8;color:var(--accent);font-size:.82rem;
-}
-.repo-name{font-weight:700;font-size:.92rem;color:var(--ink);font-family:'Space Grotesk',sans-serif}
-.repo-item p{font-size:.8rem;color:var(--muted);margin-bottom:13px}
-.repo-tags{display:flex;gap:5px;flex-wrap:wrap}
-.repo-tag{
-    font:600 .58rem 'JetBrains Mono',monospace;color:#68757a;border:1px solid var(--line);
-    border-radius:4px;padding:3px 6px;background:#fafbfa;
-}
-.repo-foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:15px}
-.repo-link{color:var(--accent);font:600 .64rem 'JetBrains Mono',monospace;text-decoration:none}
-.repo-link:hover{text-decoration:underline}
-/* expertise */
-.grid-expertise{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.exp-card{padding:20px}
-.exp-card h3{
-    font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
-    margin-bottom:9px;display:flex;align-items:center;gap:8px;
-}
-.exp-card h3 i{
-    width:28px;height:28px;display:flex;align-items:center;justify-content:center;
-    border:1px solid var(--line);border-radius:5px;background:var(--accent-soft);
-    color:var(--accent);font-size:.78rem;
-}
-.exp-card p{font-size:.77rem;color:var(--muted);margin:0}
-.doodle{display:none}
-@media(max-width:1000px){
-    .container{grid-template-columns:240px minmax(0,1fr);gap:40px}
-    .grid-expertise{grid-template-columns:1fr}
-}
-@media(max-width:760px){
-    .container{display:flex;flex-direction:column;padding:30px 20px 60px;gap:35px}
-    aside{position:relative;top:auto;max-height:none}
-    .nav-links{display:grid;grid-template-columns:repeat(2,1fr);column-gap:20px}
-    main{width:100%}
-    section{margin-bottom:58px}
-    .grid-expertise{grid-template-columns:1fr}
-}
-@media(max-width:480px){
-    .container{padding:24px 16px 50px}
-    aside h1{font-size:1.45rem}
-    .lede-card{padding:21px}
-    .cv-item,.pub-item,.code-item{padding:18px}
-    .nav-links{grid-template-columns:1fr}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none;transition:none}
+  .pulse{animation:none}
 }
 </style>
-
 </head>
 <body>
 
-<!-- lab-themed doodles instead of generic stickers: vesicle blobs + a spark, echoing the GPMV subject matter -->
-<svg class="doodle d-blob1" viewBox="0 0 100 100" fill="none"><path d="M50 8c22 0 40 16 40 38s-16 44-40 44S10 68 10 46 28 8 50 8Z" stroke="#F5F5F0" stroke-width="3"/><circle cx="50" cy="46" r="6" fill="#FF6FA0" stroke="#F5F5F0" stroke-width="2"/></svg>
-<svg class="doodle d-blob2" viewBox="0 0 100 100" fill="none"><path d="M48 10c20 2 36 20 34 40s-20 36-40 34S6 64 8 44 28 8 48 10Z" stroke="#F5F5F0" stroke-width="3"/><circle cx="46" cy="44" r="5" fill="#5A78FF" stroke="#F5F5F0" stroke-width="2"/></svg>
-<svg class="doodle d-plus" viewBox="0 0 40 40"><path d="M20 4v32M4 20h32" stroke="#F5F5F0" stroke-width="4" stroke-linecap="round"/></svg>
-<svg class="doodle d-spark" viewBox="0 0 40 40"><path d="M20 2 24 16 38 20 24 24 20 38 16 24 2 20 16 16Z" fill="#FFDA3D" stroke="#F5F5F0" stroke-width="2.5" stroke-linejoin="round"/></svg>
-<svg class="doodle d-blob3" viewBox="0 0 100 100" fill="none"><path d="M50 8c22 0 40 16 40 38s-16 44-40 44S10 68 10 46 28 8 50 8Z" stroke="#F5F5F0" stroke-width="3"/><circle cx="50" cy="46" r="6" fill="#9B7BFF" stroke="#F5F5F0" stroke-width="2"/></svg>
-
-<div class="container">
-    <!-- SIDEBAR -->
-    <aside>
-        <div class="profile">
-            <div class="profile-card">
-                <div class="avatar-blob"><div class="image-bg"></div></div>
-                <h1>~/ tanmay <span>pandey</span></h1>
-                <div class="current-mark">Current research</div>
-                <div class="tagline"><i class="fas fa-microscope" style="font-size:.65rem;"></i> MPI Biophysics · Frankfurt</div>
-                <div class="affiliation">
-                    Master's Thesis Research<br>
-                    Max Planck Institute of Biophysics<br>
-                    <i>BSMS @ IISER Mohali</i>
-                </div>
-            </div>
-
-            <div class="stat-row" style="margin-top:1.2rem;">
-                <div class="stat-pill"><span class="stat-num">5<sup>th</sup></span><span class="stat-label">Year BSMS</span></div>
-                <div class="stat-pill"><span class="stat-num">4</span><span class="stat-label">Papers</span></div>
-                <div class="stat-pill"><span class="stat-num">2</span><span class="stat-label">Tools</span></div>
-            </div>
-
-            <nav style="margin-top:1.3rem;">
-                <ul class="nav-links">
-                    <li><a href="#about"><i class="far fa-file-alt fa-fw"></i> Profile</a></li>
-                    <li><a href="#education"><i class="fas fa-graduation-cap fa-fw"></i> Education</a></li>
-                    <li><a href="#experience"><i class="fas fa-code-branch fa-fw"></i> Research</a></li>
-                    <li><a href="#publications"><i class="fas fa-book fa-fw"></i> Publications</a></li>
-                    <li><a href="#repos"><i class="fas fa-code fa-fw"></i> Code & Tools</a></li>
-                    <li><a href="#expertise"><i class="fas fa-cube fa-fw"></i> Tech Stack</a></li>
-                    <li><a href="#roles"><i class="fas fa-shield-alt fa-fw"></i> Community</a></li>
-                </ul>
-            </nav>
-        </div>
-
-        <div class="social-container">
-            <div class="social-links">
-                <a href="https://github.com/tanmay1902" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://orcid.org/0009-0003-7807-3429" target="_blank" title="ORCID"><i class="fab fa-orcid"></i></a>
-                <a href="https://scholar.google.com/citations?user=HcrsV8sAAAAJ" target="_blank" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
-                <a href="mailto:ms22113@iisermohali.ac.in" title="Email"><i class="fas fa-envelope"></i></a>
-            </div>
-            <a href="tanmay_cv.pdf" class="cv-btn" target="_blank">Get CV <i class="fas fa-arrow-down"></i></a>
-        </div>
-    </aside>
-
-    <!-- MAIN -->
-    <main>
-        <section id="about">
-            <h2><span class="idx">01</span><i class="fas fa-terminal"></i>Profile Summary</h2>
-            <div class="card-base lede-card">
-                <p>I am a biophysics student at IISER Mohali working on <span class="highlight">membrane mechanics</span>, plasma membrane vesicles, and quantitative image analysis. My research focuses on studying membrane morphology and mechanical properties using fluorescence microscopy and computational analysis tools. My current work involves quantitative analysis of giant plasma membrane vesicles (GPMVs) and biomimetic membrane systems.</p>
-            </div>
-        </section>
-
-        <section id="education">
-            <h2><span class="idx">02</span><i class="fas fa-graduation-cap"></i>Education</h2>
-            <div class="timeline">
-                <div class="card-base cv-item" style="--accentbar:var(--accent-2)">
-                    <div class="cv-header">
-                        <div class="cv-title">BS–MS Dual Degree<small>Biology Major & Physics Minor</small></div>
-                        <div class="cv-date">2022 — 2027</div>
-                    </div>
-                    <div class="cv-institution"><span class="inst">
-<img class="inst-logo" src="IISER-Mohali_Logo.svg" alt="IISER Mohali logo" class="inst-logo">
-Indian Institute of Science Education and Research (IISER) Mohali
-</span></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="experience">
-            <h2><span class="idx">03</span><i class="fas fa-terminal"></i>Research</h2>
-            <div class="timeline">
-                <div class="card-base cv-item" style="--accentbar:var(--accent)">
-                    <div class="current-mark">Current association</div>
-                    <div class="cv-header">
-                        <div class="cv-title">Master's Thesis Project Intern</div>
-                        <div class="cv-date">May 2026 — Present</div>
-                    </div>
-                    <div class="cv-institution">
-                        <span class="inst">
-                            <img class="inst-logo" src="mpi.jpg" alt="Max Planck Society logo" class="inst-logo logo-mpi">
-                            Max Planck Institute of Biophysics, Frankfurt
-                        </span> | Supervisor: Dr. Uris Ros
-                    </div>
-                    <div class="cv-project"><strong>Project:</strong> Micromechanics of Membrane Blebs in Regulated Necrotic Cell Death</div>
-                    <ul class="cv-details">
-                        <li>Investigating time-dependent biophysical profiles (tension, rigidity, permeability) in giant plasma membrane vesicles (GPMVs) across regulated cell death channels.</li>
-                    </ul>
-                </div>
-
-                <div class="card-base cv-item">
-                    <div class="cv-header">
-                        <div class="cv-title">Project Intern — Soft Matter Biophysics Lab</div>
-                        <div class="cv-date">May 2023 — April 2026</div>
-                    </div>
-                    <div class="cv-institution"><span class="inst">
-<img class="inst-logo" src="IISER-Mohali_Logo.svg" alt="IISER Mohali logo" class="inst-logo">
-IISER Mohali
-</span> | Supervisor: Dr. Tripta Bhatia</div>
-                    <ul class="cv-details">
-                        <li>Engineered micro-contour tracking protocols for biomimetic and plasma membrane vesicles.</li>
-                        <li>Configured automated algorithm suites for geometric parameter parsing from brightfield and fluorescence microscopy datasets to isolate baseline membrane deviations.</li>
-                    </ul>
-                </div>
-
-                <div class="card-base cv-item">
-                    <div class="cv-header">
-                        <div class="cv-title">Student Assistant — Bio-inspired Computation Lab</div>
-                        <div class="cv-date">March 2024 — December 2025</div>
-                    </div>
-                    <div class="cv-institution"><span class="inst">
-<img class="inst-logo" src="kiel.svg" alt="University of Kiel logo" class="inst-logo logo-kiel">
-University of Kiel, Germany (Remote)
-</span> | Supervisor: Prof. Jan Steinkühler</div>
-                    <ul class="cv-details">
-                        <li>Executed numerical simulations of DNA-based spring–mass systems modeled on structural multi-layered Worm-Like Chain networks.</li>
-                        <li>Evaluated processing constraints of physical learning arrays across nonlinear dynamical multi-task behaviors.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="publications">
-            <h2><span class="idx">04</span><i class="fas fa-file-lines"></i>Publications</h2>
-            <div class="section-kicker paper">Papers · manuscripts · journal articles</div>
-
-            <div class="card-base pub-item paper-item">
-                <div class="pub-title">Evolution of Vesicle Shape Parameters Based on A Deep-Learning Based Image Analysis Framework Over Extended Time Periods</div>
-                <div class="pub-meta"><span class="pub-author-highlight">T. Pandey</span>, R. Kudawla, J.V.B.S, C. Devarakonda, A. Chatterjee, T. Bhatia<br><em>Under Revision</em></div>
-                <div class="pub-doi"><i class="fas fa-link"></i> manuscript // </div>
-            </div>
-
-            <div class="card-base pub-item paper-item">
-                <div class="pub-title">Directed evolution effectively selects for DNA-based physical reservoir computing networks</div>
-                <div class="pub-meta"><span class="pub-author-highlight">T. Pandey</span>, P. Feketa, J. Steinkühler. (2026).<br><em>Neuromorphic Computing and Engineering</em> (IOP).</div>
-                <div class="pub-doi"><i class="fas fa-link"></i> doi // <a href="https://doi.org/10.1088/2634-4386/ae2cc3" target="_blank">10.1088/2634-4386/ae2cc3</a></div>
-            </div>
-
-            <div class="card-base pub-item paper-item">
-                <div class="pub-title">Experimentally determined shapes of plasma membrane vesicles and PC/PC–cholesterol vesicles</div>
-                <div class="pub-meta">H. Kaur, R. Kudawla, <span class="pub-author-highlight">T. Pandey</span>, T. Bhatia. (2025).<br><em>Journal of Physical Chemistry B</em> (ACS).</div>
-                <div class="pub-doi"><i class="fas fa-link"></i> doi // <a href="https://doi.org/10.1021/acs.jpcb.4c07431" target="_blank">10.1021/acs.jpcb.4c07431</a></div>
-            </div>
-
-            <div class="card-base pub-item paper-item">
-                <div class="pub-title">Shape analysis of biomimetic and plasma membrane vesicles</div>
-                <div class="pub-meta">R. Kudawla, H. Kaur, <span class="pub-author-highlight">T. Pandey</span>, T. Bhatia. (2024).<br><em>ChemSystemsChem</em> (Wiley).</div>
-                <div class="pub-doi"><i class="fas fa-link"></i> doi // <a href="https://doi.org/10.1002/syst.202400052" target="_blank">10.1002/syst.202400052</a></div>
-            </div>
-        </section>
-
-        <section id="repos">
-            <h2><span class="idx">05</span><i class="fas fa-code"></i>Code &amp; Tools</h2>
-            <div class="section-kicker code">Code · open source · reproducible analysis</div>
-            <div class="grid-expertise" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr));">
-
-                <div class="card-base repo-item code-item">
-                    <span class="tool-label">Python image analysis</span>
-                    <div class="repo-head"><i class="fab fa-github"></i><span class="repo-name">VesEvol</span></div>
-                    <p><strong>VesEvol — Vesicle Evolution over Long Time.</strong> Image-analysis program for tracking and quantifying vesicle shape evolution over extended time periods.</p>
-                    <div class="repo-tags">
-                        <span class="repo-tag">Python</span>
-                        <span class="repo-tag">Image Analysis</span>
-                        <span class="repo-tag">Zenodo</span>
-                    </div>
-                    <div class="repo-foot">
-                        <a class="repo-link" href="https://doi.org/10.5281/zenodo.22210498" target="_blank">10.5281/zenodo.22210498 <i class="fas fa-arrow-up-right-from-square" style="font-size:.6rem;"></i></a>
-                    </div>
-                </div>
-
-                <div class="card-base repo-item code-item">
-                    <span class="tool-label">Open-source toolkit</span>
-                    <div class="repo-head"><i class="fas fa-shapes"></i><span class="repo-name">Vesicle Shape Analysis Toolkit</span></div>
-                    <p>Open-source automation pipeline for micro-contour extraction, local curvature calculations, and quantitative mechanical analysis of biomimetic and plasma membrane vesicles.</p>
-                    <div class="repo-tags">
-                        <span class="repo-tag">Python</span>
-                        <span class="repo-tag">Curvature</span>
-                        <span class="repo-tag">Zenodo</span>
-                    </div>
-                    <div class="repo-foot">
-                        <a class="repo-link" href="https://doi.org/10.5281/zenodo.17104430" target="_blank">10.5281/zenodo.17104430 <i class="fas fa-arrow-up-right-from-square" style="font-size:.6rem;"></i></a>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section id="expertise">
-            <h2><span class="idx">06</span><i class="fas fa-terminal"></i>What I Know</h2>
-            <div class="grid-expertise">
-                <div class="card-base exp-card">
-                    <h3><i class="fas fa-eye"></i>Microscopy & Optics</h3>
-                    <p>Advanced optical microscopy alignment; manual GPMV isolation from cell frameworks; mammalian line management (HEK293T).</p>
-                </div>
-                <div class="card-base exp-card">
-                    <h3><i class="fas fa-calculator"></i>Image Segmentation</h3>
-                    <p>Deep-learning CNN image processing setups; automated geometric boundary parsing; custom manual validation UI tools.</p>
-                </div>
-                <div class="card-base exp-card">
-                    <h3><i class="fas fa-code"></i>Scientific Compute</h3>
-                    <p>Python (Numerical/Data stack), MATLAB, JavaScript. Programmatic structural pipeline engineering optimized for rapid image batch validation.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="roles">
-            <h2><span class="idx">07</span><i class="fas fa-terminal"></i>Community</h2>
-            <div class="timeline">
-                <div class="card-base cv-item" style="--accentbar:var(--accent-3)">
-                    <div class="cv-header">
-                        <div class="cv-title">General Secretary and Hostel Representative</div>
-                        <div class="cv-date">2025 — 2026</div>
-                    </div>
-                    <div class="cv-institution"><span class="inst">
-<img class="inst-logo" src="https://src-iiserm.github.io/assets/logo.png" alt="IISER Mohali logo" class="inst-logo">
-Student Representative Council (SRC), IISER Mohali
-</span></div>
-                </div>
-            </div>
-        </section>
-    </main>
+<!-- ============ INTRO ============ -->
+<div id="boot" role="dialog" aria-label="Loading: animation of a cell undergoing necrotic death">
+  <canvas id="cellcv" aria-hidden="true"></canvas>
+  <div class="boot-title">
+    <span><b>Live-cell imaging</b> · regulated necrosis<br>HEK293T · 63× oil</span>
+    <span><span class="rec">● REC</span><br><span id="bootT">t = 00:00 min</span></span>
+  </div>
+  <div class="boot-log" aria-live="polite">
+    <div class="boot-line"><span class="t">00:00</span>healthy cell · membrane intact <span class="ok">ok</span></div>
+    <div class="boot-line"><span class="t">04:10</span>necroptotic trigger · RIPK1/RIPK3 <span class="hl">necrosome</span></div>
+    <div class="boot-line"><span class="t">11:30</span>MLKL → plasma membrane · <span class="hl">blebbing</span></div>
+    <div class="boot-line"><span class="t">19:45</span>osmotic swelling · PI uptake <span class="pi">↑</span></div>
+    <div class="boot-line"><span class="t">27:00</span>membrane rupture · <span class="pi">lysis</span></div>
+    <div class="boot-line"><span class="t">27:01</span>loading <span class="hl">tanmay pandey</span>_</div>
+    <div class="boot-bar"><i></i></div>
+  </div>
+  <div class="boot-legend">membrane <i style="background:var(--gfp)"></i><br>nucleus <i style="background:var(--dapi)"></i><br>propidium iodide <i style="background:var(--rho)"></i></div>
+  <div class="boot-foot">
+    <button class="boot-btn meta" id="bootMeta" type="button"><i class="fas fa-satellite-dish"></i> sample metadata · your connection</button>
+    <button class="boot-btn" id="bootSkip" type="button">skip →</button>
+  </div>
 </div>
 
+<!-- ============ VISITOR METADATA MODAL ============ -->
+<div id="meta" role="dialog" aria-modal="true" aria-labelledby="metaTitle">
+  <div class="meta-panel">
+    <div class="meta-head">
+      <div>
+        <h3 id="metaTitle">Sample metadata <em>— that's you.</em></h3>
+      </div>
+      <button class="meta-close" id="metaClose" type="button" aria-label="Close"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="meta-sub">// acquired live from your browser · nothing is stored or sent to me</div>
+    <div class="meta-grid" id="metaGrid"></div>
+    <button class="boot-btn meta-retest" id="metaRetest" type="button"><i class="fas fa-rotate"></i> re-measure ping</button>
+    <div class="meta-note">IP &amp; location are looked up via ipapi.co only when you open this panel. Ping is the round-trip time to this site's server.</div>
+  </div>
+</div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand"><span class="brand-dot"></span>tanmay.pandey</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About me</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Papers</a></li>
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="tanmay_cv.pdf" target="_blank" class="nav-cv">CV ↓</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false"><i class="fas fa-bars"></i></button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="hud hud-tl">
+    <b>SAMPLE</b> GPMV_field_07<br>
+    <span class="c1">CH1</span> 488 nm · membrane<br>
+    <span class="c2">CH2</span> 561 nm · lumen
+  </div>
+  <div class="hud hud-tr">
+    <b>T</b> <span id="clock">00:00.0</span> s<br>
+    <b>FPS</b> 60 · <b>OBJ</b> 63× / 1.4 oil<br>
+    <b>MODE</b> live acquisition
+  </div>
+  <div class="scalebar"><i></i>10 µm</div>
+
+  <div class="wrap hero-content">
+    <div class="status rv"><span class="pulse"></span>Master's thesis · Max Planck Institute of Biophysics, Frankfurt</div>
+    <h1 class="rv">Tanmay<br><em>Pandey</em></h1>
+    <div class="hero-sub rv">
+      <p>Biophysicist studying how <span class="g">membranes</span> bend, flicker and break — measured through fluorescence microscopy and <span class="r">quantitative image analysis</span>.</p>
+      <div class="hero-actions">
+        <a href="#about" class="btn primary">About me <i class="fas fa-arrow-down"></i></a>
+        <a href="tanmay_cv.pdf" target="_blank" class="btn">Download CV</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+<!-- ============ ABOUT ME ============ -->
+<section class="block" id="about">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-idx"><span>01</span> / About me</div>
+      <h2>Membranes, <em>under the lens.</em></h2>
+    </div>
+
+    <div class="lab">
+      <div class="lab-text rv">
+        <p>I'm a BS–MS student at <span class="m">IISER Mohali</span>, working on <mark>membrane mechanics</mark>, giant plasma membrane vesicles and quantitative image analysis.</p>
+        <p>My bench is part wet-lab, part code: I isolate <mark class="r">GPMVs</mark> from living cells, image them for hours, and build the pipelines that turn every frame into tension, rigidity and shape.</p>
+        <p class="m" style="font-size:1rem;color:var(--muted)">Right now: mapping how membrane blebs change mechanically as cells go through regulated necrotic death — at the Max Planck Institute of Biophysics.</p>
+      </div>
+      <figure class="portrait rv">
+        <img src="tanmay.jpeg" alt="Portrait of Tanmay Pandey" loading="lazy">
+        <figcaption><span>// Tanmay Pandey</span><span>Frankfurt, DE</span></figcaption>
+      </figure>
+    </div>
+
+    <div class="stats rv">
+      <div class="stat"><b>4</b><span>Papers</span></div>
+      <div class="stat"><b>2</b><span>Open tools</span></div>
+      <div class="stat"><b>3</b><span>Labs · 2 countries</span></div>
+      <div class="stat"><b>5<sup style="font-size:.5em">th</sup></b><span>Year BS–MS</span></div>
+    </div>
+
+    <div class="focus rv">
+      <div class="focus-card">
+        <div class="ch" style="color:var(--gfp)">CH1 · MECHANICS</div>
+        <h3>Membrane micromechanics</h3>
+        <p>Tension, bending rigidity and permeability of plasma membrane vesicles, and how they evolve over time.</p>
+      </div>
+      <div class="focus-card">
+        <div class="ch" style="color:var(--rho)">CH2 · IMAGING</div>
+        <h3>Quantitative microscopy</h3>
+        <p>Brightfield and fluorescence imaging of vesicles, with deep-learning segmentation and sub-pixel contour tracking.</p>
+      </div>
+      <div class="focus-card">
+        <div class="ch" style="color:var(--dapi)">CH3 · COMPUTE</div>
+        <h3>Physical computing</h3>
+        <p>Simulating DNA-based spring–mass networks as reservoirs that learn, selected by directed evolution.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESEARCH ============ -->
+<section class="block" id="research">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-idx"><span>02</span> / Research</div>
+      <h2>Where I've <em>worked.</em></h2>
+    </div>
+    <div class="rows">
+      <article class="row rv">
+        <div class="row-date"><div class="now"><span class="pulse"></span>Current</div>May 2026 — Present</div>
+        <div>
+          <h3>Master's Thesis Project Intern</h3>
+          <div class="inst"><img src="mpi.jpg" alt="Max Planck Society logo">Max Planck Institute of Biophysics, Frankfurt <span class="sup">// Dr. Uris Ros</span></div>
+          <div class="project"><small>Project</small>Micromechanics of Membrane Blebs in Regulated Necrotic Cell Death</div>
+          <ul><li>Investigating time-dependent biophysical profiles (tension, rigidity, permeability) in giant plasma membrane vesicles (GPMVs) across regulated cell death channels.</li></ul>
+        </div>
+      </article>
+      <article class="row rv">
+        <div class="row-date">May 2023 — Apr 2026</div>
+        <div>
+          <h3>Project Intern — Soft Matter Biophysics Lab</h3>
+          <div class="inst"><img src="IISER-Mohali_Logo.svg" alt="IISER Mohali logo">IISER Mohali <span class="sup">// Dr. Tripta Bhatia</span></div>
+          <ul>
+            <li>Engineered micro-contour tracking protocols for biomimetic and plasma membrane vesicles.</li>
+            <li>Configured automated algorithm suites for geometric parameter parsing from brightfield and fluorescence microscopy datasets to isolate baseline membrane deviations.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="row rv">
+        <div class="row-date">Mar 2024 — Dec 2025</div>
+        <div>
+          <h3>Student Assistant — Bio-inspired Computation Lab</h3>
+          <div class="inst"><img src="kiel.svg" alt="University of Kiel logo">University of Kiel, Germany (remote) <span class="sup">// Prof. Jan Steinkühler</span></div>
+          <ul>
+            <li>Executed numerical simulations of DNA-based spring–mass systems modeled on structural multi-layered Worm-Like Chain networks.</li>
+            <li>Evaluated processing constraints of physical learning arrays across nonlinear dynamical multi-task behaviors.</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PUBLICATIONS ============ -->
+<section class="block" id="publications">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-idx"><span>03</span> / Publications</div>
+      <h2>Selected <em>papers.</em></h2>
+    </div>
+    <div class="pubs">
+      <div class="pub rv">
+        <div class="pub-year">Manuscript</div>
+        <div>
+          <div class="pub-title">Evolution of Vesicle Shape Parameters Based on A Deep-Learning Based Image Analysis Framework Over Extended Time Periods <span class="tag">Under revision</span></div>
+          <div class="pub-authors"><b>T. Pandey</b>, R. Kudawla, J.V.B.S, C. Devarakonda, A. Chatterjee, T. Bhatia</div>
+        </div>
+        <span class="pub-link none" title="Not yet published"><i class="fas fa-hourglass-half"></i></span>
+      </div>
+      <a class="pub rv" href="https://doi.org/10.1088/2634-4386/ae2cc3" target="_blank" rel="noopener">
+        <div class="pub-year">2026</div>
+        <div>
+          <div class="pub-title">Directed evolution effectively selects for DNA-based physical reservoir computing networks</div>
+          <div class="pub-authors"><b>T. Pandey</b>, P. Feketa, J. Steinkühler</div>
+          <div class="pub-venue">Neuromorphic Computing and Engineering · IOP</div>
+        </div>
+        <span class="pub-link"><i class="fas fa-arrow-right"></i></span>
+      </a>
+      <a class="pub rv" href="https://doi.org/10.1021/acs.jpcb.4c07431" target="_blank" rel="noopener">
+        <div class="pub-year">2025</div>
+        <div>
+          <div class="pub-title">Experimentally determined shapes of plasma membrane vesicles and PC/PC–cholesterol vesicles</div>
+          <div class="pub-authors">H. Kaur, R. Kudawla, <b>T. Pandey</b>, T. Bhatia</div>
+          <div class="pub-venue">Journal of Physical Chemistry B · ACS</div>
+        </div>
+        <span class="pub-link"><i class="fas fa-arrow-right"></i></span>
+      </a>
+      <a class="pub rv" href="https://doi.org/10.1002/syst.202400052" target="_blank" rel="noopener">
+        <div class="pub-year">2024</div>
+        <div>
+          <div class="pub-title">Shape analysis of biomimetic and plasma membrane vesicles</div>
+          <div class="pub-authors">R. Kudawla, H. Kaur, <b>T. Pandey</b>, T. Bhatia</div>
+          <div class="pub-venue">ChemSystemsChem · Wiley</div>
+        </div>
+        <span class="pub-link"><i class="fas fa-arrow-right"></i></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TOOLS ============ -->
+<section class="block" id="tools">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-idx"><span>04</span> / Code &amp; tools</div>
+      <h2>Open <em>instruments.</em></h2>
+    </div>
+    <div class="tools">
+      <div class="tool rv" style="--glow:var(--gfp)">
+        <div class="kind">Python · image analysis</div>
+        <h3>VesEvol</h3>
+        <p>Vesicle Evolution over Long Time — an image-analysis program for tracking and quantifying vesicle shape evolution over extended time periods.</p>
+        <div class="chips"><span class="chip">Python</span><span class="chip">Image analysis</span><span class="chip">Zenodo</span></div>
+        <a class="doi" href="https://doi.org/10.5281/zenodo.22210498" target="_blank" rel="noopener">10.5281/zenodo.22210498 <i class="fas fa-arrow-up-right-from-square"></i></a>
+      </div>
+      <div class="tool rv" style="--glow:var(--rho)">
+        <div class="kind">Open-source toolkit</div>
+        <h3>Vesicle Shape Analysis Toolkit</h3>
+        <p>Automation pipeline for micro-contour extraction, local curvature calculations and quantitative mechanical analysis of biomimetic and plasma membrane vesicles.</p>
+        <div class="chips"><span class="chip">Python</span><span class="chip">Curvature</span><span class="chip">Zenodo</span></div>
+        <a class="doi" href="https://doi.org/10.5281/zenodo.17104430" target="_blank" rel="noopener">10.5281/zenodo.17104430 <i class="fas fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STACK ============ -->
+<section class="block" id="stack">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-idx"><span>05</span> / Toolkit</div>
+      <h2>What I <em>work with.</em></h2>
+    </div>
+    <div class="stack rv">
+      <div class="stack-col">
+        <h3>Microscopy &amp; wet lab <i class="fas fa-microscope"></i></h3>
+        <ul>
+          <li>Optical microscopy alignment</li>
+          <li>GPMV isolation from cells</li>
+          <li>Mammalian cell culture (HEK293T)</li>
+        </ul>
+      </div>
+      <div class="stack-col">
+        <h3>Image segmentation <i class="fas fa-vector-square"></i></h3>
+        <ul>
+          <li>Deep-learning (CNN) segmentation</li>
+          <li>Automated contour parsing</li>
+          <li>Custom validation UI tools</li>
+        </ul>
+      </div>
+      <div class="stack-col">
+        <h3>Scientific compute <i class="fas fa-code"></i></h3>
+        <ul>
+          <li>Python · numerical / data stack</li>
+          <li>MATLAB</li>
+          <li>JavaScript</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EDUCATION + COMMUNITY ============ -->
+<section class="block" id="education">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-idx"><span>06</span> / Education &amp; community</div>
+      <h2>Background.</h2>
+    </div>
+    <div class="sec-body-full">
+      <div class="mini rv">
+        <div class="row-date">2022 — 2027</div>
+        <div><h3>BS–MS Dual Degree</h3><p>Biology major, Physics minor · Indian Institute of Science Education and Research (IISER) Mohali</p></div>
+        <img src="IISER-Mohali_Logo.svg" alt="IISER Mohali logo">
+      </div>
+      <div class="mini rv">
+        <div class="row-date">2025 — 2026</div>
+        <div><h3>General Secretary &amp; Hostel Representative</h3><p>Student Representative Council (SRC), IISER Mohali</p></div>
+        <img src="https://src-iiserm.github.io/assets/logo.png" alt="SRC IISER Mohali logo">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="sec-idx rv" style="margin-bottom:28px"><span>07</span> / Contact</div>
+    <div class="contact-big rv">Let's talk<br><em>membranes</em> — <a href="mailto:ms22113@iisermohali.ac.in">say hello.</a></div>
+    <div class="socials rv">
+      <a href="mailto:ms22113@iisermohali.ac.in"><i class="fas fa-envelope"></i> Email</a>
+      <a href="https://github.com/tanmay1902" target="_blank" rel="noopener"><i class="fab fa-github"></i> GitHub</a>
+      <a href="https://orcid.org/0009-0003-7807-3429" target="_blank" rel="noopener"><i class="fab fa-orcid"></i> ORCID</a>
+      <a href="https://scholar.google.com/citations?user=HcrsV8sAAAAJ" target="_blank" rel="noopener"><i class="fas fa-graduation-cap"></i> Scholar</a>
+      <a href="tanmay_cv.pdf" target="_blank"><i class="fas fa-file-arrow-down"></i> CV</a>
+    </div>
+    <footer>
+      <span>© <span id="yr">2026</span> Tanmay Pandey</span>
+      <button class="foot-meta" id="footMeta" type="button">your sample metadata</button>
+      <span>Designed by me · helped by Claude</span>
+    </footer>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* ---------- visitor metadata modal ---------- */
+  const meta = document.getElementById('meta'), grid = document.getElementById('metaGrid');
+  let metaBuilt = false, metaReturn = null, onMetaClose = null;
+  const cells = {};
+  function group(name){ const g=document.createElement('div'); g.className='meta-group'; g.textContent=name; grid.appendChild(g); }
+  function row(key,label,val){
+    const r=document.createElement('div'); r.className='meta-row';
+    const s=document.createElement('span'); s.textContent=label;
+    const b=document.createElement('b'); b.textContent=val==null||val===''?'—':val; b.title=b.textContent;
+    r.append(s,b); grid.appendChild(r); cells[key]=b;
+  }
+  function set(key,val,big){ const b=cells[key]; if(!b) return; b.textContent=val==null||val===''?'—':String(val); b.title=b.textContent; b.classList.toggle('big',!!big); }
+  function osName(){
+    const ua=navigator.userAgent, p=(navigator.userAgentData&&navigator.userAgentData.platform)||'';
+    if (/Windows/i.test(p)||/Windows NT/.test(ua)) return 'Windows';
+    if (/Android/i.test(ua)) return 'Android';
+    if (/iPhone|iPad|iPod/.test(ua)) return 'iOS / iPadOS';
+    if (/mac/i.test(p)||/Mac OS X/.test(ua)) return 'macOS';
+    if (/CrOS/.test(ua)) return 'ChromeOS';
+    if (/Linux/i.test(p)||/Linux/.test(ua)) return 'Linux';
+    return p||'unknown';
+  }
+  function browserName(){
+    const ua=navigator.userAgent; let m;
+    if ((m=ua.match(/Edg\/([\d]+)/))) return 'Edge '+m[1];
+    if ((m=ua.match(/OPR\/([\d]+)/))) return 'Opera '+m[1];
+    if ((m=ua.match(/Firefox\/([\d]+)/))) return 'Firefox '+m[1];
+    if ((m=ua.match(/Chrome\/([\d]+)/))) return 'Chrome '+m[1];
+    if ((m=ua.match(/Version\/([\d.]+).*Safari/))) return 'Safari '+m[1];
+    return 'unknown';
+  }
+  function gpu(){
+    try{
+      const gl=document.createElement('canvas').getContext('webgl');
+      if(!gl) return null;
+      const ext=gl.getExtension('WEBGL_debug_renderer_info');
+      return ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER);
+    }catch(e){ return null; }
+  }
+  async function measurePing(){
+    if (location.protocol==='file:'){ set('ping','n/a · opened as local file'); set('pingavg','—'); return; }
+    set('ping','measuring…');
+    const url=location.origin+location.pathname, times=[];
+    try{
+      for(let i=0;i<5;i++){
+        const t=performance.now();
+        await fetch(url+'?ping='+Date.now()+i,{method:'HEAD',cache:'no-store'});
+        times.push(performance.now()-t);
+      }
+      times.shift(); // first one includes connection warm-up
+      const min=Math.min(...times), avg=times.reduce((a,b)=>a+b,0)/times.length;
+      const jit=Math.max(...times)-min;
+      set('ping',Math.round(min)+' ms',true);
+      set('pingavg',Math.round(avg)+' ms avg · ±'+Math.round(jit)+' ms jitter');
+    }catch(e){ set('ping','failed'); }
+  }
+  async function lookupIP(){
+    try{
+      const r=await fetch('https://ipapi.co/json/',{cache:'no-store'});
+      if(!r.ok) throw 0;
+      const d=await r.json();
+      if(d.error) throw 0;
+      set('ip',d.ip,true);
+      set('loc',[d.city,d.region,d.country_name].filter(Boolean).join(', '));
+      set('isp',d.org);
+      set('asn',d.asn);
+      set('iptz',d.timezone);
+      set('coords',(d.latitude!=null)?(d.latitude.toFixed(2)+'°, '+d.longitude.toFixed(2)+'°'):null);
+    }catch(e){
+      try{
+        const r=await fetch('https://api.ipify.org?format=json',{cache:'no-store'}); const d=await r.json();
+        set('ip',d.ip,true); ['loc','isp','asn','iptz','coords'].forEach(k=>set(k,'lookup unavailable'));
+      }catch(e2){ ['ip','loc','isp','asn','iptz','coords'].forEach(k=>set(k,'blocked / offline')); }
+    }
+  }
+  function buildMeta(){
+    metaBuilt=true;
+    const n=navigator, c=n.connection||{}, nav=performance.getEntriesByType&&performance.getEntriesByType('navigation')[0];
+    group('Network');
+    row('ip','Public IP','looking up…');
+    row('ping','Ping','…');
+    row('loc','Location','…');
+    row('pingavg','Round-trip','…');
+    row('isp','ISP / org','…');
+    row('asn','ASN','…');
+    row('coords','Approx. coords','…');
+    row('conn','Connection',[c.effectiveType,c.downlink!=null?c.downlink+' Mb/s':null].filter(Boolean).join(' · ')||'not exposed');
+    group('Device');
+    row('os','OS',osName());
+    row('br','Browser',browserName());
+    row('scr','Screen',screen.width+' × '+screen.height+' @ '+(window.devicePixelRatio||1)+'x');
+    row('vp','Viewport',innerWidth+' × '+innerHeight);
+    row('cpu','CPU threads',n.hardwareConcurrency||null);
+    row('mem','Memory',n.deviceMemory?('≥ '+n.deviceMemory+' GB'):'not exposed');
+    row('gpu','GPU',gpu()||'not exposed');
+    row('touch','Touch points',n.maxTouchPoints||0);
+    group('Locale & session');
+    row('tz','Timezone',Intl.DateTimeFormat().resolvedOptions().timeZone);
+    row('iptz','IP timezone','…');
+    row('time','Local time',new Date().toLocaleTimeString());
+    row('lang','Languages',(n.languages||[n.language]).join(', '));
+    row('ref','Came from',document.referrer?new URL(document.referrer).hostname:'direct');
+    row('load','Page load',nav&&nav.duration?Math.round(nav.duration)+' ms':'—');
+    row('dnt','Do Not Track',n.doNotTrack==='1'?'on':'off');
+    row('dark','Prefers',matchMedia('(prefers-color-scheme: dark)').matches?'dark mode':'light mode');
+    setInterval(()=>set('time',new Date().toLocaleTimeString()),1000);
+    lookupIP(); measurePing();
+  }
+  function openMeta(){
+    metaReturn=document.activeElement;
+    if(!metaBuilt) buildMeta();
+    meta.classList.add('open');
+    document.getElementById('metaClose').focus();
+  }
+  function closeMeta(){
+    meta.classList.remove('open');
+    if(metaReturn&&metaReturn.focus) metaReturn.focus();
+    if(onMetaClose){ const f=onMetaClose; onMetaClose=null; f(); }
+  }
+  document.getElementById('metaClose').addEventListener('click',closeMeta);
+  document.getElementById('metaRetest').addEventListener('click',measurePing);
+  document.getElementById('footMeta').addEventListener('click',openMeta);
+  meta.addEventListener('click',e=>{ if(e.target===meta) closeMeta(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&meta.classList.contains('open')) closeMeta(); });
+
+  /* ---------- intro: cell death + blebs (plays on every load) ---------- */
+  const boot = document.getElementById('boot');
+  const qs = new URLSearchParams(location.search);
+  let seen = false;
+  if (qs.has('nointro')) seen = true;
+  const skipIntro = seen || reduce;
+  if (skipIntro) { boot.remove(); }
+  else runBoot();
+
+  function runBoot(){
+    document.body.style.overflow='hidden';
+    const cc=document.getElementById('cellcv'), g=cc.getContext('2d');
+    const lines=boot.querySelectorAll('.boot-line'), bar=boot.querySelector('.boot-bar i'), bt=document.getElementById('bootT');
+    const DUR=5600, MARKS=[0,.17,.36,.6,.84,.97];
+    const fq=parseFloat(qs.get('intro')), FREEZE=isNaN(fq)?-1:Math.min(1,Math.max(0,fq)); // ?intro=0.5 previews a frame
+    let BW,BH,cx,cy,R0,start=null,finished=false,raf;
+    const rnd=(a,b)=>a+Math.random()*(b-a);
+    const ss=(a,b,x)=>{ const t=Math.min(1,Math.max(0,(x-a)/(b-a))); return t*t*(3-2*t); };
+    const blebs=[]; const nb=6;
+    for(let i=0;i<nb;i++) blebs.push({ang:i/nb*6.283+rnd(-.35,.35), w:rnd(.11,.17), amp:rnd(.22,.4), s:rnd(.2,.46), f:rnd(1.5,3.5), ph:rnd(0,6.28)});
+    const flick=[]; for(let m=2;m<=6;m++) flick.push({m,a:.018/m*rnd(.6,1.4),w:rnd(.8,2),p:rnd(0,6.28)});
+    const arcs=[]; for(let i=0;i<18;i++) arcs.push({v:rnd(.5,1.3),rot:rnd(-.6,.6)});
+    const debris=[]; for(let i=0;i<70;i++) debris.push({a:rnd(0,6.283),v:rnd(.4,1.6),r:rnd(.8,2.6),c:Math.random()<.6?0:1});
+    const neigh=[]; for(let i=0;i<5;i++) neigh.push({x:Math.random(),y:Math.random(),r:rnd(.05,.1),p:rnd(0,6.28)});
+    function size(){
+      const d=Math.min(devicePixelRatio||1,2); BW=cc.clientWidth; BH=cc.clientHeight;
+      cc.width=BW*d; cc.height=BH*d; g.setTransform(d,0,0,d,0,0);
+      const mob=BW<700; cx=BW*(mob?.5:.58); cy=BH*(mob?.36:.46);
+      R0=Math.max(56,Math.min(170,Math.min(BW,BH)*(mob?.2:.17)));
+    }
+    size(); addEventListener('resize',size);
+    function radius(th,p,t){
+      let r=1;
+      for(const f of flick) r+=f.a*Math.cos(f.m*th+f.p+t*f.w);
+      for(const b of blebs){
+        let d=Math.abs(th-b.ang)%6.2832; if(d>3.1416) d=6.2832-d;
+        const grow=ss(b.s,b.s+.16,p)*(1-.55*ss(.6,.85,p));            // blebs flatten as the cell swells
+        const pulse=1+.18*Math.sin(t*b.f+b.ph);                          // blebs inflate/retract
+        r+=b.amp*grow*pulse*Math.exp(-(d*d)/(2*b.w*b.w));
+      }
+      return r*R0*(1+.3*ss(.58,.86,p));
+    }
+    function path(p,t,a0,a1,ox,oy,scale){
+      const N=Math.max(8,Math.round((a1-a0)/6.283*140));
+      g.beginPath();
+      for(let i=0;i<=N;i++){
+        const th=a0+(a1-a0)*i/N, r=radius(((th%6.2832)+6.2832)%6.2832,p,t)*(scale||1);
+        const x=cx+ox+r*Math.cos(th), y=cy+oy+r*Math.sin(th);
+        i?g.lineTo(x,y):g.moveTo(x,y);
+      }
+    }
+    function draw(now){
+      if(start===null) start=now;
+      const el=now-start, t=el/1000;
+      const p=FREEZE>=0?FREEZE:Math.min(1,el/DUR);
+      const pi=ss(.6,.9,p), ru=ss(.86,1,p);
+      g.clearRect(0,0,BW,BH);
+      // neighbouring healthy cells, out of focus
+      g.lineWidth=1.2;
+      for(const n of neigh){
+        g.beginPath(); g.arc(n.x*BW,n.y*BH,n.r*Math.min(BW,BH)*(1+.02*Math.sin(t+n.p)),0,6.283);
+        g.strokeStyle='rgba(70,245,160,.07)'; g.stroke();
+      }
+      g.globalCompositeOperation='lighter';
+      // cytoplasm + PI influx
+      if(ru<1){
+        const fill=g.createRadialGradient(cx,cy,0,cx,cy,R0*1.4);
+        fill.addColorStop(0,`rgba(${Math.round(70+185*pi)},${Math.round(245-153*pi)},${Math.round(160+8*pi)},${(.06+.12*pi)*(1-ru)})`);
+        fill.addColorStop(1,'rgba(0,0,0,0)');
+        g.fillStyle=fill; path(p,t,0,6.2832,0,0); g.closePath(); g.fill();
+      }
+      // nucleus: DAPI blue -> PI magenta
+      const nr=R0*.36*(1+.12*pi), nc=[Math.round(107+148*pi),Math.round(139-47*pi),Math.round(255-87*pi)];
+      g.save(); g.globalAlpha=1-ru*.9;
+      g.shadowColor=`rgba(${nc},.9)`; g.shadowBlur=24;
+      g.beginPath();
+      for(let i=0;i<=60;i++){ const th=i/60*6.283, r=nr*(1+.05*Math.sin(3*th+t*1.3)+.03*Math.cos(5*th-t)); i?g.lineTo(cx+r*Math.cos(th)*1.1,cy+r*Math.sin(th)):g.moveTo(cx+r*1.1,cy); }
+      g.closePath(); g.fillStyle=`rgba(${nc},${.22+.3*pi})`; g.fill();
+      g.strokeStyle=`rgba(${nc},.8)`; g.lineWidth=1.4; g.stroke();
+      g.restore();
+      // plasma membrane
+      g.shadowColor='rgba(70,245,160,.9)'; g.shadowBlur=18;
+      g.strokeStyle=`rgba(70,245,160,${.95-.3*pi})`; g.lineWidth=2.4;
+      if(ru<=0){ path(p,t,0,6.2832,0,0); g.closePath(); g.stroke(); }
+      else{
+        const n=arcs.length, slot=6.2832/n, fill=1-.55*ru;
+        for(let i=0;i<n;i++){
+          const a=arcs[i], a0=i*slot+slot*(1-fill)/2, a1=a0+slot*fill, mid=(a0+a1)/2;
+          const off=ru*R0*1.1*a.v;
+          g.globalAlpha=1-ru;
+          path(p,t,a0,a1,Math.cos(mid)*off,Math.sin(mid)*off,1+.1*ru); g.stroke();
+        }
+        g.globalAlpha=1;
+      }
+      g.shadowBlur=0;
+      // debris after rupture
+      if(ru>0){
+        for(const d of debris){
+          const dist=R0*(1.1+ru*2.4*d.v);
+          g.fillStyle=d.c?`rgba(255,92,168,${(1-ru)*.9})`:`rgba(70,245,160,${(1-ru)*.9})`;
+          g.beginPath(); g.arc(cx+Math.cos(d.a)*dist,cy+Math.sin(d.a)*dist,d.r,0,6.283); g.fill();
+        }
+      }
+      g.globalCompositeOperation='source-over';
+      // HUD
+      MARKS.forEach((m,i)=>{ if(p>=m) lines[i].classList.add('on'); });
+      bar.style.width=(p*100)+'%';
+      const mins=p*27.02; bt.textContent='t = '+String(Math.floor(mins)).padStart(2,'0')+':'+String(Math.floor((mins%1)*60)).padStart(2,'0')+' min';
+      if(p<1||FREEZE>=0) raf=requestAnimationFrame(draw);
+      else if(meta.classList.contains('open')) onMetaClose=finish;   // hold on the final frame while the visitor reads their metadata
+      else setTimeout(finish,350);
+    }
+    function finish(){
+      if(finished) return; finished=true; cancelAnimationFrame(raf);
+      boot.classList.add('done'); document.body.style.overflow='';
+      removeEventListener('resize',size);
+      revealHero();
+      setTimeout(()=>boot.remove(),900);
+    }
+    document.getElementById('bootSkip').addEventListener('click',finish);
+    document.getElementById('bootMeta').addEventListener('click',openMeta);
+    raf=requestAnimationFrame(draw);
+  }
+
+  /* ---------- nav ---------- */
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+  const menuBtn = document.getElementById('menuBtn'), links = document.getElementById('navLinks');
+  menuBtn.addEventListener('click', () => { const o = links.classList.toggle('open'); menuBtn.setAttribute('aria-expanded', o); });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { links.classList.remove('open'); menuBtn.setAttribute('aria-expanded', false); }));
+
+  /* ---------- reveal on scroll ---------- */
+  const heroEls = document.querySelectorAll('.hero .rv');
+  function revealHero(){ heroEls.forEach((el,k) => setTimeout(() => el.classList.add('in'), 120*k)); }
+  if (seen || reduce) revealHero();
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('main .rv').forEach(el => io.observe(el));
+
+  /* ---------- vesicle field: thermally flickering membranes ---------- */
+  const cv = document.getElementById('field'), ctx = cv.getContext('2d');
+  let W, H, dpr, ves = [];
+  const COLORS = [[70,245,160],[255,92,168],[107,139,255]];
+  function make(){
+    const n = Math.round(Math.min(14, Math.max(6, W*H/110000)));
+    ves = [];
+    for (let k=0;k<n;k++){
+      const R = 20 + Math.random()*Math.min(W,H)*0.11;
+      const modes = [];
+      for (let m=2;m<=7;m++) modes.push({m, a:(0.05/m)*(0.5+Math.random()), w:0.3+Math.random()*0.9, p:Math.random()*6.28});
+      ves.push({
+        x:Math.random()*W, y:Math.random()*H, R,
+        vx:(Math.random()-.5)*0.12, vy:(Math.random()-.5)*0.12,
+        c: COLORS[k%3===0?1:(k%5===0?2:0)], modes,
+        inner: Math.random()<0.35, z: 0.4+Math.random()*0.6
+      });
+    }
+  }
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio||1, 2);
+    const prevW = W;
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = W*dpr; cv.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    if (W !== prevW) make();
+  }
+  let mx=-1e4,my=-1e4;
+  cv.parentElement.addEventListener('pointermove', e => { const r = cv.getBoundingClientRect(); mx=e.clientX-r.left; my=e.clientY-r.top; });
+  cv.parentElement.addEventListener('pointerleave', () => { mx=my=-1e4; });
+
+  function contour(v,t,scale){
+    ctx.beginPath();
+    const N = 90;
+    for (let i=0;i<=N;i++){
+      const th = i/N*Math.PI*2;
+      let r = 1;
+      for (const md of v.modes) r += md.a*Math.cos(md.m*th + md.p + t*md.w);
+      r *= v.R*scale;
+      const px = v.x + r*Math.cos(th), py = v.y + r*Math.sin(th);
+      i ? ctx.lineTo(px,py) : ctx.moveTo(px,py);
+    }
+    ctx.closePath();
+  }
+  const clock = document.getElementById('clock');
+  let t0 = performance.now(), visible = true;
+  new IntersectionObserver(es => visible = es[0].isIntersecting).observe(cv);
+  function frame(now){
+    const t = (now - t0)/1000;
+    if (visible){
+      ctx.clearRect(0,0,W,H);
+      ctx.globalCompositeOperation='lighter';
+      for (const v of ves){
+        // drift + gentle push from cursor
+        const dx=v.x-mx, dy=v.y-my, d2=dx*dx+dy*dy, rr=(v.R+120)*(v.R+120);
+        if (d2<rr){ const f=(1-d2/rr)*0.35/Math.sqrt(d2+1); v.vx+=dx*f*0.08; v.vy+=dy*f*0.08; }
+        v.vx*=0.985; v.vy*=0.985;
+        v.vx+=(Math.random()-.5)*0.01; v.vy+=(Math.random()-.5)*0.01;
+        v.x+=v.vx+0.04*v.z; v.y+=v.vy;
+        const m=v.R*1.3;
+        if (v.x<-m) v.x=W+m; if (v.x>W+m) v.x=-m;
+        if (v.y<-m) v.y=H+m; if (v.y>H+m) v.y=-m;
+        const [r,g,b]=v.c, al=0.35+0.55*v.z;
+        // lumen haze
+        const grd = ctx.createRadialGradient(v.x,v.y,0,v.x,v.y,v.R);
+        grd.addColorStop(0,`rgba(${r},${g},${b},${0.05*al})`); grd.addColorStop(1,`rgba(${r},${g},${b},0)`);
+        ctx.fillStyle=grd; contour(v,t,1); ctx.fill();
+        // membrane glow + sharp line
+        ctx.shadowColor=`rgba(${r},${g},${b},${0.9*al})`; ctx.shadowBlur=14*v.z;
+        ctx.strokeStyle=`rgba(${r},${g},${b},${al})`; ctx.lineWidth=1.2+1.2*v.z;
+        contour(v,t,1); ctx.stroke();
+        if (v.inner){ ctx.lineWidth=1; ctx.strokeStyle=`rgba(${r},${g},${b},${al*0.45})`; contour(v,t*1.3,0.42); ctx.stroke(); }
+        ctx.shadowBlur=0;
+      }
+      ctx.globalCompositeOperation='source-over';
+      clock.textContent = (Math.floor(t/60)).toString().padStart(2,'0')+':'+(t%60).toFixed(1).padStart(4,'0');
+    }
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  resize();
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt=setTimeout(resize,150); });
+  requestAnimationFrame(frame);
+})();
+</script>
 </body>
 </html>
